@@ -36,7 +36,7 @@ class AuthenticateUserService{
       throw new AppError("idToken Google inválido", 401);
     }
   
-    const { email, name, picture } = ticket.getPayload();
+    const { email, name } = ticket.getPayload();
 
     let userPrisma = await  prismaClient.user.findFirst({
       where : {
@@ -49,7 +49,6 @@ class AuthenticateUserService{
         data: {
           name,
           mail: email,
-          image_url: picture,
           type: "undefined",
         }
       });
@@ -70,7 +69,6 @@ class AuthenticateUserService{
         {
           user : {
             name: userPrisma.name,
-            image_url: userPrisma.image_url,
             type: userPrisma.type,
             id: userPrisma.id,
           }
