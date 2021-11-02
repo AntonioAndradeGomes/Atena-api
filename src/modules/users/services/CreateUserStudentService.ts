@@ -3,24 +3,17 @@ import { sign } from "jsonwebtoken";
 import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma";
 
-/*
-1 - pegar o idtoken, verificar e pegar os dados do usuario
-2 - verificar se há usuario no banco de dados
-  SIM - tipo defindo
-    - autenticar e liberar o JWT com os dados do usuário 
-  SIM - tipo indefindo
-    - liberar os dados do usuario mas mostrar que o tipo não foi defindo
-  NAO
-    - cadastrar no banco de dados sem o tipo definido 
-    - retornar dados do usuario com mensagem que está sem tipo definido 
-*/
+interface IRequest{
+  token: string,
+  code: string,
+  registration : string,
+}
 
 
-class AuthenticateUserService{
-  
-  async execute(idToken: string){
+class CreateUserStudentService{
+  async execute({token, code, registration} : IRequest){
     const client = new OAuth2Client(process.env.GOOGLE_ID_CLIENT);
-    const finalToken = idToken.replace('Bearer', '');
+    const finalToken = token.replace('Bearer', '');
     if(!finalToken){
       throw new AppError("Não há idToken Google", 401);
     }
@@ -34,11 +27,10 @@ class AuthenticateUserService{
 
     if(!ticket){
       throw new AppError("idToken Google inválido", 401);
-    }
-  
-    const { email } = ticket.getPayload();
+    } 
 
     const googleIdTicket = ticket.getUserId();
+    const { email, name } = ticket.getPayload();
 
     let userPrisma = await  prismaClient.user.findFirst({
       where : {
@@ -46,22 +38,26 @@ class AuthenticateUserService{
       }
     });
 
-    if(!userPrisma){
-      throw new AppError('User does not exist yet, check if you are a student', 401);
+    if(userPrisma){
+      throw new AppError('User already exists, use the authentication method', 401);
     }
 
-    if(!userPrisma.googleId){
-      userPrisma = await prismaClient.user.update({
-        where:{
-          mail: email,
-        },
-        data: {
-          googleId: googleIdTicket,
-        }
-      });
-    }
+    //TODO: verificar o code
 
-    const token = sign(
+    userPrisma = await prismaClient.user.create({
+      data: {
+        isStudent: true,
+        isProfessor: false,
+        isAcademicCenter: false,
+        name,
+        mail: email,
+        registration,
+        code,
+        googleId: googleIdTicket,
+      }
+    });
+
+    const tokenfinal = sign(
       {
         user : {
           id: userPrisma.id,
@@ -80,15 +76,15 @@ class AuthenticateUserService{
         expiresIn: "1d",
       }
     );
-    
+
     return {
       message: "Success",
       user: {
         data: userPrisma,
-        token,
+        token: tokenfinal,
       }
     };
   }
 }
 
-export {AuthenticateUserService}
+export { CreateUserStudentService }
