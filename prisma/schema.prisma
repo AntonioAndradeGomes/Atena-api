@@ -31,11 +31,15 @@ model User{
   name String
   mail String @unique
   image_url String?
-  type String
+  isStudent Boolean
+  isProfessor Boolean
+  isAcademicCenter Boolean
+  registration String
+  googleId String? @unique
+  code String?
+  ca_init_date DateTime?
+  ca_end_date DateTime?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
-  isSudent Boolean?
-  isProfessor Boolean?
-  isAcademicCenter Boolean?
   @@map("users")
 }
