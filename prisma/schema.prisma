@@ -24,8 +24,6 @@ model Event{
   @@map("events")
 }
 
-
-
 model User{
   id String @id @default(uuid())
   name String
@@ -42,4 +40,15 @@ model User{
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
   @@map("users")
+}
+
+model Discipline{
+  id String @id @default(uuid())
+  code String @unique
+  name String
+  initials String
+  workload Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("discipline")
 }
