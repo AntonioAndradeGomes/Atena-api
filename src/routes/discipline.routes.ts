@@ -11,6 +11,7 @@ disciplineRouter.get("/", new AllDisciplineController().hundle);
 disciplineRouter.post("/", new CreateDisciplineController().hundle);
 disciplineRouter.get("/:id", new RetrieveDisciplineController().hundle);
 disciplineRouter.put("/:id", new UpdateDisciplineController().hundle);
+disciplineRouter.patch("/:id", new UpdateDisciplineController().hundle);
 disciplineRouter.delete("/:id", new DeleteDisciplineController().hundle);
 
 export { disciplineRouter };
