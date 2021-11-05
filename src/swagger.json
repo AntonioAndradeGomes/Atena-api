@@ -1,0 +1,274 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Atena API",
+    "description": "API do TCC",
+    "contact": {
+      "name": "Atena Suporte",
+      "email": "atenaproject.al@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/discipline": {
+      "get": {
+        "summary": "Lista todo mundo",
+        "description": "Rota responsável pela listagem de todas as disciplinas cadastradas",
+        "tags": ["Disciplina"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Discipline"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "summary": "Cadastro de disciplinas",
+        "description": "Essa rota é responsável por cadastrar uma disciplina no sistema",
+        "tags": ["Disciplina"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Discipline"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Discipline"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/discipline/{id}": {
+      "get": {
+        "summary": "Busca uma disciplina",
+        "description": "Essa rota é responsável por buscar uma disciplina pelo seu id",
+        "tags": ["Disciplina"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Discipline"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Discipline"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "summary": "Editar uma disciplina",
+        "description": "Essa rota é responsável por editar uma determinada disciplina",
+        "tags": ["Disciplina"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Discipline"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Discipline"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Editar parcialmente uma disciplina",
+        "description": "essa rota é responsável por editar uma disciplina de forma parcial",
+        "tags": ["Disciplina"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Discipline"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Discipline"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar uma disciplina",
+        "description": "Essa rota é responsável por deletar uma disciplina",
+        "tags": ["Disciplina"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Discipline"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Discipline": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "required": false
+          },
+          "code": {
+            "type": "string",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "initials": {
+            "type": "string",
+            "required": true
+          },
+          "workload": {
+            "type": "number",
+            "required": true
+          },
+          "createdAt": {
+            "type": "date",
+            "required": false,
+            "writeOnly": true
+          },
+          "updateAt": {
+            "type": "date",
+            "required": false,
+            "writeOnly": true
+          }
+        }
+      },
+      "Event": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "required": false
+          },
+          "title": {
+            "type": "string",
+            "required": true
+          },
+          "description": {
+            "type": "string",
+            "required": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "required": true
+          },
+          "difficulty": {
+            "type": "number",
+            "required": true
+          },
+          "initDate": {
+            "type": "date",
+            "required": true
+          },
+          "endDate": {
+            "type": "date",
+            "required": false
+          },
+          "createdAt": {
+            "type": "date",
+            "required": false,
+            "writeOnly": true
+          },
+          "updateAt": {
+            "type": "date",
+            "required": false,
+            "writeOnly": true
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    }
+  }
+}
