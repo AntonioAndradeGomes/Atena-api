@@ -15,10 +15,30 @@
   },
   "paths": {
     "/discipline": {
+      "get": {
+        "summary": "Lista todo mundo",
+        "description": "Rota responsável pela listagem de todas as disciplinas cadastradas",
+        "tags": ["Disciplina"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Discipline"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
       "post": {
         "summary": "Cadastro de disciplinas",
         "description": "Essa rota é responsável por cadastrar uma disciplina no sistema",
-        "tags": ["Discipline"],
+        "tags": ["Disciplina"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -29,9 +49,6 @@
           }
         },
         "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -42,15 +59,18 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
     },
-    "/discipline/:id": {
+    "/discipline/{id}": {
       "get": {
-        "summary": "Pegar uma disciplina",
-        "description": "Essa rota é responsável por buscar uma disciplina pelo di",
-        "tags": ["Discipline"],
+        "summary": "Busca uma disciplina",
+        "description": "Essa rota é responsável por buscar uma disciplina pelo seu id",
+        "tags": ["Disciplina"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -58,6 +78,103 @@
                 "$ref": "#/components/schemas/Discipline"
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Discipline"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "summary": "Editar uma disciplina",
+        "description": "Essa rota é responsável por editar uma determinada disciplina",
+        "tags": ["Disciplina"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Discipline"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Discipline"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Editar parcialmente uma disciplina",
+        "description": "essa rota é responsável por editar uma disciplina de forma parcial",
+        "tags": ["Disciplina"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Discipline"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Discipline"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar uma disciplina",
+        "description": "Essa rota é responsável por deletar uma disciplina",
+        "tags": ["Disciplina"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Discipline"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -87,6 +204,14 @@
           "workload": {
             "type": "number",
             "required": true
+          },
+          "createdAt": {
+            "type": "string",
+            "required": false
+          },
+          "updateAt": {
+            "type": "string",
+            "required": false
           }
         }
       },
@@ -118,6 +243,14 @@
             "required": true
           },
           "endDate": {
+            "type": "string",
+            "required": false
+          },
+          "createdAt": {
+            "type": "string",
+            "required": false
+          },
+          "updateAt": {
             "type": "string",
             "required": false
           }
