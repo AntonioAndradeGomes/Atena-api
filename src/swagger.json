@@ -206,11 +206,11 @@
             "required": true
           },
           "createdAt": {
-            "type": "string",
+            "type": "date",
             "required": false
           },
           "updateAt": {
-            "type": "string",
+            "type": "date",
             "required": false
           }
         }
@@ -239,19 +239,19 @@
             "required": true
           },
           "initDate": {
-            "type": "string",
+            "type": "date",
             "required": true
           },
           "endDate": {
-            "type": "string",
+            "type": "date",
             "required": false
           },
           "createdAt": {
-            "type": "string",
+            "type": "date",
             "required": false
           },
           "updateAt": {
-            "type": "string",
+            "type": "date",
             "required": false
           }
         }
