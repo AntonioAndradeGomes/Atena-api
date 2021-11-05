@@ -207,11 +207,13 @@
           },
           "createdAt": {
             "type": "date",
-            "required": false
+            "required": false,
+            "writeOnly": true
           },
           "updateAt": {
             "type": "date",
-            "required": false
+            "required": false,
+            "writeOnly": true
           }
         }
       },
@@ -248,11 +250,13 @@
           },
           "createdAt": {
             "type": "date",
-            "required": false
+            "required": false,
+            "writeOnly": true
           },
           "updateAt": {
             "type": "date",
-            "required": false
+            "required": false,
+            "writeOnly": true
           }
         }
       },
