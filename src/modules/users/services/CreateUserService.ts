@@ -36,7 +36,7 @@ class CreateUserService{
     
     /* TODO: 
     *a medida que os backend usem pode ser necessario verificar 
-    *casos em que o front esta colocando o usaurio como professor aluno e centro academico
+    *casos em que o front esta colocando o usuário como professor aluno e centro academico
     */
 
     user = await prismaClient.user.create({

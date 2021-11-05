@@ -1,23 +1,15 @@
 import { Router } from "express";
 import { Joi, celebrate, Segments } from "celebrate";
-import { AuthenticateUserController } from "../modules/users/controllers/AuthenticateUserController";
-import { UserController } from "../modules/users/controllers/UserController";
-import { UserCreateController } from "../modules/users/controllers/UserCreateController";
+import { UserCreateController } from "../controllers/UserCreateController";
+import { ListUserController } from "../controllers/ListUserController";
 
 
 const userRouter = Router();
 const createUserController = new UserCreateController();
-const userController = new UserController();
-
-userRouter.post('/login',celebrate({
-  [Segments.BODY]: {
-    token: Joi.string().required(),
-  }
-}), new AuthenticateUserController().hundle);
 
 userRouter.post('/add', celebrate({
   [Segments.BODY]: {
-    name: Joi.string().required(), 
+    name: Joi.string().required(),
     mail: Joi.string().email().required(),
     isStudent: Joi.boolean().required(),
     isProfessor: Joi.boolean().required(),
@@ -38,6 +30,12 @@ userRouter.post('/add/student', celebrate({
   }
 }), createUserController.createStudent);
 
-userRouter.get('/', userController.readAll);
+userRouter.get('/', new ListUserController().hundle);
+
+/* TODO:
+  *quaquer tipo de usaurio pode atualizar somente seu nome
+  *admin pode atualizar todos os dados
+*/
+
 
 export { userRouter }

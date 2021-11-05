@@ -15,7 +15,7 @@ class CreateUserStudentService{
     const client = new OAuth2Client(process.env.GOOGLE_ID_CLIENT);
     const finalToken = token.replace('Bearer', '');
     if(!finalToken){
-      throw new AppError("Não há idToken Google", 401);
+      throw new AppError("There is no id token Google", 401);
     }
     const ticket = await client.verifyIdToken({
       idToken: finalToken,
@@ -26,7 +26,7 @@ class CreateUserStudentService{
     });
 
     if(!ticket){
-      throw new AppError("idToken Google inválido", 401);
+      throw new AppError("Invalid Google id token", 401);
     } 
 
     const googleIdTicket = ticket.getUserId();

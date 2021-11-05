@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { AllEventsController } from "../modules/events/controllers/AllEventsController";
-import { CreateEventController } from "../modules/events/controllers/CreateEventController";
-import { RetrieveEventController } from "../modules/events/controllers/RetrieveEventController";
-import { UpdateEventController } from "../modules/events/controllers/UpdateEventController";
-import { DeleteEventController } from "../modules/events/controllers/DeleteEventController";
+import { AllEventsController } from "../controllers/AllEventsController";
+import { CreateEventController } from "../controllers/CreateEventController";
+import { RetrieveEventController } from "../controllers/RetrieveEventController";
+import { UpdateEventController } from "../controllers/UpdateEventController";
+
 import { celebrate, Joi, Segments } from "celebrate";
+import { DeleteEventController } from "../controllers/DeleteEventController";
 
 const eventRouter = Router();
 
