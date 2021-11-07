@@ -170,11 +170,179 @@
         }
       }
     },
+    "/class": {
+      "get": {
+        "summary": "Listar todas as turmas",
+        "description": "Essa rota fornece a listagem de todas as turmas existentes no banco de dados.",
+        "tags": ["Turma"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Class"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar uma turma",
+        "description": "Essa rota fornece o recurso de criar uma turma.",
+        "tags": ["Turma"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/Class"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/class/{id}": {
+      "get": {
+        "summary": "Busca uma turma",
+        "description": "Essa rota fornece o recurso de buscar uma turma peo seu id.",
+        "tags": ["Turma"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Class"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "summary": "Editar uma turma",
+        "description": "Essa rota é responsável por editar uma determinada turma",
+        "tags": ["Turma"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Class"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Class"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Editar parcialmente uma turma",
+        "description": "essa rota é responsável por editar uma turma de forma parcial",
+        "tags": ["Turma"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Class"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Class"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar uma turma",
+        "description": "Essa rota é responsável por deletar uma turma",
+        "tags": ["Turma"],
+        "responses": {
+          "204": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Class"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/event": {
       "get": {
         "summary": "Listar todos os eventos",
         "description": "Essa rota fornece a listagem de todos os eventos existentes no banco de dados.",
         "tags": ["Evento"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/Class"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -396,6 +564,37 @@
           "endDate": {
             "type": "date",
             "required": false
+          },
+          "createdAt": {
+            "type": "date",
+            "required": false,
+            "writeOnly": true
+          },
+          "updateAt": {
+            "type": "date",
+            "required": false,
+            "writeOnly": true
+          }
+        }
+      },
+      "Class": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "required": false
+          },
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "academicYear": {
+            "type": "string",
+            "required": true
+          },
+          "period": {
+            "type": "boolean",
+            "required": true
           },
           "createdAt": {
             "type": "date",
