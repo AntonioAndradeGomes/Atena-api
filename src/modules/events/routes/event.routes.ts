@@ -1,14 +1,10 @@
 import { Router } from "express";
-import { AllEventsController } from "../modules/events/controllers/AllEventsController";
-import { CreateEventController } from "../modules/events/controllers/CreateEventController";
-import { RetrieveEventController } from "../modules/events/controllers/RetrieveEventController";
-import { UpdateEventController } from "../modules/events/controllers/UpdateEventController";
-import { DeleteEventController } from "../modules/events/controllers/DeleteEventController";
 import { celebrate, Joi, Segments } from "celebrate";
+import { allEventsController, createEventController, deleteEventController, retrieveEventController, updateEventController } from "../controllers";
 
 const eventRouter = Router();
 
-eventRouter.get('/', new AllEventsController().hundle);
+eventRouter.get('/', allEventsController);
 
 eventRouter.post(
   '/',
@@ -22,7 +18,7 @@ eventRouter.post(
       endDate: Joi.date().required()
     }
   }),
-  new CreateEventController().hundle
+  createEventController
 );
 
 eventRouter.get(
@@ -32,7 +28,7 @@ eventRouter.get(
       id: Joi.string().required()
     }
   }),
-  new RetrieveEventController().hundle
+  retrieveEventController
 );
 
 eventRouter.put(
@@ -50,7 +46,7 @@ eventRouter.put(
       endDate: Joi.date().required()
     }
   }),
-  new UpdateEventController().hundle
+  updateEventController
 );
 
 eventRouter.patch(
@@ -68,7 +64,7 @@ eventRouter.patch(
       endDate: Joi.date().required()
     }
   }),
-  new UpdateEventController().hundle
+  updateEventController
 );
 
 eventRouter.delete(
@@ -78,7 +74,7 @@ eventRouter.delete(
       id: Joi.string().required()
     }
   }),
-  new DeleteEventController().hundle
+  deleteEventController
 );
 
 export { eventRouter };

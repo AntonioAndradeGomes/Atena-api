@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { eventRouter } from "./event.routes";
+import { eventRouter } from "../modules/events/routes/event.routes";
 import { disciplineRouter } from "./discipline.routes";
 import { userRouter } from "./user.routes";
 import { classRouter } from "./class.routes";
