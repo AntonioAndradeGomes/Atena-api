@@ -52,3 +52,14 @@ model Discipline{
   updatedAt DateTime @updatedAt
   @@map("discipline")
 }
+
+model Class{
+  id String @id @default(uuid())
+  name String
+  academicYear String
+  period String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("class")
+}
