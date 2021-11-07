@@ -10,36 +10,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Event{
-  id String @id @default(uuid())
-  title String
-  description String?
-  isActive Boolean
-  dificulty Int
-  init_date DateTime
-  end_date DateTime?
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt()
-
-  @@map("events")
-}
-
 model User{
   id String @id @default(uuid())
   name String
   mail String @unique
-  image_url String?
+  imageUrl String?
   isStudent Boolean
   isProfessor Boolean
   isAcademicCenter Boolean
   registration String
   googleId String? @unique
   code String?
-  ca_init_date DateTime?
-  ca_end_date DateTime?
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt()
+  caInitDate DateTime?
+  caEndDate DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
   @@map("users")
+}
+
+model Event{
+  id String @id @default(uuid())
+  title String
+  description String?
+  isActive Boolean
+  difficultyLevel Int
+  initDate DateTime
+  endDate DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  @@map("events")
 }
 
 model Discipline{
@@ -50,6 +51,7 @@ model Discipline{
   workload Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
   @@map("discipline")
 }
 

@@ -48,8 +48,8 @@ class CreateUserService{
         isStudent,
         registration,
         code,
-        ca_end_date: caEndDate,
-        ca_init_date: caInitDate,
+        caEndDate: caEndDate,
+        caInitDate: caInitDate,
       }
     });
 
