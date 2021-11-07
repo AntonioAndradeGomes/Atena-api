@@ -7,7 +7,7 @@ class DeleteDisciplineController{
     const service = new DeleteDisciplineService();
     const result = await service.execute(id);
 
-    return response.status(200).json(result);
+    return response.status(204).json(result);
   };
 };
 
