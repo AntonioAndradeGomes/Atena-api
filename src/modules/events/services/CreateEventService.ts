@@ -1,16 +1,8 @@
 import prismaClient from "../../../prisma";
-
-interface IRequest{
-  title: string
-  description: string
-  isActive: boolean
-  difficultyLevel: number
-  initDate: string
-  endDate: string
-}
+import { Event } from "../../../types/event";
 
 class CreateEventService{
-  async execute({title, description, isActive, difficultyLevel, initDate, endDate} : IRequest){
+  async execute({title, description, isActive, difficultyLevel, initDate, endDate} : Event){
     const event = await prismaClient.event.create({
       data: {
         title,
