@@ -1,14 +1,8 @@
 import prismaClient from "../../../prisma";
-
-interface IRequest {
-  code: string
-  name: string
-  initials: string
-  workload: number
-}
+import { Discipline } from "../../../types/discipline";
 
 class CreateDisciplineService{
-  async execute({code, name, initials, workload} : IRequest){
+  async execute({code, name, initials, workload}: Discipline){
     const discipline = await prismaClient.discipline.create({
       data: {
         code,
