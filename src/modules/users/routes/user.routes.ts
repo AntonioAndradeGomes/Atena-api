@@ -2,10 +2,13 @@ import { Router } from "express";
 import { Joi, celebrate, Segments } from "celebrate";
 import { UserCreateController } from "../controllers/UserCreateController";
 import { ListUserController } from "../controllers/ListUserController";
-
+import { UpdateUserController } from "../controllers/UpdateUserController";
+import { ensureAuthenticated } from "../../../middlewares/ensureAuthenticated";
 
 const userRouter = Router();
 const createUserController = new UserCreateController();
+const listUserController = new ListUserController();
+const updateUserController = new UpdateUserController();
 
 userRouter.post('/add', celebrate({
   [Segments.BODY]: {
@@ -30,12 +33,24 @@ userRouter.post('/add/student', celebrate({
   }
 }), createUserController.createStudent);
 
-userRouter.get('/', new ListUserController().hundle);
+userRouter.get('/', listUserController.listAll);
 
-/* TODO:
-  *quaquer tipo de usaurio pode atualizar somente seu nome
+userRouter.get('/:id', listUserController.listById);
+
+/* OBS:
+  *quaquer tipo de usuário pode atualizar somente seu nome e registro
   *admin pode atualizar todos os dados
 */
+
+//atualizar dados do usuário: name e registration
+userRouter.patch('/', 
+  ensureAuthenticated, celebrate({
+    [Segments.BODY]: {
+      registration: Joi.string(),
+      name: Joi.string(),
+    }
+  }), updateUserController.updateUser);
+
 
 
 export { userRouter }

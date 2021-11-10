@@ -7,12 +7,7 @@ import prismaClient from "../../../prisma";
 1 - pegar o idtoken, verificar e pegar os dados do usuario
 2 - verificar se há usuario no banco de dados
   SIM - tipo defindo
-    - autenticar e liberar o JWT com os dados do usuário 
-  SIM - tipo indefindo
-    - liberar os dados do usuario mas mostrar que o tipo não foi defindo
-  NAO
-    - cadastrar no banco de dados sem o tipo definido 
-    - retornar dados do usuario com mensagem que está sem tipo definido 
+    - autenticar e liberar o JWT com os dados do usuário
 */
 
 
