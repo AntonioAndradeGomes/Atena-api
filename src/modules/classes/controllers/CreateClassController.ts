@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateClassService } from "../services/CreateClasseService";
+import { CreateClassService } from "../services/CreateClassService";
 
 class CreateClassController{
   async hundle(request: Request, response: Response){

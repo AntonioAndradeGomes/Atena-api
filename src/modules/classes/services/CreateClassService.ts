@@ -5,7 +5,7 @@ import { Class } from "../../../types/class";
 class CreateClassService{
   async execute({name, academicYear, period, isRegularClass}: Class){
 
-    const alreadyClassExists = await prismaClient.class.findFirst({
+    const classAlreadyExists = await prismaClient.class.findFirst({
       where: {
         name,
         academicYear,
@@ -14,7 +14,7 @@ class CreateClassService{
       }
     });
 
-    if(alreadyClassExists) throw new AppError("Class already exists");
+    if(classAlreadyExists) throw new AppError("Class already exists");
 
     const classInstance = await prismaClient.class.create({
       data: {
