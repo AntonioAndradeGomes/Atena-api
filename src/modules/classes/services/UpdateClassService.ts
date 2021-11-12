@@ -1,8 +1,17 @@
+import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma";
 import { Class } from "../../../types/class";
 
 class UpdateClassService{
-  async execute(id: string, { name, academicYear, period }: Class){
+  async execute(id: string, { name, academicYear, period, isRegularClass }: Class){
+    const classAlreadyExist = await prismaClient.class.findFirst({
+      where: {
+        id
+      }
+    });
+
+    if(!classAlreadyExist) throw new AppError("Object not found");
+
     const classInstance = await prismaClient.class.update({
       where: {
         id
@@ -10,7 +19,8 @@ class UpdateClassService{
       data: {
         name,
         academicYear,
-        period
+        period,
+        isRegularClass
       }
     });
     return classInstance;

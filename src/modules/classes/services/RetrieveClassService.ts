@@ -1,3 +1,4 @@
+import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma";
 
 class RetrieveClassService{
@@ -7,6 +8,9 @@ class RetrieveClassService{
         id
       }
     });
+
+    if(!classInstance) throw new AppError("Class does not exist");
+
     return classInstance;
   };
 };

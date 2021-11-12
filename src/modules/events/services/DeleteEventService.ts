@@ -1,13 +1,22 @@
+import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma";
 
 class DeleteEventService{
   async execute(id: string){
-    const discipline = prismaClient.event.delete({
+    const eventAlreadyExists = await prismaClient.event.findFirst({
       where: {
         id
       }
     });
-    return discipline;
+
+    if(!eventAlreadyExists) throw new AppError("Event does not exist");
+
+    const event = prismaClient.event.delete({
+      where: {
+        id
+      }
+    });
+    return event;
   };
 };
 
