@@ -12,20 +12,29 @@ services:
       - postgres:/var/lib/postgresql/data
     ports:
       - '5432:5432'
+    networks:
+      - app-network
   
   atena-api:
-    build: ./
     container_name: atena-api
+    build: ./
     volumes:
-      - ./:var/app
-    ports:
-      - 8080:8080
-    env_file:
-      - ./.env
+      - ./:/home/node/app
+      - /home/node/app/node_modules
     depends_on:
       - atena-database
     links:
       - atena-database
+    ports:
+      - 8080:8080
+    env_file:
+      - ./.env
+    networks:
+      - app-network
 
 volumes:
   postgres:
+
+networks:
+  app-network:
+    driver: bridge
