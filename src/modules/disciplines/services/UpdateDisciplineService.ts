@@ -1,14 +1,17 @@
+import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma";
-
-interface IRequest {
-  code: string
-  name: string
-  initials: string
-  workload: number
-}
+import { Discipline } from "../../../types/discipline";
 
 class UpdateDisciplineService{
-  async execute(id: string, {code, name, initials, workload}: IRequest){
+  async execute(id: string, {code, name, initials, workload}: Discipline){
+    const disciplineAlreadyExists = await prismaClient.discipline.findFirst({
+      where: {
+        id
+      }
+    });
+
+    if(!disciplineAlreadyExists) throw new AppError("Discipline does not exist");
+    
     const discipline = await prismaClient.discipline.update({
       where: { 
         id 
