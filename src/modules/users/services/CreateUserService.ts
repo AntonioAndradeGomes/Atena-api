@@ -23,22 +23,30 @@ class CreateUserService{
     });
 
     if(user){
-      throw new AppError("User already exists", 400);
+      throw new AppError("User already exists.", 400);
+    }
+
+    if(!isStudent && !isProfessor && !isAcademicCenter){
+      throw new AppError('User must have a type.', 400);
+    }
+
+    if((isAcademicCenter && isProfessor) || (isProfessor && isStudent)){
+      throw new AppError('User cannot be teacher and student, or teacher and academic center member.', 400);
+    }
+
+    if(isStudent && isProfessor && isAcademicCenter){
+      throw new AppError('User cannot have all three types.', 400);
     }
 
     if(isStudent && !code){
-      throw new AppError("Student needs a code", 400);
+      throw new AppError("Student needs a code.", 400);
     }
 
     if(isAcademicCenter && (!caInitDate || !caEndDate)){
-      throw new AppError("Add academic center student regency", 400);
+      throw new AppError("Add academic center student regency.", 400);
     }
     
-    /* TODO: 
-    *a medida que os backend usem pode ser necessario verificar 
-    *casos em que o front esta colocando o usuário como professor aluno e centro academico
-    */
-
+    
     user = await prismaClient.user.create({
       data: {
         name,

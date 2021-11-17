@@ -45,7 +45,7 @@ class AuthenticateUserService{
       throw new AppError('User does not exist yet, check if you are a student', 401);
     }
 
-    if(!userPrisma.googleId){
+    if(!userPrisma.googleId || userPrisma.googleId == ""){
       userPrisma = await prismaClient.user.update({
         where:{
           mail: email,
