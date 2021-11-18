@@ -1,6 +1,5 @@
 # Atena API
 
----
 ## Executando o projeto em ambiente de dev
 
 #### Setup
@@ -27,7 +26,7 @@ E para executar o ambiente, execute:
 
 O resultado deve ser algo parecido com isso:
 
-![](/home/lucas/Imagens/Captura de tela de 2021-11-18 02-00-53.png)
+![Captura de tela de 2021-11-18 02-00-53](https://user-images.githubusercontent.com/37336497/142356579-66f0c49c-d949-4239-8a64-d07b422c0af5.png)
 
 #### Aplicando as migrações no banco de dados
 
@@ -37,9 +36,9 @@ Com o docker em execução, todos os comandos relacionados ao projeto da API ser
 
 para listar os processos relacionados ao Docker. O resultado deve ser semelhante a:
 
-![](/home/lucas/Imagens/Captura de tela de 2021-11-18 02-00-53.png)
+![Captura de tela de 2021-11-18 02-06-44](https://user-images.githubusercontent.com/37336497/142356673-311ce660-f557-4376-87be-d36cc01d6680.png)
 
-Copie o id do container da API - que deve estar nomeado como `atena-api_atena-api` e use no seguinte comando:
+Copie o id do container da API - que deve estar nomeado como **`atena-api_atena-api`** e use no seguinte comando:
 
 **```docker exec -it <id-do-container> bash```**
 
@@ -50,8 +49,6 @@ e pronto! Você está dentro do container! Agora, para aplicar as migrações do
 e fique atento ao retorno do comando.
 
 De agora em diante, qualquer comando relacionado ao Node que você queria executar, terá que entrar dentro do container. Vale ressaltar que toda vez que você derruba e sobre o container novamente, um outro id é gerado para cada container, fazendo que os prcedimentos acima seja repetidos.
-
----
 
 ## Material de referência
 
