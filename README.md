@@ -1,35 +1,61 @@
 # Atena API
 
-## Executando o projeto
+---
+## Executando o projeto em ambiente de dev
 
-Para executar o projeto se faz necessário tem em sua máquina o [Node.js](https://nodejs.org/en/) e o [Docker](https://www.docker.com/).
-Se recomenda ter o [Yarn](https://yarnpkg.com/) instalado também, maioria dos exemplos abaixo serão com o yarn.
+#### Setup
 
-O proximo passo é instalar as depêndencias (com o yarn ou npm):
+Para executar o projeto localmente tenha as seguintes ferramentas instaladas:
 
-**`yarn install` ou `npm install`**
+- Docker;
+- Docker compose;
+- Algum client para gerenciar banco de dados (PGAdmin, DBeaver, Beekeeper, etc.)
 
-Logo depois executar o comando do Docker:
+#### Configurando variáveis de ambiente
 
-**`docker-compose up -d`**
+Em seguida, clone o projeto na sua máquina, entre no diretório do repositório e crie um arquivo **`.env`** tomando como exemplo o arquivo **`.env.example`**.
 
-Esse comando vai criar um contêiner m um estado separado para que você possa continuar a usar a guia do terminal.
+#### Construindo o ambiente
 
-Pode-se  verificar se o banco de dados foi criado executando:
+Construa o ambiente dentro do container executando:
 
-**`docker ps`**
+**```docker-compose build```**
 
-Logo depois você deve alterar o arquivo `.env.example` para `.env` e modifique as variavel com as configurações do seu banco Postgres, com as configurações do Google Cloud Platform e do JWT Secret.
+E para executar o ambiente, execute:
 
-Em seguida execute o seguinte comando para iniciar as migrações do prisma:
+**```docker-compose up```**
 
-**`yarn prisma migrate dev`**
+O resultado deve ser algo parecido com isso:
 
-E por fim para executar o projeto:
+![](/home/lucas/Imagens/Captura de tela de 2021-11-18 02-00-53.png)
 
-**`yarn dev`**
+#### Aplicando as migrações no banco de dados
 
-Para maior entendimento do prima dê uma olhada em [nesse link](https://www.digitalocean.com/community/tutorials/how-to-build-a-rest-api-with-prisma-and-postgresql-pt) e na [documentação](https://www.prisma.io/).
+Com o docker em execução, todos os comandos relacionados ao projeto da API serão executados dentro do container. Para isso, vamos acessar o container desejado dessa forma:
+
+**```docker ps```**
+
+para listar os processos relacionados ao Docker. O resultado deve ser semelhante a:
+
+![](/home/lucas/Imagens/Captura de tela de 2021-11-18 02-00-53.png)
+
+Copie o id do container da API - que deve estar nomeado como `atena-api_atena-api` e use no seguinte comando:
+
+**```docker exec -it <id-do-container> bash```**
+
+e pronto! Você está dentro do container! Agora, para aplicar as migrações do banco, execute:
+
+**```yarn prisma migrate dev```**
+
+e fique atento ao retorno do comando.
+
+De agora em diante, qualquer comando relacionado ao Node que você queria executar, terá que entrar dentro do container. Vale ressaltar que toda vez que você derruba e sobre o container novamente, um outro id é gerado para cada container, fazendo que os prcedimentos acima seja repetidos.
+
+---
+
+## Material de referência
+
+Para maior entendimento do prisma dê uma olhada em [nesse link](https://www.digitalocean.com/community/tutorials/how-to-build-a-rest-api-with-prisma-and-postgresql-pt) e na [documentação](https://www.prisma.io/).
 
 Para maior entendimento de como está sendo tratada a autentição com Oauth do Google dê uma olhada nos seguintes links:
 - [Como construir o login do Google em um aplicativo React e API Node/Express](https://ichi.pro/pt/como-construir-o-login-do-google-em-um-aplicativo-react-e-api-node-express-143061143185008)
