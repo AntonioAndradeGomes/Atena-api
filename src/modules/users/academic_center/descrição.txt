@@ -1,3 +1,3 @@
 Essa pasta foi criada como submodulo de usuário 
 terá também controllers, routes e services mas 
-evolvendo a principal especialidade deles, o caso do cruds dos professores.
+evolvendo a principal especialidade deles, o caso do crud dos professores.

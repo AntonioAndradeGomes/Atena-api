@@ -15,7 +15,6 @@ class ListUserController {
     const service = new ListUserByIdService();
     return response.json(await service.execute(id) || {});
   }
-
   
 }
 
