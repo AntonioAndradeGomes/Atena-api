@@ -25,6 +25,13 @@ model User{
   caEndDate DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
+  ca_init_date DateTime?
+  ca_end_date DateTime?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
+  academicCenterId String?
+  academicCenter User? @relation("AcademicCenterUser", fields: [academicCenterId], references: [id])
+  userAcademicCenter User? @relation("AcademicCenterUser")
 
   @@map("users")
 }

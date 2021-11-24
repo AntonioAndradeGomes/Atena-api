@@ -7,12 +7,7 @@ import prismaClient from "../../../prisma";
 1 - pegar o idtoken, verificar e pegar os dados do usuario
 2 - verificar se há usuario no banco de dados
   SIM - tipo defindo
-    - autenticar e liberar o JWT com os dados do usuário 
-  SIM - tipo indefindo
-    - liberar os dados do usuario mas mostrar que o tipo não foi defindo
-  NAO
-    - cadastrar no banco de dados sem o tipo definido 
-    - retornar dados do usuario com mensagem que está sem tipo definido 
+    - autenticar e liberar o JWT com os dados do usuário
 */
 
 
@@ -22,7 +17,7 @@ class AuthenticateUserService{
     const client = new OAuth2Client(process.env.GOOGLE_ID_CLIENT);
     const finalToken = idToken.replace('Bearer', '');
     if(!finalToken){
-      throw new AppError("Não há idToken Google", 401);
+      throw new AppError("There is no id token Google", 401);
     }
     const ticket = await client.verifyIdToken({
       idToken: finalToken,
@@ -33,7 +28,7 @@ class AuthenticateUserService{
     });
 
     if(!ticket){
-      throw new AppError("idToken Google inválido", 401);
+      throw new AppError("Invalid Google id token", 401);
     }
   
     const { email } = ticket.getPayload();
@@ -50,7 +45,7 @@ class AuthenticateUserService{
       throw new AppError('User does not exist yet, check if you are a student', 401);
     }
 
-    if(!userPrisma.googleId){
+    if(!userPrisma.googleId || userPrisma.googleId == ""){
       userPrisma = await prismaClient.user.update({
         where:{
           mail: email,
