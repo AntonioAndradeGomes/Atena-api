@@ -21,21 +21,17 @@ model User{
   registration String
   googleId String? @unique
   code String?
-<<<<<<< HEAD
   caInitDate DateTime?
   caEndDate DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
-=======
   ca_init_date DateTime?
   ca_end_date DateTime?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
-  
   academicCenterId String?
   academicCenter User? @relation("AcademicCenterUser", fields: [academicCenterId], references: [id])
   userAcademicCenter User? @relation("AcademicCenterUser")
->>>>>>> starting academic center routes
 
   @@map("users")
 }
