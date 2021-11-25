@@ -73,3 +73,10 @@ model Class{
 
   @@map("class")
 }
+
+model AccessCode{
+  id String @id @default(uuid())
+  code String @unique
+  createdAt DateTime @default(now())
+  expiredAt DateTime
+}
