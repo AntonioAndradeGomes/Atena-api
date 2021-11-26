@@ -2,6 +2,7 @@ import { celebrate, Joi, Segments } from "celebrate";
 import { Router } from "express";
 import { CreateAccessCodeController } from "../controllers/CreateAccessCodeController";
 import { ListAccessCodeController } from "../controllers/ListAccessCodeController";
+import { UpdateAccessCodeController } from "../controllers/UpdateAccessCodeController";
 
 const accessCodeRouter = Router();
 const listAccessCode = new ListAccessCodeController();
@@ -15,5 +16,13 @@ accessCodeRouter.post('/', celebrate({
 accessCodeRouter.get('/all/', listAccessCode.listAll);
 
 accessCodeRouter.get('/bycode/:code', listAccessCode.byCode);
+
+accessCodeRouter.patch('/:id', celebrate({
+  [Segments.BODY] : {
+    expiredAt : Joi.string().isoDate().required(),
+  }
+}), new UpdateAccessCodeController().execute);
+
+
 
 export {accessCodeRouter}
