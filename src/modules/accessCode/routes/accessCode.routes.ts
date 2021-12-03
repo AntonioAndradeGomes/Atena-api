@@ -1,6 +1,7 @@
 import { celebrate, Joi, Segments } from "celebrate";
 import { Router } from "express";
 import { CreateAccessCodeController } from "../controllers/CreateAccessCodeController";
+import { DeleteAccessCodeController } from "../controllers/DeleteAccessCodeController";
 import { ListAccessCodeController } from "../controllers/ListAccessCodeController";
 import { UpdateAccessCodeController } from "../controllers/UpdateAccessCodeController";
 
@@ -23,6 +24,6 @@ accessCodeRouter.patch('/:id', celebrate({
   }
 }), new UpdateAccessCodeController().execute);
 
-
+accessCodeRouter.delete('/:id', new DeleteAccessCodeController().delete,);
 
 export {accessCodeRouter}

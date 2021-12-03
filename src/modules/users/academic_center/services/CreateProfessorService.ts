@@ -24,8 +24,8 @@ class CreateProfessorService{
         isStudent: false,
         registration,
         code : null,
-        ca_end_date: null,
-        ca_init_date: null,
+        caInitDate: null,
+        caEndDate: null,
         academicCenterId,
       }
     });

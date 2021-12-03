@@ -3,15 +3,15 @@ import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma"
 
 interface IRequest {
-  code: string;
+  id: string;
   expiredAt: string;
 }
 
 class UpdateExpiredAtAccessCodeService {
 
-  async execute({ code, expiredAt }: IRequest) {
+  async execute({ id, expiredAt }: IRequest) {
 
-    let accessCode = await prismaClient.accessCode.findUnique({ where: { code } });
+    let accessCode = await prismaClient.accessCode.findUnique({ where: { id } });
 
     if (!accessCode) {
 
@@ -27,7 +27,7 @@ class UpdateExpiredAtAccessCodeService {
 
     }
 
-    accessCode = await prismaClient.accessCode.update({ where: { code }, data: { expiredAt } });
+    accessCode = await prismaClient.accessCode.update({ where: { id }, data: { expiredAt } });
 
     return accessCode;
 

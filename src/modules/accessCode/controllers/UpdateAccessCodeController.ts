@@ -3,10 +3,10 @@ import { UpdateExpiredAtAccessCodeService } from "../services/UpdateExpiredAtAcc
 
 class UpdateAccessCodeController{
   async execute(request: Request, response: Response){
-    const {code} = request.params;
+    const {id} = request.params;
     const {expiredAt} = request.body; 
     const service = new UpdateExpiredAtAccessCodeService();
-    return response.json(await service.execute({code, expiredAt}));
+    return response.json(await service.execute({id, expiredAt}));
   }
 
 }

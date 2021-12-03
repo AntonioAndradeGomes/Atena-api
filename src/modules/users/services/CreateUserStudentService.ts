@@ -1,5 +1,6 @@
 import { OAuth2Client } from "google-auth-library";
 import { sign } from "jsonwebtoken";
+import moment from "moment";
 import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma";
 
@@ -42,7 +43,22 @@ class CreateUserStudentService{
       throw new AppError('User already exists, use the authentication method', 401);
     }
 
-    //TODO: verificar o code
+    const accessCode = await prismaClient.accessCode.findUnique({where: {code}});
+
+    if(!accessCode){
+      throw new AppError('Access code does not exist', 401);
+    }
+
+    const diff = moment
+    .duration(moment(accessCode.expiredAt).diff(moment(new Date())))
+    .asDays();
+
+
+    if(diff < 0){
+      await prismaClient.accessCode.delete({where: {id: accessCode.id}});
+      throw new AppError('Invalid access code', 401);
+    }
+
 
     userPrisma = await prismaClient.user.create({
       data: {
@@ -52,10 +68,12 @@ class CreateUserStudentService{
         name,
         mail: email,
         registration,
-        code,
+        code: accessCode.id,
         googleId: googleIdTicket,
       }
     });
+
+    await prismaClient.accessCode.delete({where: {id: accessCode.id}});
 
     const tokenfinal = sign(
       {
