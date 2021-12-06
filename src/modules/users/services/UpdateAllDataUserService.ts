@@ -44,8 +44,8 @@ class UpdateAllDataUserService{
       registration,
       googleId: null,
       code,
-      ca_end_date: caEndDate,
-      ca_init_date: caInitDate,
+      caInitDate: caEndDate,
+      caEndDate: caInitDate,
     }});
 
     return user;
