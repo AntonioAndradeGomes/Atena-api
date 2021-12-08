@@ -11,74 +11,86 @@ datasource db {
 }
 
 model User{
-  id                  String @id @default(uuid())
-  name                String
-  mail                String @unique
-  imageUrl            String?
-  isStudent           Boolean
-  isProfessor         Boolean
-  isAcademicCenter    Boolean
-  registration        String
-  googleId            String? @unique
-  code                String?
-  caInitDate          DateTime?
-  caEndDate           DateTime?
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-  academicCenterId    String?
 
-  academicCenter      User? @relation("AcademicCenterUser", fields: [academicCenterId], references: [id])
-  userAcademicCenter  User? @relation("AcademicCenterUser")
+  id                          String @id @default(uuid())
+  name                        String
+  mail                        String @unique
+  imageUrl                    String?
+  isStudent                   Boolean
+  isProfessor                 Boolean
+  isAcademicCenter            Boolean
+  registration                String
+  googleId                    String? @unique
+  code                        String?
+  caInitDate                  DateTime?
+  caEndDate                   DateTime?
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+  academicCenterId            String?
 
-  events              Event[]
+  academicCenter              User? @relation("AcademicCenterUser", fields: [academicCenterId], references: [id])
+  userAcademicCenter          User? @relation("AcademicCenterUser")
+
+  events                      Event[]
+
+  classesProfessorLecion      Class[] @relation(name: "classesProfessorLecion")
+  classesCACreated            Class[] @relation(name: "classesCACreated")
+
 
   @@map("users")
 }
 
 model Event{
-  id                  String @id @default(uuid())
-  title               String
-  description         String?
-  isActive            Boolean
-  difficultyLevel     Int
-  initDate            DateTime
-  endDate             DateTime?
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt()
+  id                          String @id @default(uuid())
+  title                       String
+  description                 String?
+  isActive                    Boolean
+  difficultyLevel             Int
+  initDate                    DateTime
+  endDate                     DateTime?
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt()
 
-  professor           User @relation(fields: [professorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  professorId         String
-
+  professor                   User @relation(fields: [professorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  professorId                 String
+  
   @@map("events")
 }
 
 model Discipline{
-  id                  String    @id @default(uuid())
-  code                String    @unique
-  name                String
-  initials            String
-  workload            Int
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  id                          String    @id @default(uuid())
+  code                        String    @unique
+  name                        String
+  initials                    String
+  workload                    Int
+  createdAt                   DateTime  @default(now())
+  updatedAt                   DateTime  @updatedAt
 
+  
   @@map("discipline")
 }
 
 model Class{
-  id                  String @id @default(uuid())
-  name                String
-  academicYear        String
-  period              String
-  isRegularClass      Boolean
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  id                          String @id @default(uuid())
+  name                        String
+  academicYear                String
+  period                      String
+  isRegularClass              Boolean
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+
+  professor                   User @relation(name: "classesProfessorLecion", fields: [professorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  professorId                 String
+
+  academicCenter              User? @relation(name: "classesCACreated", fields: [academicCenterId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  academicCenterId            String?
 
   @@map("class")
 }
 
 model AccessCode{
-  id                  String @id @default(uuid())
-  code                String @unique
-  createdAt           DateTime @default(now())
-  expiredAt           DateTime
+  id                          String @id @default(uuid())
+  code                        String @unique
+  createdAt                   DateTime @default(now())
+  expiredAt                   DateTime
 }
