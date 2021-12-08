@@ -4,8 +4,9 @@ import { DeleteEventService } from "../services/DeleteEventService";
 class DeleteEventController{
   async hundle(request: Request, response: Response){
     const id = request.params.id;
+    const professorId = request.user_id;
     const service = new DeleteEventService();
-    const result = service.execute(id);
+    const result = service.execute(id, professorId);
 
     return response.status(204).json(result);
   };

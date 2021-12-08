@@ -14,7 +14,6 @@ class UserCreateController{
   async createStudent(request: Request, response: Response){
     const { token, code, registration } = request.body;
     const service = new CreateUserStudentService();
-    // TODO: verificar o code
     const result = await service.execute({token, code, registration});
     return response.status(201).json(result);
   }

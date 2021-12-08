@@ -1,9 +1,19 @@
 import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma";
-import { Event } from "../../../types/event";
+
+
+interface IRequest{
+  title: string;
+  description: string;
+  isActive: boolean;
+  difficultyLevel: number;
+  initDate: string|Date;
+  endDate: string|Date;
+  professorId: string;
+}
 
 class CreateEventService{
-  async execute({title, description, isActive, difficultyLevel, initDate, endDate}: Event){
+  async execute({title, description, isActive, difficultyLevel, initDate, endDate, professorId}: IRequest){
     const eventAlreadyExists = await prismaClient.event.findFirst({
       where: {
         title,
@@ -11,22 +21,22 @@ class CreateEventService{
         isActive,
         difficultyLevel,
         initDate,
-        endDate
+        endDate,
+        professorId
       }
     });
 
     if(eventAlreadyExists) throw new AppError("Event already exists");
 
-    const event = await prismaClient.event.create({
-      data: {
-        title,
-        description,
-        isActive,
-        difficultyLevel,
-        initDate,
-        endDate,
-      }}
-    );
+    const event = await prismaClient.event.create({data :{
+      title,
+      description,
+      isActive,
+      difficultyLevel,
+      initDate,
+      endDate,
+      professorId
+    }, include : {professor: true,}})
     return event;
   }
 }
