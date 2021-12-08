@@ -1,20 +1,44 @@
 import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma";
-import { Event } from "../../../types/event";
 
-class UpdateEventService{
-  async execute(id: string, {title, description, isActive, difficultyLevel, initDate, endDate}: Event){
+interface IRequest {
+  title: string;
+  description: string;
+  isActive: boolean;
+  difficultyLevel: number;
+  initDate: string | Date;
+  endDate: string | Date;
+  professorId: string;
+  id: string;
+}
+
+class UpdateEventService {
+  async execute({
+    id,
+    professorId,
+    title,
+    description,
+    isActive,
+    difficultyLevel,
+    initDate,
+    endDate,
+  }: IRequest) {
     const eventAlreadyExists = await prismaClient.event.findFirst({
       where: {
-        id
-      }
+        id,
+      },
     });
 
-    if(!eventAlreadyExists) throw new AppError("Event does not exist");
+    if (!eventAlreadyExists) {
+      throw new AppError("Event does not exist");
+    }
+    if (eventAlreadyExists.professorId != professorId) {
+      throw new AppError("You are not authorized to do this action.", 401);
+    }
 
     const event = prismaClient.event.update({
       where: {
-        id
+        id,
       },
       data: {
         title,
@@ -22,11 +46,11 @@ class UpdateEventService{
         isActive,
         difficultyLevel,
         initDate,
-        endDate
-      }
+        endDate,
+      },
     });
-    return event
-  };
-};
+    return event;
+  }
+}
 
 export { UpdateEventService };

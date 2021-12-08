@@ -26,7 +26,7 @@ userRouter.post('/add', celebrate({
   }
 }), createUserController.create);
 
-// TODO: falta verificar o code
+
 userRouter.post('/add/student', celebrate({
   [Segments.BODY]: {
     token: Joi.string().required(),
