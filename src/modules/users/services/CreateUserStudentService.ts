@@ -68,7 +68,7 @@ class CreateUserStudentService{
         name,
         mail: email,
         registration,
-        code: accessCode.id,
+        code: accessCode.code,
         googleId: googleIdTicket,
       }
     });

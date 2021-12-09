@@ -1,9 +1,18 @@
 import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma";
-import { Class } from "../../../types/class";
+
+interface IRequest{
+  id: string;
+  name: string;
+  academicYear: string;
+  period: string;
+  isRegularClass: boolean;
+  professorId: string;
+}
+
 
 class UpdateClassService{
-  async execute(id: string, { name, academicYear, period, isRegularClass }: Class){
+  async execute({id, name, academicYear, period, isRegularClass, professorId }: IRequest){
     const classAlreadyExist = await prismaClient.class.findFirst({
       where: {
         id
@@ -11,6 +20,14 @@ class UpdateClassService{
     });
 
     if(!classAlreadyExist) throw new AppError("Object not found");
+
+    const professorAlreadyExists = await prismaClient.user.findUnique({
+      where: { id: professorId },
+    });
+
+    if (!professorAlreadyExists) {
+      throw new AppError("Professor doesn't exist");
+    }
 
     const classInstance = await prismaClient.class.update({
       where: {
@@ -20,8 +37,10 @@ class UpdateClassService{
         name,
         academicYear,
         period,
-        isRegularClass
-      }
+        isRegularClass,
+        professorId,
+      },
+      include: {professor  : true, academicCenter:true,}
     });
     return classInstance;
   }

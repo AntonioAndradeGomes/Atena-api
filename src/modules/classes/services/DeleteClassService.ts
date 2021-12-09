@@ -17,7 +17,7 @@ class DeleteClassService{
       }
     });
     
-    return classInstance;
+    return {message: "Successfully deleted class"};
   };
 };
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { disciplineRouter } from "./discipline.routes";
-import { classRouter } from "./class.routes";
+import { disciplineRouter } from "../modules/disciplines/routes/discipline.routes";
+import { classRouter } from "../modules/classes/routes/class.routes";
 import { eventRouter } from "../modules/events/routes/event.routes";
 import { academicCenterRouter } from "../modules/users/academic_center/routes/academicCenterRoutes";
 import { authRouter } from "../modules/users/routes/auth.routes";

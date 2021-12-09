@@ -36,6 +36,7 @@ model User{
   classesProfessorLecion      Class[] @relation(name: "classesProfessorLecion")
   classesCACreated            Class[] @relation(name: "classesCACreated")
 
+  disciplinesCACreated        Discipline[]
 
   @@map("users")
 }
@@ -65,6 +66,9 @@ model Discipline{
   workload                    Int
   createdAt                   DateTime  @default(now())
   updatedAt                   DateTime  @updatedAt
+
+  academicCenter              User? @relation(fields: [academicCenterId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  academicCenterId            String?
 
   
   @@map("discipline")

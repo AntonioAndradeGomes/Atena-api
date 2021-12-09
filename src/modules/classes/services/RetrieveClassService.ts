@@ -6,7 +6,9 @@ class RetrieveClassService{
     const classInstance = await prismaClient.class.findUnique({
       where: {
         id
-      }
+      },
+      include: {academicCenter: true, professor: true}
+
     });
 
     if(!classInstance) throw new AppError("Class does not exist");
