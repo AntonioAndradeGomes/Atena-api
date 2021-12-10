@@ -7,7 +7,7 @@ class DeleteAccessCodeController{
     const {id} = request.params;
   
     const service = new DeleteAccessCodeService();
-    return response.json(await service.execute(id));
+    return response.status(204).json(await service.execute(id));
   }
 }
 

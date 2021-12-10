@@ -63,14 +63,15 @@ model Discipline{
   code                        String    @unique
   name                        String
   initials                    String
-  workload                    Int
+  courseLoad                  Int
   createdAt                   DateTime  @default(now())
   updatedAt                   DateTime  @updatedAt
 
   academicCenter              User? @relation(fields: [academicCenterId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   academicCenterId            String?
 
-  
+  classes                     Class[] @relation(name: "classNeedsToHaveADiscipline")
+
   @@map("discipline")
 }
 
@@ -88,6 +89,9 @@ model Class{
 
   academicCenter              User? @relation(name: "classesCACreated", fields: [academicCenterId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   academicCenterId            String?
+
+  discipline                  Discipline @relation(name: "classNeedsToHaveADiscipline", fields: [disciplineId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  disciplineId                String
 
   @@map("class")
 }

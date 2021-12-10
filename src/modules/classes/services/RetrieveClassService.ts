@@ -1,20 +1,19 @@
 import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma";
 
-class RetrieveClassService{
-  async execute(id: string){
+class RetrieveClassService {
+  async execute(id: string) {
     const classInstance = await prismaClient.class.findUnique({
       where: {
-        id
+        id,
       },
-      include: {academicCenter: true, professor: true}
-
+      include: { academicCenter: true, professor: true, discipline: true },
     });
 
-    if(!classInstance) throw new AppError("Class does not exist");
+    if (!classInstance) throw new AppError("Class does not exist");
 
     return classInstance;
-  };
-};
+  }
+}
 
 export { RetrieveClassService };

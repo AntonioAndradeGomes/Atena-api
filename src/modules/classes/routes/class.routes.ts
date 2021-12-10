@@ -20,6 +20,7 @@ classRouter.post(
       period: Joi.string().required(),
       isRegularClass: Joi.boolean().required(),
       professorId: Joi.string().uuid().required(),
+      disciplineId: Joi.string().uuid().required(),
     }
   }),ensureAuthenticated, isAcademicCenter,
   new CreateClassController().hundle
@@ -47,6 +48,7 @@ classRouter.put(
       period: Joi.string().required(),
       isRegularClass: Joi.boolean().required(),
       professorId: Joi.string().uuid().required(),
+      disciplineId: Joi.string().uuid().required(),
     }
   }),
   ensureAuthenticated, isAcademicCenter,

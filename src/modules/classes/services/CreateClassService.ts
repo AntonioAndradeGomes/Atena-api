@@ -8,6 +8,7 @@ interface IRequest {
   isRegularClass: boolean;
   professorId: string;
   academicCenterId: string | null;
+  disciplineId: string;
 }
 
 class CreateClassService {
@@ -18,6 +19,7 @@ class CreateClassService {
     isRegularClass,
     professorId,
     academicCenterId,
+    disciplineId
   }: IRequest) {
     const classAlreadyExists = await prismaClient.class.findFirst({
       where: {
@@ -41,6 +43,13 @@ class CreateClassService {
       throw new AppError("Professor doesn't exist");
     }
 
+    const disciplineAlreadyExists = await prismaClient.discipline.findUnique({where: {id: disciplineId}});
+
+    if(!disciplineAlreadyExists){
+      throw new AppError("Discipline doesn't exist");
+    }
+
+
     const classInstance = await prismaClient.class.create({
       data: {
         name,
@@ -49,8 +58,9 @@ class CreateClassService {
         isRegularClass,
         professorId,
         academicCenterId,
+        disciplineId
       },
-      include: { professor: true, academicCenter: true },
+      include: { professor: true, academicCenter: true, discipline: true },
     });
     return classInstance;
   }

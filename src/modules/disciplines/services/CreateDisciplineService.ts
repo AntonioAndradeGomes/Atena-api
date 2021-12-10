@@ -1,15 +1,23 @@
 import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma";
-import { Discipline } from "../../../types/discipline";
+
+
+interface IRequest{
+  code : string;
+  name : string;
+  initials: string;
+  courseLoad: number;
+  academicCenterId: string;
+}
 
 class CreateDisciplineService{
-  async execute({code, name, initials, workload}: Discipline){
+  async execute({code, name, initials, courseLoad, academicCenterId}: IRequest){
     const disciplineAlreadyExists = await prismaClient.discipline.findFirst({
       where: {
         code,
         name,
         initials,
-        workload
+        courseLoad
       }
     });
 
@@ -20,8 +28,11 @@ class CreateDisciplineService{
         code,
         name,
         initials,
-        workload,
-      }}
+        courseLoad,
+        academicCenterId,
+      },
+      include: {academicCenter: true,}
+    }
     );
     return discipline;
   }

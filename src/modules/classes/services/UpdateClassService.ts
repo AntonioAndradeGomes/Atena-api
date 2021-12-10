@@ -8,12 +8,14 @@ interface IRequest{
   period: string;
   isRegularClass: boolean;
   professorId: string;
+  academicCenterId: string;
+  disciplineId: string;
 }
 
 
 class UpdateClassService{
-  async execute({id, name, academicYear, period, isRegularClass, professorId }: IRequest){
-    const classAlreadyExist = await prismaClient.class.findFirst({
+  async execute({id, name, academicYear, period, isRegularClass, professorId, academicCenterId, disciplineId}: IRequest){
+    const classAlreadyExist = await prismaClient.class.findUnique({
       where: {
         id
       }
@@ -29,6 +31,12 @@ class UpdateClassService{
       throw new AppError("Professor doesn't exist");
     }
 
+    const disciplineAlreadyExists = await prismaClient.discipline.findUnique({where: {id: disciplineId}});
+
+    if(!disciplineAlreadyExists){
+      throw new AppError("Discipline doesn't exist");
+    }
+
     const classInstance = await prismaClient.class.update({
       where: {
         id
@@ -39,8 +47,10 @@ class UpdateClassService{
         period,
         isRegularClass,
         professorId,
+        academicCenterId,
+        disciplineId
       },
-      include: {professor  : true, academicCenter:true,}
+      include: {professor  : true, academicCenter:true, discipline: true,}
     });
     return classInstance;
   }

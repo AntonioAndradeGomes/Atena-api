@@ -5,6 +5,8 @@ import { RetrieveDisciplineController } from "../controllers/RetrieveDisciplineC
 import { UpdateDisciplineController } from "../controllers/UpdateDisciplineController";
 import { DeleteDisciplineController } from "../controllers/DeleteDisciplineController";
 import { celebrate, Joi, Segments } from "celebrate";
+import { ensureAuthenticated } from "../../../middlewares/ensureAuthenticated";
+import { isAcademicCenter } from "../../../middlewares/isAcademicCenter";
 
 const disciplineRouter = Router();
 
@@ -17,9 +19,10 @@ disciplineRouter.post(
       code: Joi.string().required(),
       name: Joi.string().required(),
       initials: Joi.string().required(),
-      workload: Joi.number().required()
+      courseLoad: Joi.number().required()
     }
   }),
+  ensureAuthenticated, isAcademicCenter,
   new CreateDisciplineController().hundle
 );
 
@@ -27,13 +30,13 @@ disciplineRouter.get(
   "/:id",
   celebrate({
     [Segments.PARAMS]: {
-      id: Joi.string().required()
+      id: Joi.string().uuid().required()
     },
     [Segments.BODY]: {
       code: Joi.string().required(),
       name: Joi.string().required(),
       initials: Joi.string().required(),
-      workload: Joi.number().required()
+      courseLoad: Joi.number().required()
     }
   }),
   new RetrieveDisciplineController().hundle
@@ -43,31 +46,16 @@ disciplineRouter.put(
   "/:id",
   celebrate({
     [Segments.PARAMS]: {
-      id: Joi.string().required()
+      id: Joi.string().uuid().required()
     },
     [Segments.BODY]: {
       code: Joi.string().required(),
       name: Joi.string().required(),
       initials: Joi.string().required(),
-      workload: Joi.number().required()
+      courseLoad: Joi.number().required()
     }
   }),
-  new UpdateDisciplineController().hundle
-);
-
-disciplineRouter.patch(
-  "/:id",
-  celebrate({
-    [Segments.PARAMS]: {
-      id: Joi.string().required()
-    },
-    [Segments.BODY]: {
-      code: Joi.string(),
-      name: Joi.string(),
-      initials: Joi.string(),
-      workload: Joi.number()
-    }
-  }),
+  ensureAuthenticated, isAcademicCenter,
   new UpdateDisciplineController().hundle
 );
 
@@ -75,9 +63,10 @@ disciplineRouter.delete(
   "/:id",
   celebrate({
     [Segments.PARAMS]: {
-      id: Joi.string().required()
+      id: Joi.string().uuid().required()
     }
   }),
+  ensureAuthenticated, isAcademicCenter,
   new DeleteDisciplineController().hundle
 );
 

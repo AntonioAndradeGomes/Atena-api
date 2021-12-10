@@ -10,11 +10,12 @@ interface IRequest{
   name: string;
   mail: string;
   registration: string;
+  academicCenterId: string;
 }
 
 class UpdateProfessorService{
   
-  async execute({id, name, mail, registration} : IRequest) {
+  async execute({id, name, mail, registration, academicCenterId} : IRequest) {
     
     let user = await prismaClient.user.findUnique({where : {id}});
 
@@ -26,7 +27,7 @@ class UpdateProfessorService{
       throw new AppError("User is not a Professor", 401);
     }
 
-    user = await prismaClient.user.update({where: {id},data: {name, mail, registration}, include: {academicCenter: true}});
+    user = await prismaClient.user.update({where: {id},data: {name, mail, registration, academicCenterId}, include: {academicCenter: true}});
 
     return user;
   }
