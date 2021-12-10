@@ -6,7 +6,7 @@ class CreateAccessCodeController {
   async create(request: Request, response: Response) {
     const service = new CreateAccessCodeSerivce();
     const { expiredAt } = request.body;
-    return response.json(await service.execute(expiredAt));
+    return response.status(201).json(await service.execute(expiredAt));
   }
 }
 

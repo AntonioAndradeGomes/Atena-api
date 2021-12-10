@@ -6,7 +6,6 @@ class RetrieveDisciplineController{
     const id = request.params.id;
     const service = new RetrieveDisciplineService();
     const result = await service.execute(id);
-
     return response.status(200).json(result);
   };
 };

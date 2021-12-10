@@ -7,7 +7,7 @@ class DeleteProfessorController{
     const id = request.params.id;
     const service = new DeleteProfessorService();
     const result = await service.execute(id);
-    return response.status(201).json(result);
+    return response.status(204).json(result);
   }
 }
 
