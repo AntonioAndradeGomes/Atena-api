@@ -22,7 +22,8 @@ eventRouter.post(
       isActive: Joi.boolean().required(),
       difficultyLevel: Joi.number().required(),
       initDate: Joi.date().required(),
-      endDate: Joi.date().required()
+      endDate: Joi.date().required(),
+      classId: Joi.string().uuid().required()
     }
   }), ensureAuthenticated, isProfessor, 
   new CreateEventController().hundle
@@ -53,7 +54,8 @@ eventRouter.put(
       isActive: Joi.boolean().required(),
       difficultyLevel: Joi.number().required(),
       initDate: Joi.date().required(),
-      endDate: Joi.date().required()
+      endDate: Joi.date().required(),
+      classId: Joi.string().uuid().required()
     }
   }),
   ensureAuthenticated, isProfessor,

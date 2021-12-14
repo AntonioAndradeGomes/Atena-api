@@ -10,10 +10,11 @@ interface IRequest{
   initDate: string|Date;
   endDate: string|Date;
   professorId: string;
+  classId: string;
 }
 
 class CreateEventService{
-  async execute({title, description, isActive, difficultyLevel, initDate, endDate, professorId}: IRequest){
+  async execute({title, description, isActive, difficultyLevel, initDate, endDate, professorId, classId}: IRequest){
     const eventAlreadyExists = await prismaClient.event.findFirst({
       where: {
         title,
@@ -22,11 +23,22 @@ class CreateEventService{
         difficultyLevel,
         initDate,
         endDate,
-        professorId
+        professorId,
+        classId
       }
     });
 
     if(eventAlreadyExists) throw new AppError("Event already exists");
+
+    const classExists = await prismaClient.class.findUnique({where: {id: classId}});
+
+    if(!classExists){
+      throw new AppError("Class assigned to the event does not exist.");
+    }
+
+    if(classExists.professorId == professorId){
+      throw new AppError("Class assigned to the event does not belong to this teacher.");
+    }
 
     const event = await prismaClient.event.create({data :{
       title,
@@ -35,8 +47,9 @@ class CreateEventService{
       difficultyLevel,
       initDate,
       endDate,
-      professorId
-    }, include : {professor: true,}})
+      professorId,
+      classId
+    }, include : {professor: true, class : true}})
     return event;
   }
 }
