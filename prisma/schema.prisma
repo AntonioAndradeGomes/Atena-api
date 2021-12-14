@@ -15,7 +15,6 @@ model User{
   id                          String @id @default(uuid())
   name                        String
   mail                        String @unique
-  imageUrl                    String?
   isStudent                   Boolean
   isProfessor                 Boolean
   isAcademicCenter            Boolean
@@ -54,6 +53,9 @@ model Event{
 
   professor                   User @relation(fields: [professorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   professorId                 String
+
+  class                       Class @relation(fields: [classId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  classId                     String
   
   @@map("events")
 }
@@ -92,6 +94,8 @@ model Class{
 
   discipline                  Discipline @relation(name: "classNeedsToHaveADiscipline", fields: [disciplineId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   disciplineId                String
+
+  events                      Event[]
 
   @@map("class")
 }
