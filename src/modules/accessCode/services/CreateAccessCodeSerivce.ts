@@ -9,7 +9,7 @@ class CreateAccessCodeSerivce {
       .duration(moment(new Date(expiredAt)).diff(moment(new Date())))
       .asDays();
 
-  console.log(diff);
+    //console.log(diff);
 
     if (diff < 2) {
       throw new AppError(
