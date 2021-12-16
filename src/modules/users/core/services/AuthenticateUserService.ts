@@ -1,7 +1,7 @@
 import { OAuth2Client } from "google-auth-library";
 import { sign } from "jsonwebtoken";
-import { AppError } from "../../../errors/AppError";
-import prismaClient from "../../../prisma";
+import { AppError } from "../../../../errors/AppError";
+import prismaClient from "../../../../prisma";
 
 /*
 1 - pegar o idtoken, verificar e pegar os dados do usuario

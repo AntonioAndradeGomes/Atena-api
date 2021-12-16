@@ -1,5 +1,5 @@
-import { AppError } from "../../../errors/AppError";
-import prismaClient from "../../../prisma";
+import { AppError } from "../../../../errors/AppError";
+import prismaClient from "../../../../prisma";
 
 interface IRequest{
   name: string;

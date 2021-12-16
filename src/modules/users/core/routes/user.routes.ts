@@ -3,7 +3,7 @@ import { Joi, celebrate, Segments } from "celebrate";
 import { UserCreateController } from "../controllers/UserCreateController";
 import { ListUserController } from "../controllers/ListUserController";
 import { UpdateUserController } from "../controllers/UpdateUserController";
-import { ensureAuthenticated } from "../../../middlewares/ensureAuthenticated";
+import { ensureAuthenticated } from "../../../../middlewares/ensureAuthenticated";
 import { DeleteUserController } from "../controllers/DeleteUserController";
 
 const userRouter = Router();
@@ -56,6 +56,11 @@ updateUserController.updateUser);
 
 //atualizar todos os dados do user, rota só sera usada pelo admin
 userRouter.put('/:id', celebrate({
+
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required()
+    },
+  
   [Segments.BODY] : {
     name: Joi.string().required(),
     mail : Joi.string().email().required(), 
@@ -70,6 +75,10 @@ userRouter.put('/:id', celebrate({
 }), updateUserController.updateAllDataUser);
 
 //deletar usuario,rota também só sera usada pelo admin
-userRouter.delete('/:id', deleteUserController.deleteUser);
+userRouter.delete('/:id',  celebrate({
+  [Segments.PARAMS]: {
+    id: Joi.string().uuid().required()
+  }
+}),deleteUserController.deleteUser);
 
 export { userRouter }
