@@ -3,10 +3,11 @@ import { disciplineRouter } from "../modules/disciplines/routes/discipline.route
 import { classRouter } from "../modules/classes/routes/class.routes";
 import { eventRouter } from "../modules/events/routes/event.routes";
 import { academicCenterRouter } from "../modules/users/academic_center/routes/academicCenterRoutes";
-import { authRouter } from "../modules/users/routes/auth.routes";
-import { userRouter } from "../modules/users/routes/user.routes";
+import { authRouter } from "../modules/users/core/routes/auth.routes";
+import { userRouter } from "../modules/users/core/routes/user.routes";
 import { accessCodeRouter } from "../modules/accessCode/routes/accessCode.routes";
 import { studentClassRouter } from "../modules/users/student_class/routes/studentClass.routes";
+import { refrashTokenRouter } from "../modules/users/refrashToken/routes/refrashToken.routes";
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.use("/discipline", disciplineRouter);
 router.use("/class", classRouter);
 router.use("/code", accessCodeRouter);
 router.use("/studentclass", studentClassRouter);
+router.use('/refrashtoken', refrashTokenRouter);
 
 export {router};

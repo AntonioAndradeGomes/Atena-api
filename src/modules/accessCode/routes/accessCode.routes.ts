@@ -8,22 +8,49 @@ import { UpdateAccessCodeController } from "../controllers/UpdateAccessCodeContr
 const accessCodeRouter = Router();
 const listAccessCode = new ListAccessCodeController();
 
-accessCodeRouter.post('/', celebrate({
-    [Segments.BODY] : {
-      expiredAt : Joi.string().isoDate().required(),
-    }
-}), new CreateAccessCodeController().create);
+accessCodeRouter.post(
+  "/",
+  celebrate({
+    [Segments.BODY]: {
+      expiredAt: Joi.string().isoDate().required(),
+    },
+  }),
+  new CreateAccessCodeController().create
+);
 
-accessCodeRouter.get('/all/', listAccessCode.listAll);
+accessCodeRouter.get("/all/", listAccessCode.listAll);
 
-accessCodeRouter.get('/bycode/:code', listAccessCode.byCode);
+accessCodeRouter.get(
+  "/bycode/:code",
+  celebrate({
+    [Segments.PARAMS]: {
+      code: Joi.string().required(),
+    },
+  }),
+  listAccessCode.byCode
+);
 
-accessCodeRouter.patch('/:id', celebrate({
-  [Segments.BODY] : {
-    expiredAt : Joi.string().isoDate().required(),
-  }
-}), new UpdateAccessCodeController().execute);
+accessCodeRouter.patch(
+  "/:id",
+  celebrate({
+    [Segments.PARAMS]: {
+      code: Joi.string().required(),
+    },
+    [Segments.BODY]: {
+      expiredAt: Joi.string().isoDate().required(),
+    },
+  }),
+  new UpdateAccessCodeController().execute
+);
 
-accessCodeRouter.delete('/:id', new DeleteAccessCodeController().delete,);
+accessCodeRouter.delete(
+  "/:id",
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().required(),
+    },
+  }),
+  new DeleteAccessCodeController().delete
+);
 
-export {accessCodeRouter}
+export { accessCodeRouter };

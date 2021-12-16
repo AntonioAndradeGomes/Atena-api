@@ -13,31 +13,68 @@ const listProfessorController = new ListProfessorController();
 const updateProfessorController = new UpdateProfessorController();
 const deleteProfessorController = new DeleteProfessorController();
 
-academicCenterRouter.post('/', ensureAuthenticated, isAcademicCenter, celebrate({
-  [Segments.BODY]: {
+academicCenterRouter.post(
+  "/",
+  ensureAuthenticated,
+  isAcademicCenter,
+  celebrate({
+    [Segments.BODY]: {
+      name: Joi.string().required(),
+      mail: Joi.string().email().required(),
+      registration: Joi.string().required(),
+    },
+  }),
+  createProfessorController.create
+);
 
-    name: Joi.string().required(),
-    mail: Joi.string().email().required(),
-    registration: Joi.string().required(),
-  }
-}), createProfessorController.create);
+academicCenterRouter.get("/", listProfessorController.listAll);
 
+academicCenterRouter.get(
+  "/byid/:id",
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  listProfessorController.listById
+);
 
-academicCenterRouter.get('/', listProfessorController.listAll);
+academicCenterRouter.get(
+  "/byuser",
+  ensureAuthenticated,
+  isAcademicCenter,
+  listProfessorController.listByUser
+);
 
-academicCenterRouter.get('/byid/:id', listProfessorController.listById);
+academicCenterRouter.patch(
+  "/:id",
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  ensureAuthenticated,
+  isAcademicCenter,
+  celebrate({
+    [Segments.BODY]: {
+      name: Joi.string().required(),
+      mail: Joi.string().email().required(),
+      registration: Joi.string().required(),
+    },
+  }),
+  updateProfessorController.update
+);
 
-academicCenterRouter.get('/byuser', ensureAuthenticated, isAcademicCenter, listProfessorController.listByUser);
+academicCenterRouter.delete(
+  "/:id",
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  ensureAuthenticated,
+  isAcademicCenter,
+  deleteProfessorController.delete
+);
 
-academicCenterRouter.patch('/:id', ensureAuthenticated, isAcademicCenter, celebrate({
-  [Segments.BODY]: {
-
-    name: Joi.string().required(),
-    mail: Joi.string().email().required(),
-    registration: Joi.string().required(),
-  }
-}), updateProfessorController.update);
-
-academicCenterRouter.delete('/:id', ensureAuthenticated, isAcademicCenter, deleteProfessorController.delete);
-
-export { academicCenterRouter }
+export { academicCenterRouter };

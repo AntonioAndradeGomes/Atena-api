@@ -1,8 +1,8 @@
 import { OAuth2Client } from "google-auth-library";
 import { sign } from "jsonwebtoken";
 import moment from "moment";
-import { AppError } from "../../../errors/AppError";
-import prismaClient from "../../../prisma";
+import { AppError } from "../../../../errors/AppError";
+import prismaClient from "../../../../prisma";
 
 interface IRequest{
   token: string,
