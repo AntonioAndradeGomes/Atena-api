@@ -10,7 +10,7 @@ import { isAcademicCenter } from "../../../middlewares/isAcademicCenter";
 
 const disciplineRouter = Router();
 
-disciplineRouter.get("/", new AllDisciplineController().hundle);
+disciplineRouter.get("/", new AllDisciplineController().handle);
 
 disciplineRouter.post(
   "/",
@@ -23,7 +23,7 @@ disciplineRouter.post(
     }
   }),
   ensureAuthenticated, isAcademicCenter,
-  new CreateDisciplineController().hundle
+  new CreateDisciplineController().handle
 );
 
 disciplineRouter.get(
@@ -39,7 +39,7 @@ disciplineRouter.get(
       courseLoad: Joi.number().required()
     }
   }),
-  new RetrieveDisciplineController().hundle
+  new RetrieveDisciplineController().handle
 );
 
 disciplineRouter.put(
@@ -56,7 +56,7 @@ disciplineRouter.put(
     }
   }),
   ensureAuthenticated, isAcademicCenter,
-  new UpdateDisciplineController().hundle
+  new UpdateDisciplineController().handle
 );
 
 disciplineRouter.delete(
@@ -67,7 +67,7 @@ disciplineRouter.delete(
     }
   }),
   ensureAuthenticated, isAcademicCenter,
-  new DeleteDisciplineController().hundle
+  new DeleteDisciplineController().handle
 );
 
 export { disciplineRouter };

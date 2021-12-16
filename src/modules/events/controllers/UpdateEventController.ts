@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { UpdateEventService } from "../services/UpdateEventService";
 
 class UpdateEventController{
-  async hundle(request: Request, response: Response){
+  async handle(request: Request, response: Response){
     const id = request.params.id;
     const professorId = request.user_id;
     const {title, description, isActive, difficultyLevel, initDate, endDate, classId} = request.body;

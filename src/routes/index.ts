@@ -7,7 +7,7 @@ import { authRouter } from "../modules/users/core/routes/auth.routes";
 import { userRouter } from "../modules/users/core/routes/user.routes";
 import { accessCodeRouter } from "../modules/accessCode/routes/accessCode.routes";
 import { studentClassRouter } from "../modules/users/student_class/routes/studentClass.routes";
-import { refrashTokenRouter } from "../modules/users/refrashToken/routes/refrashToken.routes";
+import { refreshTokenRouter } from "../modules/users/refreshToken/routes/refreshToken.routes";
 
 const router = Router();
 
@@ -21,6 +21,6 @@ router.use("/discipline", disciplineRouter);
 router.use("/class", classRouter);
 router.use("/code", accessCodeRouter);
 router.use("/studentclass", studentClassRouter);
-router.use('/refrashtoken', refrashTokenRouter);
+router.use('/refreshtoken', refreshTokenRouter);
 
 export {router};
