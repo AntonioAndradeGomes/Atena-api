@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { CreateDisciplineService } from "../services/CreateDisciplineService";
 
 class CreateDisciplineController {
-  async hundle(request: Request, response: Response) {
+  async handle(request: Request, response: Response) {
     const { code, name, initials, courseLoad } = request.body;
     const academicCenterId = request.user_id;
     const service = new CreateDisciplineService();

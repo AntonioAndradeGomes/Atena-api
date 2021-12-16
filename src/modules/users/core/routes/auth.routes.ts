@@ -8,6 +8,6 @@ authRouter.post('/login',celebrate({
   [Segments.BODY]: {
     token: Joi.string().required(),
   }
-}), new AuthenticateUserController().hundle);
+}), new AuthenticateUserController().handle);
 
 export {authRouter}

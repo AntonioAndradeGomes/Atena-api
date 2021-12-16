@@ -2,7 +2,7 @@ import { sign } from "jsonwebtoken";
 import { AppError } from "../../../../errors/AppError";
 import prismaClient from "../../../../prisma"
 
-class RefrashTokenService{
+class RefreshTokenService{
   async execute(id: string){
     const user = await prismaClient.user.findUnique({where: {id}});
     if(!user){
@@ -37,4 +37,4 @@ class RefrashTokenService{
   }
 }
 
-export {RefrashTokenService}
+export {RefreshTokenService}

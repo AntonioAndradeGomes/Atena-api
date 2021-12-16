@@ -3,7 +3,7 @@ import { AuthenticateUserService } from "../services/AuthenticateUserService";
 
 
 class AuthenticateUserController {
-  async hundle(request: Request, response: Response) {
+  async handle(request: Request, response: Response) {
     const { token } = request.body;
     const service = new AuthenticateUserService();
     const result = await service.execute(token);

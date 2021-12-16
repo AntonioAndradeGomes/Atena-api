@@ -11,7 +11,7 @@ import { isProfessor } from "../../../middlewares/isProfessor";
 
 const eventRouter = Router();
 
-eventRouter.get('/', new AllEventsController().hundle);
+eventRouter.get('/', new AllEventsController().handle);
 
 eventRouter.post(
   '/',
@@ -26,7 +26,7 @@ eventRouter.post(
       classId: Joi.string().uuid().required()
     }
   }), ensureAuthenticated, isProfessor, 
-  new CreateEventController().hundle
+  new CreateEventController().handle
 );
 
 eventRouter.get(
@@ -36,7 +36,7 @@ eventRouter.get(
       id: Joi.string().uuid().required()
     }
   }),
-  new RetrieveEventController().hundle
+  new RetrieveEventController().handle
 );
 
 
@@ -59,7 +59,7 @@ eventRouter.put(
     }
   }),
   ensureAuthenticated, isProfessor,
-  new UpdateEventController().hundle
+  new UpdateEventController().handle
 );
 /*
 eventRouter.patch(
@@ -77,7 +77,7 @@ eventRouter.patch(
       endDate: Joi.date().required()
     }
   }),
-  new UpdateEventController().hundle
+  new UpdateEventController().handle
 );
 */
 eventRouter.delete(
@@ -88,7 +88,7 @@ eventRouter.delete(
     }
   }),
   ensureAuthenticated, isProfessor,
-  new DeleteEventController().hundle
+  new DeleteEventController().handle
 );
 
 export { eventRouter };
