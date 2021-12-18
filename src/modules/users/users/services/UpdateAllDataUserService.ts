@@ -42,7 +42,6 @@ class UpdateAllDataUserService{
       isAcademicCenter,
       isProfessor,
       registration,
-      googleId: null,
       code,
       caInitDate,
       caEndDate,
