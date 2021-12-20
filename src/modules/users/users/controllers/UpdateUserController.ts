@@ -14,9 +14,9 @@ class UpdateUserController {
 
   async updateAllDataUser(request: Request, response: Response) {
     const id = request.params.id;
-    const { name, mail, isStudent, isAcademicCenter, isProfessor, registration, code, caEndDate, caInitDate, password } = request.body;
+    const { name, isStudent, isAcademicCenter, isProfessor, registration, code, caEndDate, caInitDate, password } = request.body;
     const service = new UpdateAllDataUserService();
-    return  response.json(await service.execute({id, name, mail, isStudent, isAcademicCenter, isProfessor, registration, code, caEndDate, caInitDate, password }));
+    return  response.json(await service.execute({id, name, isStudent, isAcademicCenter, isProfessor, registration, code, caEndDate, caInitDate, password }));
   }
 
 }
