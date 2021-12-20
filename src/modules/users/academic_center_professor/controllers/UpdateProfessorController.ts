@@ -5,10 +5,10 @@ class UpdateProfessorController{
 
   async update(request: Request, response: Response){
     const id = request.params.id;
-    const {name, mail, registration} = request.body;
+    const {name, registration, password} = request.body;
     const academicCenterId = request.user_id;
     const service = new UpdateProfessorService();
-    return response.json(await service.execute({id, name, mail, registration,academicCenterId}));
+    return response.json(await service.execute({id, name,registration,academicCenterId, password}));
   }
   
 }

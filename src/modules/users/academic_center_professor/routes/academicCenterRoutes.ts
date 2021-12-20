@@ -58,8 +58,8 @@ academicCenterRouter.patch(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
-      mail: Joi.string().email().required(),
       registration: Joi.string().required(),
+      password: Joi.string().required()
     },
   }),
   updateProfessorController.update

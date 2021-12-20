@@ -4,9 +4,9 @@ import { AuthenticateUserService } from "../services/AuthenticateUserService";
 
 class AuthenticateUserController {
   async handle(request: Request, response: Response) {
-    const { token } = request.body;
+    const { mail, password } = request.body;
     const service = new AuthenticateUserService();
-    const result = await service.execute(token);
+    const result = await service.execute({mail, password });
     return response.json(result);
   }
 }

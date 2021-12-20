@@ -20,18 +20,23 @@ userRouter.post('/add', celebrate({
     isProfessor: Joi.boolean().required(),
     isAcademicCenter: Joi.boolean().required(),
     registration: Joi.string().required(),
+    password: Joi.string().required(),
     code: Joi.string(),
-    caInitDate: Joi.string(),
-    caEndDate: Joi.string()
+    caInitDate: Joi.required(),
+    caEndDate: Joi.required()
   }
 }), createUserController.create);
 
 
+//name, mail, registration, code, password
+
 userRouter.post('/add/student', celebrate({
   [Segments.BODY]: {
-    token: Joi.string().required(),
-    code: Joi.string().required(),
+    name: Joi.string().required(),
+    mail: Joi.string().required(),
     registration: Joi.string().required(),
+    code : Joi.string().required(),
+    password: Joi.string().required(),
   }
 }), createUserController.createStudent);
 
@@ -44,12 +49,13 @@ userRouter.get('/:id', listUserController.listById);
   *quaquer tipo de usuário pode atualizar somente seu nome e registro
   *admin pode atualizar todos os dados
 */
-//atualizar dados do usuário: name e registration
+//atualizar dados do usuário: name e registration e password
 userRouter.patch('/', 
   ensureAuthenticated, celebrate({
     [Segments.BODY]: {
       registration: Joi.string(),
       name: Joi.string(),
+      password: Joi.required(),
     }
   }), 
 updateUserController.updateUser);
@@ -63,7 +69,6 @@ userRouter.put('/:id', celebrate({
   
   [Segments.BODY] : {
     name: Joi.string().required(),
-    mail : Joi.string().email().required(), 
     isStudent : Joi.boolean().required(),  
     isProfessor: Joi.boolean().required(),
     isAcademicCenter: Joi.boolean().required(),
@@ -71,6 +76,7 @@ userRouter.put('/:id', celebrate({
     code: Joi.string().required(),
     caInitDate: Joi.string().required(),
     caEndDate: Joi.string().required(),
+    password: Joi.required(),
   }
 }), updateUserController.updateAllDataUser);
 

@@ -1,10 +1,10 @@
+import { hash } from "bcryptjs";
 import { AppError } from "../../../../errors/AppError";
 import prismaClient from "../../../../prisma";
 
 interface IRequest{
   id: string;
   name: string;
-  mail: string;
   isStudent: boolean;
   isProfessor: boolean;
   isAcademicCenter: boolean;
@@ -12,12 +12,13 @@ interface IRequest{
   code : string;
   caInitDate: string;
   caEndDate: string;
+  password: string | null;
 }
 
 class UpdateAllDataUserService{
-  async execute({id, name, mail, isStudent, isAcademicCenter, isProfessor, registration, code, caEndDate, caInitDate} : IRequest){
+  async execute({id, name, isStudent, isAcademicCenter, isProfessor, registration, code, caEndDate, caInitDate, password} : IRequest){
 
-    let user = prismaClient.user.findUnique({where: {id}});
+    const user = prismaClient.user.findUnique({where: {id}});
 
     if(!user){
       throw new AppError('User does not exist');
@@ -34,20 +35,21 @@ class UpdateAllDataUserService{
     if(isAcademicCenter && (!caInitDate || !caEndDate)){
       throw new AppError("Add academic center student regency", 400);
     }
-
-    user = prismaClient.user.update({where: {id}, data: {
-      name,
-      mail,
-      isStudent,
-      isAcademicCenter,
-      isProfessor,
-      registration,
-      code,
-      caInitDate,
-      caEndDate,
-    }});
-
-    return user;
+    
+    if(password) {
+      if(password.length < 6){
+        throw new AppError("Password too weak.", 400);
+      }else{
+        const hashedPassword = await hash(password, 8);
+        const userUp = await prismaClient.user.update({where: {id}, data: {registration, name, password: hashedPassword},});
+        delete userUp.password;
+        return userUp;
+      }
+    }else{
+      const userUp = await prismaClient.user.update({where: {id}, data: {registration, name},});
+      delete userUp.password;
+      return userUp;
+    }
   }
 }
 
