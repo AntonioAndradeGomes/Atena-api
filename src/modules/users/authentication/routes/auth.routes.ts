@@ -6,7 +6,8 @@ const authRouter = Router();
 
 authRouter.post('/login',celebrate({
   [Segments.BODY]: {
-    token: Joi.string().required(),
+    mail: Joi.string().email().required(),
+    password: Joi.string().required(),
   }
 }), new AuthenticateUserController().handle);
 

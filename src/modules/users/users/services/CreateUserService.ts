@@ -1,21 +1,23 @@
+import { hash } from "bcryptjs";
 import { AppError } from "../../../../errors/AppError";
 import prismaClient from "../../../../prisma";
 
 interface IRequest{
   name: string;
   mail: string;
-  isStudent: boolean
-  isProfessor: boolean
-  isAcademicCenter: boolean
-  registration: string
-  code: string
-  caInitDate: string
-  caEndDate: string
+  isStudent: boolean;
+  isProfessor: boolean;
+  isAcademicCenter: boolean;
+  registration: string;
+  code: string;
+  caInitDate: string;
+  caEndDate: string;
+  password: string;
 }
 
 
 class CreateUserService{
-  async execute({name, mail, isStudent, isProfessor, isAcademicCenter, registration, code, caEndDate, caInitDate} : IRequest){
+  async execute({name, mail, isStudent, isProfessor, isAcademicCenter, registration, code, caEndDate, caInitDate, password } : IRequest){
     let user = await prismaClient.user.findFirst({
       where :{
         mail,
@@ -45,7 +47,12 @@ class CreateUserService{
     if(isAcademicCenter && (!caInitDate || !caEndDate)){
       throw new AppError("Add academic center student regency.", 400);
     }
+
+    if(password.length < 6){
+      throw new AppError("Password too weak.", 400);
+    }
     
+    const hashedPassword = await hash(password, 8);
     
     user = await prismaClient.user.create({
       data: {
@@ -58,9 +65,11 @@ class CreateUserService{
         code,
         caEndDate: caEndDate,
         caInitDate: caInitDate,
-      }
+        password: hashedPassword,
+      },
+      
     });
-
+    delete user.password;
     return user;
   }
 }

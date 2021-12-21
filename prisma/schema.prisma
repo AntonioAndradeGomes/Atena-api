@@ -16,7 +16,7 @@ model User{
   isProfessor                 Boolean
   isAcademicCenter            Boolean
   registration                String
-  googleId                    String? @unique
+  password                    String 
   code                        String?
   caInitDate                  DateTime?
   caEndDate                   DateTime?

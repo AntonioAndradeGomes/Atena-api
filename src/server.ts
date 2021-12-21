@@ -18,7 +18,6 @@ import swaggerDocs from "./swagger.json";
 
 const app = express();
 
-app.use(express.static(__dirname + '/../front'));
 
 app.use(cors());
 
