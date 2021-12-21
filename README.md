@@ -19,7 +19,7 @@ Pode-se  verificar se o banco de dados foi criado executando:
 
 **`docker ps`**
 
-Logo depois você deve alterar o arquivo `.env.example` para `.env` e modifique as variaveis com as configurações do banco Postgres que está sendo executado no Docker, com as configurações do Google Cloud Platform e do JWT Secret.
+Logo depois você deve alterar o arquivo `.env.example` para `.env` e modifique as variaveis com as configurações do banco Postgres que está sendo executado no Docker.
 
 Em seguida execute o seguinte comando para iniciar as migrações do prisma:
 
@@ -31,7 +31,4 @@ E por fim para executar o projeto:
 
 Para maior entendimento do prima dê uma olhada em [nesse link](https://www.digitalocean.com/community/tutorials/how-to-build-a-rest-api-with-prisma-and-postgresql-pt) e na [documentação](https://www.prisma.io/).
 
-Para maior entendimento de como está sendo tratada a autentição com Oauth do Google dê uma olhada nos seguintes links:
-- [Como construir o login do Google em um aplicativo React e API Node/Express](https://ichi.pro/pt/como-construir-o-login-do-google-em-um-aplicativo-react-e-api-node-express-143061143185008)
-- [Programação orientada a Google #1 - Login com Google API NodeJS](https://www.youtube.com/watch?v=9alVt8IJthI&t=562s)
-- [Programação orientada a Google #2 - Login com Google API NodeJS](https://www.youtube.com/watch?v=ge75_bhTFfA)
+
