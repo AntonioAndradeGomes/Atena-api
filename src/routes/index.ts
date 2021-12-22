@@ -9,6 +9,7 @@ import { accessCodeRouter } from "../modules/accessCode/routes/accessCode.routes
 import { studentClassRouter } from "../modules/users/student_class/routes/studentClass.routes";
 import { refreshTokenRouter } from "../modules/users/refreshToken/routes/refreshToken.routes";
 import { authRouter } from "../modules/users/authentication/routes/auth.routes";
+import { passwordRouter } from "../modules/users/users/routes/password.routes";
 
 const router = Router();
 
@@ -16,12 +17,13 @@ router.get('/', (req, res )=> {res.sendFile('index.html')});
 
 router.use("/event", eventRouter);
 router.use("/users", userRouter);
-router.use("/users", authRouter);
+router.use("/auth", authRouter);
 router.use("/professor", academicCenterRouter);
 router.use("/discipline", disciplineRouter);
 router.use("/class", classRouter);
 router.use("/code", accessCodeRouter);
 router.use("/studentclass", studentClassRouter);
 router.use('/refreshtoken', refreshTokenRouter);
+router.use("/password", passwordRouter);
 
 export {router};
