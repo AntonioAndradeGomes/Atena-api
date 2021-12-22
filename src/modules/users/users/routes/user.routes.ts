@@ -33,7 +33,7 @@ userRouter.post('/add', celebrate({
 userRouter.post('/add/student', celebrate({
   [Segments.BODY]: {
     name: Joi.string().required(),
-    mail: Joi.string().required(),
+    mail: Joi.string().email().required(),
     registration: Joi.string().required(),
     code : Joi.string().required(),
     password: Joi.string().required(),
