@@ -36,6 +36,8 @@ model User{
 
   classesStudents             StudentOnClasses[]
 
+  userToken                   UserToken?
+
   @@map("users")
 }
 
@@ -117,4 +119,15 @@ model StudentOnClasses{
   createdAt                   DateTime @default(now())
   updatedAt                   DateTime @updatedAt
   @@id([studentId, classId])
+}
+
+model UserToken{
+  id                          String @id @default(uuid())
+  token                       String
+  user                        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                      String
+  createdAt                   DateTime @default(now())
+  updateAt                    DateTime @updatedAt
+
+  @@map("user_token")
 }
