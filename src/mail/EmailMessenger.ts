@@ -27,18 +27,18 @@ export default class EmailMessenger {
     const mailTemplate = new HandlebarsMailTemplate();
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      service: "gmail",
+      host: process.env.EMAIL_HOST,
+      service: process.env.EMAIL_SERVICE,
       auth: {
-        user: "atenaproject.al@gmail.com",
-        pass: "nvidiageforce@12"
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD
       }
     });
 
     await transporter.sendMail({
       from: {
         name: from?.name || "Atena",
-        address: from?.mail
+        address: from?.mail || "atenaproject.al@gmail.com"
       },
       to: {
         name: to.name,
