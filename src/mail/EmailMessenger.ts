@@ -22,25 +22,23 @@ interface ISendMail {
   templateData: IParseMailTemplate
 }
 
-export default class EhterealMail {
+export default class EmailMessenger {
   async send({ to, from, subject, templateData }: ISendMail) {
-    const account = await nodemailer.createTestAccount();
     const mailTemplate = new HandlebarsMailTemplate();
 
     const transporter = nodemailer.createTransport({
-      host: account.smtp.host,
-      port: account.smtp.port,
-      secure: account.smtp.secure,
+      host: "smtp.gmail.com",
+      service: "gmail",
       auth: {
-        user: account.user,
-        pass: account.pass
+        user: "atenaproject.al@gmail.com",
+        pass: "nvidiageforce@12"
       }
     });
 
-    const message = await transporter.sendMail({
+    await transporter.sendMail({
       from: {
         name: from?.name || "Atena",
-        address: from?.mail || "suporte@atena.com.br"
+        address: from?.mail
       },
       to: {
         name: to.name,
@@ -49,10 +47,5 @@ export default class EhterealMail {
       subject,
       html: await mailTemplate.parse(templateData)
     });
-
-    console.log(message)
-
-    console.log("Message sent: %s", message.messageId);
-    console.log("Preview url: %s", nodemailer.getTestMessageUrl(message));
   };
 };

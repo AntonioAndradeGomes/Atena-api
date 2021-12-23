@@ -1,7 +1,7 @@
 import { AppError } from "../../../../errors/AppError";
 import prismaClient from "../../../../prisma";
 import { GenerateTokenController } from "../../userToken/controllers/GenerateTokenController";
-import EhterealMail from "../../../../mail/EtherealMail";
+import EmailMessenger from "../../../../mail/EmailMessenger";
 import path from "path";
 
 interface IRequest {
@@ -28,9 +28,9 @@ class ForgotPasswordService {
       "forgot_password.hbs"
     );
 
-    const ehterealMail = new EhterealMail();
+    const emailMessenger = new EmailMessenger();
 
-    await ehterealMail.send({
+    await emailMessenger.send({
       to: {
         name: user.name,
         mail: user.mail
