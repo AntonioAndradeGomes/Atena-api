@@ -6,7 +6,7 @@ class ForgotPasswordController {
     const { mail } = request.body;
 
     const ForgotPasswordEmail = new ForgotPasswordService();
-    await ForgotPasswordEmail.execute(mail)
+    await ForgotPasswordEmail.execute({mail})
 
     return response.status(204).json();
   };
