@@ -60,3 +60,5 @@ crudAdminRouter.delete(
   ensureAuthenticatedAdmin,
   new DeleteAdminController().execute
 );
+
+export {crudAdminRouter}
