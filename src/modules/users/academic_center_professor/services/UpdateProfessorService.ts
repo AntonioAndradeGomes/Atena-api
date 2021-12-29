@@ -25,7 +25,7 @@ class UpdateProfessorService{
     }
 
     if(!user.isProfessor){
-      throw new AppError("User is not a Professor", 401);
+      throw new AppError("Professor doesn't exist", 401);
     }
 
     if(password) {

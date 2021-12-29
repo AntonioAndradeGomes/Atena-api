@@ -131,3 +131,29 @@ model UserToken{
 
   @@map("user_token")
 }
+<<<<<<< HEAD
+=======
+
+model Admin{
+  id                          String @id @default(uuid())
+  username                    String @unique
+  mail                        String @unique
+  password                    String
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+
+  @@map("admins")
+}
+
+
+model Request{
+  id                          String @id @default(uuid())
+  description                 String
+  mail                        String
+  isCheck                     Boolean  @default(false)
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+
+  @@map("requests")
+}
+>>>>>>> crud requests

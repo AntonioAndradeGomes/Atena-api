@@ -5,6 +5,7 @@ import { ListUserController } from "../controllers/ListUserController";
 import { UpdateUserController } from "../controllers/UpdateUserController";
 import { ensureAuthenticated } from "../../../../middlewares/ensureAuthenticated";
 import { DeleteUserController } from "../controllers/DeleteUserController";
+import { ensureAuthenticatedAdmin } from "../../../../middlewares/ensureAuthenticatedAdmin";
 
 const userRouter = Router();
 const createUserController = new UserCreateController();
@@ -25,7 +26,7 @@ userRouter.post('/add', celebrate({
     caInitDate: Joi.required(),
     caEndDate: Joi.required()
   }
-}), createUserController.create);
+}), ensureAuthenticatedAdmin, createUserController.create);
 
 
 //name, mail, registration, code, password
@@ -33,7 +34,7 @@ userRouter.post('/add', celebrate({
 userRouter.post('/add/student', celebrate({
   [Segments.BODY]: {
     name: Joi.string().required(),
-    mail: Joi.string().required(),
+    mail: Joi.string().email().required(),
     registration: Joi.string().required(),
     code : Joi.string().required(),
     password: Joi.string().required(),
@@ -78,13 +79,13 @@ userRouter.put('/:id', celebrate({
     caEndDate: Joi.string().required(),
     password: Joi.required(),
   }
-}), updateUserController.updateAllDataUser);
+}), ensureAuthenticatedAdmin, updateUserController.updateAllDataUser);
 
 //deletar usuario,rota também só sera usada pelo admin
 userRouter.delete('/:id',  celebrate({
   [Segments.PARAMS]: {
     id: Joi.string().uuid().required()
   }
-}),deleteUserController.deleteUser);
+}),ensureAuthenticatedAdmin, deleteUserController.deleteUser);
 
 export { userRouter }

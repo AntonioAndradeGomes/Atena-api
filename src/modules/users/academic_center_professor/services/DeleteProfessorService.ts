@@ -11,7 +11,7 @@ class DeleteProfessorService{
     }
 
     if(!user.isProfessor){
-      throw new AppError("User is not a Professor", 401);
+      throw new AppError("Professor doesn't exist", 401);
     }
 
     await prismaClient.user.delete({where: {id}});
