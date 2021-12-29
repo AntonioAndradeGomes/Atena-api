@@ -67,7 +67,6 @@ class CreateUserService{
         caInitDate: caInitDate,
         password: hashedPassword,
       },
-      
     });
     delete user.password;
     return user;
