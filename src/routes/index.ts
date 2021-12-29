@@ -11,6 +11,7 @@ import { authRouter } from "../modules/users/authentication/routes/auth.routes";
 import { passwordRouter } from "../modules/users/users/routes/password.routes";
 import { adminRoutes } from "../modules/admin/routes/admin.routes";
 import { requestRouter } from "../modules/request/routes/request.routes";
+import { studentAcademicCenterRouter } from "../modules/users/studentAcademicCenter/routes/studentAcademicCenter.routes";
 
 const router = Router();
 
@@ -26,5 +27,6 @@ router.use('/refreshtoken', refreshTokenRouter);
 router.use("/password", passwordRouter);
 router.use("/admin", adminRoutes);
 router.use("/request", requestRouter);
+router.use("/student-academic-center", studentAcademicCenterRouter);
 
 export {router};
