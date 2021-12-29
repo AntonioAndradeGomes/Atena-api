@@ -131,8 +131,6 @@ model UserToken{
 
   @@map("user_token")
 }
-<<<<<<< HEAD
-=======
 
 model Admin{
   id                          String @id @default(uuid())
@@ -145,7 +143,6 @@ model Admin{
   @@map("admins")
 }
 
-
 model Request{
   id                          String @id @default(uuid())
   description                 String
@@ -156,4 +153,4 @@ model Request{
 
   @@map("requests")
 }
->>>>>>> crud requests
+
