@@ -14,8 +14,6 @@ import { adminRoutes } from "../modules/admin/routes/admin.routes";
 
 const router = Router();
 
-router.get('/', (req, res )=> {res.sendFile('index.html')});
-
 router.use("/event", eventRouter);
 router.use("/users", userRouter);
 router.use("/auth", authRouter);
