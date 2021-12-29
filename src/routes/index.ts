@@ -10,6 +10,7 @@ import { refreshTokenRouter } from "../modules/users/refreshToken/routes/refresh
 import { authRouter } from "../modules/users/authentication/routes/auth.routes";
 import { passwordRouter } from "../modules/users/users/routes/password.routes";
 import { adminRoutes } from "../modules/admin/routes/admin.routes";
+import { requestRouter } from "../modules/request/routes/request.routes";
 
 const router = Router();
 
@@ -24,5 +25,6 @@ router.use("/studentclass", studentClassRouter);
 router.use('/refreshtoken', refreshTokenRouter);
 router.use("/password", passwordRouter);
 router.use("/admin", adminRoutes);
+router.use("/request", requestRouter);
 
 export {router};
