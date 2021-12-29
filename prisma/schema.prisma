@@ -121,7 +121,6 @@ model StudentOnClasses{
   @@id([studentId, classId])
 }
 
-<<<<<<< HEAD
 model UserToken{
   id                          String @id @default(uuid())
   token                       String
@@ -132,7 +131,6 @@ model UserToken{
 
   @@map("user_token")
 }
-=======
 model Admin{
   id                          String @id @default(uuid())
   username                    String @unique
@@ -144,4 +142,3 @@ model Admin{
   @@map("admins")
 }
 
->>>>>>> init
