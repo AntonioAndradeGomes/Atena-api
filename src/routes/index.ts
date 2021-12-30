@@ -23,7 +23,7 @@ router.use("/discipline", disciplineRouter);
 router.use("/class", classRouter);
 router.use("/code", accessCodeRouter);
 router.use("/studentclass", studentClassRouter);
-router.use('/refreshtoken', refreshTokenRouter);
+router.use('/refresh-token', refreshTokenRouter);
 router.use("/password", passwordRouter);
 router.use("/admin", adminRoutes);
 router.use("/request", requestRouter);
