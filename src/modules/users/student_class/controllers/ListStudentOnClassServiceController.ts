@@ -3,8 +3,9 @@ import { ListStudentsOnClassService } from "../services/ListStudentsOnClassServi
 
 class ListStudentOnClassServiceController{
   async handle(request : Request, response: Response){
+    const page = Number(request.query.page) || 1;
     const service = new ListStudentsOnClassService();
-    return response.json(await service.execute());
+    return response.json(await service.execute({page}));
   }
 }
 
