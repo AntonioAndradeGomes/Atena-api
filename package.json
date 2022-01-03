@@ -23,7 +23,7 @@
     "uuid": "^8.3.2"
   },
   "scripts": {
-    "start": "src/server.ts",
+    "start": "node dist/server.js",
     "dev": "ts-node-dev --exit-child src/server.ts",
     "migrate": "prisma migrate dev",
     "studio": "prisma studio"
