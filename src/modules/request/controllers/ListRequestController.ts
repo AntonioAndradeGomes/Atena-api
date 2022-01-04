@@ -4,8 +4,9 @@ import { ListByIdRequestService } from "../services/ListByIdRequestService";
 
 class ListRequestController{
   async listAll(request: Request, response: Response){
+    const page = Number(request.query.page) || 1;
     const service = new ListAllRequestService();
-    return response.json(await service.execute());
+    return response.json(await service.execute({page}));
   }
 
   async listById(request: Request, response: Response){
