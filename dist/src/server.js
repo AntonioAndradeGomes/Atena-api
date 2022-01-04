@@ -13,6 +13,7 @@ const AppError_1 = require("./errors/AppError");
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_json_1 = __importDefault(require("./swagger.json"));
 const app = (0, express_1.default)();
+const PORT = process.env.PORT || 3333;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(routes_1.router);
@@ -25,6 +26,6 @@ app.use((err, request, response, next) => {
     console.log(err);
     return response.status(500).json({ status: 'error', message: 'Internal server error' });
 });
-app.listen(3333, () => {
+app.listen(PORT, () => {
     console.log('Server in running in port 3333');
 });
