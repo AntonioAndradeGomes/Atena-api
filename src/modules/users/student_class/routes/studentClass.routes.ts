@@ -9,7 +9,8 @@ import { RemoveStudentToClassController } from "../controllers/RemoveStudentToCl
 
 const studentClassRouter = Router();
 
-studentClassRouter.get('/', new ListStudentOnClassServiceController().handle);
+studentClassRouter.get('/',
+new ListStudentOnClassServiceController().handle);
 
 studentClassRouter.post('/', ensureAuthenticated, isStudent, celebrate({
   [Segments.BODY]: {
