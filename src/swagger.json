@@ -14,6 +14,88 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/code/all": {
+      "get": {
+        "summary": "Lista todos os códigos de acesso",
+        "tags": ["Código de acesso"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/AccessCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/code/bycode/{code}": {
+      "get": {
+        "summary": "Pegue um código de acesso pelo seu código",
+        "tags": ["Código de acesso"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/AccessCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/code/{id}": {
+      "patch": {
+        "tags": ["Código de acesso"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/AccessCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "description": "Deleta um código pelo ID",
+        "tags": ["Código de acesso"],
+        "responses": {
+          "204": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/AccessCode"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/discipline": {
       "get": {
         "summary": "Lista todo mundo",
@@ -624,6 +706,31 @@
   },
   "components": {
     "schemas": {
+      "AccessCode": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "required": false
+          },
+          "code": {
+            "type": "string",
+            "required": false
+          },
+          "createdAt": {
+            "type": "string",
+            "required": false
+          },
+          "updatedAt": {
+            "type": "string",
+            "required": false
+          },
+          "expiredAt": {
+            "type": "string",
+            "required": false
+          }
+        }
+      },
       "Class": {
         "type": "object",
         "properties": {
