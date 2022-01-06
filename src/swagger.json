@@ -607,20 +607,31 @@
         }
       }
     },
+    "/refreshtoken": {
+      "post": {
+        "summary": "Atualizar token de autenticação",
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RefreshToken"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/request": {
       "get": {
         "summary": "Listar todas as solicitações de criação de conta",
         "tags": ["Solcitação"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "$ref":"#/components/schemas/Request"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK",
@@ -722,6 +733,79 @@
       "delete": {
         "description": "Deleta uma solicitação",
         "tags": ["Solcitação"],
+        "responses": {
+          "204": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/studentclass": {
+      "get": {
+        "summary": "Lista tudo",
+        "tags": ["Estudantes em turmas"],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/StudentClass"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "summary": "Adiciona estudante em uma turma",
+        "tags": ["Estudantes em turmas"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/StudentClass"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/StudentClass"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove estudante em uma turma",
+        "tags": ["Estudantes em turmas"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/StudentClass"
+              }
+            }
+          }
+        },
         "responses": {
           "204": {
             "description": "OK"
@@ -882,6 +966,15 @@
           }
         }
       },
+      "RefreshToken": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
       "Request": {
         "type": "object",
         "properties": {
@@ -910,6 +1003,15 @@
             "type": "date",
             "required": false,
             "writeOnly": true
+          }
+        }
+      },
+      "StudentClass": {
+        "type": "object",
+        "properties": {
+          "studentId": {
+            "type": "string",
+            "required": true
           }
         }
       },
