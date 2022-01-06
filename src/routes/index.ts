@@ -2,7 +2,7 @@ import { Router } from "express";
 import { disciplineRouter } from "../modules/disciplines/routes/discipline.routes";
 import { classRouter } from "../modules/classes/routes/class.routes";
 import { eventRouter } from "../modules/events/routes/event.routes";
-import { academicCenterRouter } from "../modules/users/academic_center_professor/routes/academicCenterRoutes";
+import { academicCenterRouter } from "../modules/users/academic_center_professor/routes/academicCenter.routes";
 import { userRouter } from "../modules/users/users/routes/user.routes";
 import { accessCodeRouter } from "../modules/accessCode/routes/accessCode.routes";
 import { studentClassRouter } from "../modules/users/student_class/routes/studentClass.routes";
