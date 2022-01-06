@@ -14,6 +14,35 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/auth/login": {
+      "post": {
+        "description": "Login",
+        "tags": ["Autenticação"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/Authentication"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Authentication"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/code/all": {
       "get": {
         "summary": "Lista todos os códigos de acesso",
@@ -728,6 +757,19 @@
           "expiredAt": {
             "type": "string",
             "required": false
+          }
+        }
+      },
+      "Authentication": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "required": true
           }
         }
       },
