@@ -4,8 +4,9 @@ import { ListByCodeAccessCodeService } from "../services/ListByCodeAccessCodeSer
 
 class ListAccessCodeController{
   async listAll(request: Request, response: Response){
+    const page = Number(request.query.page) || 1;
     const service = new ListAllAccessCodeService();
-    return response.json(await service.execute());
+    return response.json(await service.execute({page}));
   }
 
   async byCode(request : Request, response : Response){

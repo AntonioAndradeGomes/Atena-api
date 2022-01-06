@@ -2,7 +2,7 @@ import { Router } from "express";
 import { disciplineRouter } from "../modules/disciplines/routes/discipline.routes";
 import { classRouter } from "../modules/classes/routes/class.routes";
 import { eventRouter } from "../modules/events/routes/event.routes";
-import { academicCenterRouter } from "../modules/users/academic_center_professor/routes/academicCenterRoutes";
+import { academicCenterRouter } from "../modules/users/academic_center_professor/routes/academicCenter.routes";
 import { userRouter } from "../modules/users/users/routes/user.routes";
 import { accessCodeRouter } from "../modules/accessCode/routes/accessCode.routes";
 import { studentClassRouter } from "../modules/users/student_class/routes/studentClass.routes";
@@ -11,6 +11,7 @@ import { authRouter } from "../modules/users/authentication/routes/auth.routes";
 import { passwordRouter } from "../modules/users/users/routes/password.routes";
 import { adminRoutes } from "../modules/admin/routes/admin.routes";
 import { requestRouter } from "../modules/request/routes/request.routes";
+import { studentAcademicCenterRouter } from "../modules/users/studentAcademicCenter/routes/studentAcademicCenter.routes";
 
 const router = Router();
 
@@ -22,9 +23,10 @@ router.use("/discipline", disciplineRouter);
 router.use("/class", classRouter);
 router.use("/code", accessCodeRouter);
 router.use("/studentclass", studentClassRouter);
-router.use('/refreshtoken', refreshTokenRouter);
+router.use('/refresh-token', refreshTokenRouter);
 router.use("/password", passwordRouter);
 router.use("/admin", adminRoutes);
 router.use("/request", requestRouter);
+router.use("/student-academic-center", studentAcademicCenterRouter);
 
 export {router};

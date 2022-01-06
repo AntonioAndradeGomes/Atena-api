@@ -1,26 +1,57 @@
 import prismaClient from "../../../../prisma"
 
-class ListAllProfessorService{
+interface IProfessor {
+  page: number
+}
 
-  async execute(){
-    const users = await prismaClient.user.findMany({where : {isProfessor: true}, select: {
-      password: false,
-      id: true,
-      name: true,
-      mail: true,
-      isStudent: true,
-      isProfessor: true,
-      isAcademicCenter: true,
-      registration: true,
-      code: true,
-      caInitDate: true,
-      caEndDate: true,
-      createdAt: true,
-      updatedAt: true,
-      academicCenterId: true,
-      academicCenter: true,
-    },});
-    return users;
+class ListAllProfessorService{
+  async execute({page}: IProfessor) {
+    const skip = (page * 10) - 10;
+    const professors = await prismaClient.user.findMany({
+      skip,
+      take: 10,
+      orderBy: [
+        {
+          mail: "asc"
+        }
+      ],
+      where: {
+        isProfessor: true
+      },
+      select: {
+        password: false,
+        id: true,
+        name: true,
+        mail: true,
+        isStudent: true,
+        isProfessor: true,
+        isAcademicCenter: true,
+        registration: true,
+        code: true,
+        caInitDate: true,
+        caEndDate: true,
+        createdAt: true,
+        updatedAt: true,
+        academicCenterId: true,
+        academicCenter: true,
+      }
+    });
+
+    const countProfessors = await prismaClient.user.count({
+      where: { isProfessor: true }
+    });
+
+    const lastPage = Math.ceil(countProfessors / 10);
+    const prev = page === 1 ? null : page - 1;
+    const next = page === lastPage ? null : page + 1;
+
+    return {
+      "total": countProfessors,
+      lastPage,
+      prev,
+      next,
+      "data": professors,
+    };
   }
 
 }
