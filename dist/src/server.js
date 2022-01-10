@@ -18,7 +18,7 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(routes_1.router);
 app.use((0, celebrate_1.errors)());
-app.use("/documentation", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
+app.use("/", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
 app.use((err, request, response, next) => {
     if (err instanceof AppError_1.AppError) {
         return response.status(err.statusCode).json({ status: 'error', message: err.message });

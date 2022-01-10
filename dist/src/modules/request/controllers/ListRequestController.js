@@ -5,8 +5,9 @@ const ListAllRequestService_1 = require("../services/ListAllRequestService");
 const ListByIdRequestService_1 = require("../services/ListByIdRequestService");
 class ListRequestController {
     async listAll(request, response) {
+        const page = Number(request.query.page) || 1;
         const service = new ListAllRequestService_1.ListAllRequestService();
-        return response.json(await service.execute());
+        return response.json(await service.execute({ page }));
     }
     async listById(request, response) {
         const id = request.params.id;
