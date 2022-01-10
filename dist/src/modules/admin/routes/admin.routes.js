@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminRoutes = void 0;
 const express_1 = require("express");
-const refreshTokenAdmin_routes_1 = require("../refrashToken/routes/refreshTokenAdmin.routes");
+const refreshTokenAdmin_routes_1 = require("../refreshToken/routes/refreshTokenAdmin.routes");
 const crudAdmin_routes_1 = require("../crudAdmin/routes/crudAdmin.routes");
 const authAdmin_routes_1 = require("../auth/routes/authAdmin.routes");
 const adminRoutes = (0, express_1.Router)();
 exports.adminRoutes = adminRoutes;
-adminRoutes.use("/refrash", refreshTokenAdmin_routes_1.refreshTokenRouter);
+adminRoutes.use("/refresh", refreshTokenAdmin_routes_1.refreshTokenRouter);
 adminRoutes.use("/core", crudAdmin_routes_1.crudAdminRouter);
 adminRoutes.use("/auth", authAdmin_routes_1.authAdminRouter);

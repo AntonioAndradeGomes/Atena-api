@@ -5,8 +5,9 @@ const ListAllAccessCodeService_1 = require("../services/ListAllAccessCodeService
 const ListByCodeAccessCodeService_1 = require("../services/ListByCodeAccessCodeService");
 class ListAccessCodeController {
     async listAll(request, response) {
+        const page = Number(request.query.page) || 1;
         const service = new ListAllAccessCodeService_1.ListAllAccessCodeService();
-        return response.json(await service.execute());
+        return response.json(await service.execute({ page }));
     }
     async byCode(request, response) {
         const service = new ListByCodeAccessCodeService_1.ListByCodeAccessCodeService();

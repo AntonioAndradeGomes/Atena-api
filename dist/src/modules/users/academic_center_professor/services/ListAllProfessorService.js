@@ -6,8 +6,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ListAllProfessorService = void 0;
 const prisma_1 = __importDefault(require("../../../../prisma"));
 class ListAllProfessorService {
-    async execute() {
-        const users = await prisma_1.default.user.findMany({ where: { isProfessor: true }, select: {
+    async execute({ page }) {
+        const skip = (page * 10) - 10;
+        const professors = await prisma_1.default.user.findMany({
+            skip,
+            take: 10,
+            orderBy: [
+                {
+                    mail: "asc"
+                }
+            ],
+            where: {
+                isProfessor: true
+            },
+            select: {
                 password: false,
                 id: true,
                 name: true,
@@ -23,8 +35,21 @@ class ListAllProfessorService {
                 updatedAt: true,
                 academicCenterId: true,
                 academicCenter: true,
-            }, });
-        return users;
+            }
+        });
+        const countProfessors = await prisma_1.default.user.count({
+            where: { isProfessor: true }
+        });
+        const lastPage = Math.ceil(countProfessors / 10);
+        const prev = page === 1 ? null : page - 1;
+        const next = page === lastPage ? null : page + 1;
+        return {
+            "total": countProfessors,
+            lastPage,
+            prev,
+            next,
+            "data": professors,
+        };
     }
 }
 exports.ListAllProfessorService = ListAllProfessorService;

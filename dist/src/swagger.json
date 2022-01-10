@@ -14,6 +14,117 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/auth/login": {
+            "post": {
+                "description": "Login",
+                "tags": ["Autenticação"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Authentication"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Authentication"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/code/all": {
+            "get": {
+                "summary": "Lista todos os códigos de acesso",
+                "tags": ["Código de acesso"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/AccessCode"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/code/bycode/{code}": {
+            "get": {
+                "summary": "Pegue um código de acesso pelo seu código",
+                "tags": ["Código de acesso"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/AccessCode"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/code/{id}": {
+            "patch": {
+                "tags": ["Código de acesso"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/AccessCode"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deleta um código pelo ID",
+                "tags": ["Código de acesso"],
+                "responses": {
+                    "204": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/AccessCode"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/discipline": {
             "get": {
                 "summary": "Lista todo mundo",
@@ -495,10 +606,288 @@
                     }
                 }
             }
+        },
+        "/refreshtoken": {
+            "post": {
+                "summary": "Atualizar token de autenticação",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/RefreshToken"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/request": {
+            "get": {
+                "summary": "Listar todas as solicitações de criação de conta",
+                "tags": ["Solcitação"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Fazer uma solicitação de criação de conta",
+                "tags": ["Solcitação"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Request"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/request/{id}": {
+            "get": {
+                "description": "Busca uma solicitação pelo seu ID",
+                "tags": ["Solcitação"],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "put": {
+                "description": "Atualiza uma solicitação",
+                "tags": ["Solcitação"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Request"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deleta uma solicitação",
+                "tags": ["Solcitação"],
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/studentclass": {
+            "get": {
+                "summary": "Lista tudo",
+                "tags": ["Estudantes em turmas"],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/StudentClass"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Adiciona estudante em uma turma",
+                "tags": ["Estudantes em turmas"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/StudentClass"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/StudentClass"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove estudante em uma turma",
+                "tags": ["Estudantes em turmas"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/StudentClass"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "AccessCode": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "code": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "expiredAt": {
+                        "type": "string",
+                        "required": false
+                    }
+                }
+            },
+            "Authentication": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "password": {
+                        "type": "string",
+                        "required": true
+                    }
+                }
+            },
+            "Class": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "name": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "academicYear": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "period": {
+                        "type": "boolean",
+                        "required": true
+                    },
+                    "createdAt": {
+                        "type": "date",
+                        "required": false,
+                        "writeOnly": true
+                    },
+                    "updateAt": {
+                        "type": "date",
+                        "required": false,
+                        "writeOnly": true
+                    }
+                }
+            },
             "Discipline": {
                 "type": "object",
                 "properties": {
@@ -518,7 +907,7 @@
                         "type": "string",
                         "required": true
                     },
-                    "workload": {
+                    "courseLoad": {
                         "type": "number",
                         "required": true
                     },
@@ -577,34 +966,52 @@
                     }
                 }
             },
-            "Class": {
+            "RefreshToken": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "required": true
+                    }
+                }
+            },
+            "Request": {
                 "type": "object",
                 "properties": {
                     "id": {
                         "type": "string",
                         "required": false
                     },
-                    "name": {
+                    "description": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "mail": {
                         "type": "string",
                         "required": true
                     },
-                    "academicYear": {
-                        "type": "string",
-                        "required": true
-                    },
-                    "period": {
+                    "isCheck": {
                         "type": "boolean",
-                        "required": true
+                        "required": "true"
                     },
                     "createdAt": {
                         "type": "date",
                         "required": false,
                         "writeOnly": true
                     },
-                    "updateAt": {
+                    "updatedAt": {
                         "type": "date",
                         "required": false,
                         "writeOnly": true
+                    }
+                }
+            },
+            "StudentClass": {
+                "type": "object",
+                "properties": {
+                    "studentId": {
+                        "type": "string",
+                        "required": true
                     }
                 }
             },

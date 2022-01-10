@@ -6,8 +6,9 @@ const ListByIdProfessorService_1 = require("../services/ListByIdProfessorService
 const ListByUserProfessorService_1 = require("../services/ListByUserProfessorService");
 class ListProfessorController {
     async listAll(request, response) {
+        const page = Number(request.query.page) || 1;
         const service = new ListAllProfessorService_1.ListAllProfessorService();
-        return response.status(200).json(await service.execute());
+        return response.status(200).json(await service.execute({ page }));
     }
     async listById(request, response) {
         const id = request.params.id;
