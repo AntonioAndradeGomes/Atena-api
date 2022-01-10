@@ -907,7 +907,7 @@
             "type": "string",
             "required": true
           },
-          "workload": {
+          "courseLoad": {
             "type": "number",
             "required": true
           },

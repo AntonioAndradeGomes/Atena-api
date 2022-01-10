@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(router);
 app.use(errors());
 
-app.use("/documentation", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use(
   (err: Error, request: Request, response: Response, next: NextFunction ) => {
