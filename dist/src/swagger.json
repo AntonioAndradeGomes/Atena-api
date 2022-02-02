@@ -1,0 +1,1029 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Atena API",
+        "description": "API do TCC",
+        "contact": {
+            "name": "Atena Suporte",
+            "email": "atenaproject.al@gmail.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "description": "Login",
+                "tags": ["Autenticação"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Authentication"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Authentication"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/code/all": {
+            "get": {
+                "summary": "Lista todos os códigos de acesso",
+                "tags": ["Código de acesso"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/AccessCode"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/code/bycode/{code}": {
+            "get": {
+                "summary": "Pegue um código de acesso pelo seu código",
+                "tags": ["Código de acesso"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/AccessCode"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/code/{id}": {
+            "patch": {
+                "tags": ["Código de acesso"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/AccessCode"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deleta um código pelo ID",
+                "tags": ["Código de acesso"],
+                "responses": {
+                    "204": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/AccessCode"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/discipline": {
+            "get": {
+                "summary": "Lista todo mundo",
+                "description": "Rota responsável pela listagem de todas as disciplinas cadastradas",
+                "tags": ["Disciplina"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Discipline"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cadastro de disciplinas",
+                "description": "Essa rota é responsável por cadastrar uma disciplina no sistema",
+                "tags": ["Disciplina"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Discipline"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Discipline"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/discipline/{id}": {
+            "get": {
+                "summary": "Busca uma disciplina",
+                "description": "Essa rota é responsável por buscar uma disciplina pelo seu id",
+                "tags": ["Disciplina"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Discipline"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Editar uma disciplina",
+                "description": "Essa rota é responsável por editar uma determinada disciplina",
+                "tags": ["Disciplina"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Discipline"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Discipline"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Editar parcialmente uma disciplina",
+                "description": "essa rota é responsável por editar uma disciplina de forma parcial",
+                "tags": ["Disciplina"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Discipline"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Discipline"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletar uma disciplina",
+                "description": "Essa rota é responsável por deletar uma disciplina",
+                "tags": ["Disciplina"],
+                "responses": {
+                    "204": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Discipline"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/class": {
+            "get": {
+                "summary": "Listar todas as turmas",
+                "description": "Essa rota fornece a listagem de todas as turmas existentes no banco de dados.",
+                "tags": ["Turma"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Class"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Criar uma turma",
+                "description": "Essa rota fornece o recurso de criar uma turma.",
+                "tags": ["Turma"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Class"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Event"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/class/{id}": {
+            "get": {
+                "summary": "Busca uma turma",
+                "description": "Essa rota fornece o recurso de buscar uma turma peo seu id.",
+                "tags": ["Turma"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Class"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Editar uma turma",
+                "description": "Essa rota é responsável por editar uma determinada turma",
+                "tags": ["Turma"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Class"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Class"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Editar parcialmente uma turma",
+                "description": "essa rota é responsável por editar uma turma de forma parcial",
+                "tags": ["Turma"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Class"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Class"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletar uma turma",
+                "description": "Essa rota é responsável por deletar uma turma",
+                "tags": ["Turma"],
+                "responses": {
+                    "204": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Class"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/event": {
+            "get": {
+                "summary": "Listar todos os eventos",
+                "description": "Essa rota fornece a listagem de todos os eventos existentes no banco de dados.",
+                "tags": ["Evento"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Class"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Event"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Criar um evento",
+                "description": "Essa rota fornece o recurso de criar um evento.",
+                "tags": ["Evento"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Event"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Event"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/event/{id}": {
+            "get": {
+                "summary": "Busca um evento",
+                "description": "Essa rota fornece o recurso de buscar um evento peo seu id.",
+                "tags": ["Evento"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Event"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Editar um evento",
+                "description": "Essa rota é responsável por editar um determinado evento",
+                "tags": ["Evento"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Event"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Event"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Editar parcialmente um evento",
+                "description": "essa rota é responsável por editar um evento de forma parcial",
+                "tags": ["Evento"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Event"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Event"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletar um evento",
+                "description": "Essa rota é responsável por deletar um evento",
+                "tags": ["Evento"],
+                "responses": {
+                    "204": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Event"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/refreshtoken": {
+            "post": {
+                "summary": "Atualizar token de autenticação",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/RefreshToken"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/request": {
+            "get": {
+                "summary": "Listar todas as solicitações de criação de conta",
+                "tags": ["Solcitação"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Fazer uma solicitação de criação de conta",
+                "tags": ["Solcitação"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Request"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/request/{id}": {
+            "get": {
+                "description": "Busca uma solicitação pelo seu ID",
+                "tags": ["Solcitação"],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "put": {
+                "description": "Atualiza uma solicitação",
+                "tags": ["Solcitação"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Request"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Request"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deleta uma solicitação",
+                "tags": ["Solcitação"],
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/studentclass": {
+            "get": {
+                "summary": "Lista tudo",
+                "tags": ["Estudantes em turmas"],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/StudentClass"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Adiciona estudante em uma turma",
+                "tags": ["Estudantes em turmas"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/StudentClass"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/StudentClass"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove estudante em uma turma",
+                "tags": ["Estudantes em turmas"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/StudentClass"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AccessCode": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "code": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "expiredAt": {
+                        "type": "string",
+                        "required": false
+                    }
+                }
+            },
+            "Authentication": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "password": {
+                        "type": "string",
+                        "required": true
+                    }
+                }
+            },
+            "Class": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "name": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "academicYear": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "period": {
+                        "type": "boolean",
+                        "required": true
+                    },
+                    "createdAt": {
+                        "type": "date",
+                        "required": false,
+                        "writeOnly": true
+                    },
+                    "updateAt": {
+                        "type": "date",
+                        "required": false,
+                        "writeOnly": true
+                    }
+                }
+            },
+            "Discipline": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "code": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "name": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "initials": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "courseLoad": {
+                        "type": "number",
+                        "required": true
+                    },
+                    "createdAt": {
+                        "type": "date",
+                        "required": false,
+                        "writeOnly": true
+                    },
+                    "updateAt": {
+                        "type": "date",
+                        "required": false,
+                        "writeOnly": true
+                    }
+                }
+            },
+            "Event": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "title": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "isActive": {
+                        "type": "boolean",
+                        "required": true
+                    },
+                    "difficulty": {
+                        "type": "number",
+                        "required": true
+                    },
+                    "initDate": {
+                        "type": "date",
+                        "required": true
+                    },
+                    "endDate": {
+                        "type": "date",
+                        "required": false
+                    },
+                    "createdAt": {
+                        "type": "date",
+                        "required": false,
+                        "writeOnly": true
+                    },
+                    "updateAt": {
+                        "type": "date",
+                        "required": false,
+                        "writeOnly": true
+                    }
+                }
+            },
+            "RefreshToken": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "required": true
+                    }
+                }
+            },
+            "Request": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "description": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "mail": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "isCheck": {
+                        "type": "boolean",
+                        "required": "true"
+                    },
+                    "createdAt": {
+                        "type": "date",
+                        "required": false,
+                        "writeOnly": true
+                    },
+                    "updatedAt": {
+                        "type": "date",
+                        "required": false,
+                        "writeOnly": true
+                    }
+                }
+            },
+            "StudentClass": {
+                "type": "object",
+                "properties": {
+                    "studentId": {
+                        "type": "string",
+                        "required": true
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "required": true
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,8 +1,19 @@
 import prismaClient from "../../../../prisma";
 
+interface IUser {
+  page: number
+}
 class ListAllUsersService {
-  async execute() {
+  async execute({page}: IUser) {
+    const skip = (page * 10) - 10;
     const users = await prismaClient.user.findMany({
+      skip,
+      take: 10,
+      orderBy: [
+        {
+          name: "asc"
+        }
+      ],
       select: {
         password: false,
         id: true,
@@ -22,7 +33,19 @@ class ListAllUsersService {
       },
     });
 
-    return users;
+    const countUsers = await prismaClient.user.count();
+
+    const lastPage = Math.ceil(countUsers / 10);
+    const prev = page === 1 ? null : page - 1;
+    const next = page === lastPage ? null : page + 1;
+
+    return {
+      "total": countUsers,
+      lastPage,
+      prev,
+      next,
+      "data": users,
+    };
   }
 }
 export { ListAllUsersService };

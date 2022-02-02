@@ -6,8 +6,9 @@ import { ListByUserProfessorService } from "../services/ListByUserProfessorServi
 class ListProfessorController{
 
   async listAll(request: Request, response: Response){
+    const page = Number(request.query.page) || 1;
     const service = new ListAllProfessorService();
-    return response.status(200).json(await service.execute());
+    return response.status(200).json(await service.execute({page}));
   }
 
   async listById(request: Request, response: Response){

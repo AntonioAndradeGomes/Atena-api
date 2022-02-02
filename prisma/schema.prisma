@@ -36,6 +36,8 @@ model User{
 
   classesStudents             StudentOnClasses[]
 
+  userToken                   UserToken?
+
   @@map("users")
 }
 
@@ -118,3 +120,37 @@ model StudentOnClasses{
   updatedAt                   DateTime @updatedAt
   @@id([studentId, classId])
 }
+
+model UserToken{
+  id                          String @id @default(uuid())
+  token                       String
+  user                        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                      String
+  createdAt                   DateTime @default(now())
+  updateAt                    DateTime @updatedAt
+
+  @@map("user_token")
+}
+
+model Admin{
+  id                          String @id @default(uuid())
+  username                    String @unique
+  mail                        String @unique
+  password                    String
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+
+  @@map("admins")
+}
+
+model Request{
+  id                          String @id @default(uuid())
+  description                 String
+  mail                        String
+  isCheck                     Boolean  @default(false)
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+
+  @@map("requests")
+}
+
