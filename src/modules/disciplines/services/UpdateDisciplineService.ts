@@ -38,7 +38,7 @@ class UpdateDisciplineService {
         name,
         initials,
         courseLoad,
-        academicCenterId,
+   
       },
     });
     return discipline;

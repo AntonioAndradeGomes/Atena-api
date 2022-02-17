@@ -7,7 +7,7 @@ class RetrieveDisciplineService {
       where: {
         id,
       },
-      include: { academicCenter: true },
+
     });
 
     if (!discipline) throw new AppError("Discipline does not exist");

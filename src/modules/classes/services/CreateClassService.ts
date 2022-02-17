@@ -27,7 +27,7 @@ class CreateClassService {
         academicYear,
         period,
         isRegularClass,
-        professorId,
+  
       },
     });
 
@@ -56,11 +56,11 @@ class CreateClassService {
         academicYear,
         period,
         isRegularClass,
-        professorId,
-        academicCenterId,
+   
+       
         disciplineId
       },
-      include: { professor: true, academicCenter: true, discipline: true },
+      include: {  discipline: true },
     });
     return classInstance;
   }

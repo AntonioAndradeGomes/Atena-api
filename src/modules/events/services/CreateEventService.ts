@@ -23,7 +23,7 @@ class CreateEventService{
         difficultyLevel,
         initDate,
         endDate,
-        professorId,
+ 
         classId
       }
     });
@@ -36,10 +36,7 @@ class CreateEventService{
       throw new AppError("Class assigned to the event does not exist.");
     }
 
-    if(classExists.professorId == professorId){
-      throw new AppError("Class assigned to the event does not belong to this teacher.");
-    }
-
+   
     const event = await prismaClient.event.create({data :{
       title,
       description,
@@ -47,9 +44,9 @@ class CreateEventService{
       difficultyLevel,
       initDate,
       endDate,
-      professorId,
+      
       classId
-    }, include : {professor: true, class : true}})
+    }, include : {class : true}})
     return event;
   }
 }

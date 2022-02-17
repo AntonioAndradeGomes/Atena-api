@@ -7,7 +7,7 @@ class RetrieveClassService {
       where: {
         id,
       },
-      include: { academicCenter: true, professor: true, discipline: true },
+      include: {  discipline: true },
     });
 
     if (!classInstance) throw new AppError("Class does not exist");

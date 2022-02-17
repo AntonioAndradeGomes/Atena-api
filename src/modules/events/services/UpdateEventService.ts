@@ -36,10 +36,10 @@ class UpdateEventService {
     }
 
     //todo : verificar erros nesse linha abaixo
-    if (eventAlreadyExists.professorId != professorId) {
+   /* if (eventAlreadyExists.professorId != professorId) {
       throw new AppError("You are not authorized to do this action.", 401);
     }
-
+*/
     // verificar se a nova turma existe
     const classExist = await prismaClient.class.findUnique({where: {id: classId}});
 

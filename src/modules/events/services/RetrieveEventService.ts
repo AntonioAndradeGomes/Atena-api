@@ -7,7 +7,7 @@ class RetrieveEventService {
       where: {
         id,
       },
-      include: {professor: true, class: true,}
+      include: { class: true,}
     });
 
     if (!event) throw new AppError("Event does not exist.");

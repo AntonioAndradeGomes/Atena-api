@@ -29,9 +29,9 @@ class CreateDisciplineService{
         name,
         initials,
         courseLoad,
-        academicCenterId,
+       
       },
-      include: {academicCenter: true,}
+    
     }
     );
     return discipline;

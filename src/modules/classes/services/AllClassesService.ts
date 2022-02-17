@@ -15,8 +15,7 @@ class AllClassesService{
         }
       ],
       include: {
-        professor: true,
-        academicCenter: true,
+      
         discipline: true
       },
     });

@@ -12,9 +12,9 @@ class DeleteEventService{
     if (!eventAlreadyExists) {
       throw new AppError("Event does not exist");
     }
-    if (eventAlreadyExists.professorId != professorId) {
+    /*if (eventAlreadyExists.professorId != professorId) {
       throw new AppError("You are not authorized to do this action.", 401);
-    }
+    }*/
 
 
     const event = prismaClient.event.delete({
