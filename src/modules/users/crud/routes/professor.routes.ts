@@ -13,7 +13,7 @@ const professorRoutes = Router();
 //ca cria o professor
 professorRoutes.post(
   "/",
-  ensureAuthenticated,
+  
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().min(3).required(),
@@ -22,7 +22,9 @@ professorRoutes.post(
       registration: Joi.string().min(7).required(),
     },
   }),
+  ensureAuthenticated,
   createController.hundle,
+  
 );
 //listagem de professores
 professorRoutes.get('/', listController.hundle);

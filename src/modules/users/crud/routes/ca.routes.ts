@@ -9,7 +9,7 @@ const deleteController = new CADeleteProfessorController();
 
 const caRoutes = Router();
 
-//lista de c
+//lista de ca's
 caRoutes.get("/", listController.hundle);
 
 //ca deleta o professor

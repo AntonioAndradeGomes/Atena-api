@@ -1,22 +1,36 @@
 import prismaClient from "../../../prisma";
 
 interface IClass {
-  page: number
+  page: number;
 }
-class AllClassesService{
-  async execute({page}: IClass) {
-    const skip = (page * 10) - 10;
+class AllClassesService {
+  async execute({ page }: IClass) {
+    const skip = page * 10 - 10;
     const classes = await prismaClient.class.findMany({
       skip,
       take: 10,
       orderBy: [
         {
-          name: "asc"
-        }
+          name: "asc",
+        },
       ],
       include: {
-      
-        discipline: true
+        discipline: true,
+        professor: {
+          select: {
+            password: false,
+            id: true,
+            name: true,
+            mail: true,
+            roles: true,
+            registration: true,
+            code: true,
+            caInitDate: true,
+            caEndDate: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
       },
     });
 
@@ -27,13 +41,13 @@ class AllClassesService{
     const next = page === lastPage ? null : page + 1;
 
     return {
-      "total": countClasses,
+      total: countClasses,
       lastPage,
       prev,
       next,
-      "data": classes,
+      data: classes,
     };
   }
-};
+}
 
 export { AllClassesService };

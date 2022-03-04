@@ -1,7 +1,6 @@
 import { celebrate, Joi, Segments } from "celebrate";
 import { Router } from "express";
 import { ensureAuthenticated } from "../../../middlewares/ensureAuthenticated";
-import { isAcademicCenter } from "../../../middlewares/isAcademicCenter";
 import { AllClassesController } from "../controllers/AllClassesController";
 import { CreateClassController } from "../controllers/CreateClassController";
 import { DeleteClassController } from "../controllers/DeleteClassController";
@@ -22,7 +21,7 @@ classRouter.post(
       professorId: Joi.string().uuid().required(),
       disciplineId: Joi.string().uuid().required(),
     }
-  }),ensureAuthenticated, isAcademicCenter,
+  }),ensureAuthenticated,
   new CreateClassController().hundle
 );
 
@@ -51,7 +50,7 @@ classRouter.put(
       disciplineId: Joi.string().uuid().required(),
     }
   }),
-  ensureAuthenticated, isAcademicCenter,
+  ensureAuthenticated,
   new UpdateClassController().hundle
 );
 /*
@@ -77,7 +76,7 @@ classRouter.delete(
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required()
     }
-  }),ensureAuthenticated, isAcademicCenter,
+  }),ensureAuthenticated, 
   new DeleteClassController().hundle
 );
 

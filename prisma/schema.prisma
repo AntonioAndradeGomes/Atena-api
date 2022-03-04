@@ -31,7 +31,15 @@ model User{
   academicCenterId            String?
   academicCenter              User? @relation("AcademicCenterUser", fields: [academicCenterId], references: [id])
   userAcademicCenter          User? @relation("AcademicCenterUser")
+  events                      Event[]
+  classesStudents             StudentOnClasses[]
 
+  disciplinesCACreated        Discipline[]
+  classesProfessorLecion      Class[] @relation(name: "classesProfessorLecion")
+
+  classesProfessor            Class[]
+  
+  userToken                   UserToken?
   @@map("users")
 }
 
@@ -45,6 +53,9 @@ model Event{
   endDate                     DateTime?
   createdAt                   DateTime @default(now())
   updatedAt                   DateTime @updatedAt()
+
+  professor                   User @relation(fields: [professorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  professorId                 String
 
   class                       Class @relation(fields: [classId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   classId                     String
@@ -61,6 +72,8 @@ model Discipline{
   createdAt                   DateTime  @default(now())
   updatedAt                   DateTime  @updatedAt
 
+  academicCenter              User? @relation(fields: [academicCenterId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  academicCenterId            String?
 
   classes                     Class[] @relation(name: "classNeedsToHaveADiscipline")
 
@@ -78,6 +91,12 @@ model Class{
 
   discipline                  Discipline @relation(name: "classNeedsToHaveADiscipline", fields: [disciplineId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   disciplineId                String
+
+  academicCenter              User? @relation(fields: [academicCenterId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  academicCenterId            String?
+
+  professor                   User @relation(name: "classesProfessorLecion", fields: [professorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  professorId                 String
 
   events                      Event[]
 
@@ -97,7 +116,7 @@ model AccessCode{
 model StudentOnClasses{
   studentId                   String
   classId                     String
-  
+  student                     User @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   class                       Class @relation(fields: [classId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt                   DateTime @default(now())
   updatedAt                   DateTime @updatedAt
@@ -107,7 +126,7 @@ model StudentOnClasses{
 model UserToken{
   id                          String @id @default(uuid())
   token                       String
- 
+  user                        User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId                      String
   createdAt                   DateTime @default(now())
   updateAt                    DateTime @updatedAt
