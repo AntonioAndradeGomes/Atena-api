@@ -7,10 +7,29 @@ class RetrieveEventService {
       where: {
         id,
       },
-      include: { class: true,}
+      include: {
+        class: true,
+        professor: {
+          select: {
+            password: false,
+            id: true,
+            name: true,
+            mail: true,
+            roles: true,
+            registration: true,
+            code: true,
+            caInitDate: true,
+            caEndDate: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
     });
 
-    if (!event) throw new AppError("Event does not exist.");
+    if (!event) {
+      throw new AppError("Event does not exist.");
+    }
 
     return event;
   }

@@ -11,7 +11,7 @@ const classRouter = Router();
 
 classRouter.get("/", new AllClassesController().hundle);
 classRouter.post(
-  "/",
+  "/",ensureAuthenticated,
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
@@ -21,7 +21,7 @@ classRouter.post(
       professorId: Joi.string().uuid().required(),
       disciplineId: Joi.string().uuid().required(),
     }
-  }),ensureAuthenticated,
+  }),
   new CreateClassController().hundle
 );
 
@@ -36,7 +36,7 @@ classRouter.get(
 );
 
 classRouter.put(
-  "/:id",
+  "/:id",ensureAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required()
@@ -50,33 +50,18 @@ classRouter.put(
       disciplineId: Joi.string().uuid().required(),
     }
   }),
-  ensureAuthenticated,
+  
   new UpdateClassController().hundle
 );
-/*
-classRouter.patch(
-  "/:id",
-  celebrate({
-    [Segments.PARAMS]: {
-      id: Joi.string().required()
-    },
-    [Segments.BODY]: {
-      name: Joi.string(),
-      academicYear: Joi.string(),
-      period: Joi.string(),
-      isRegularClass: Joi.boolean()
-    }
-  }),
-  new UpdateClassController().hundle
-);
-*/
+
 classRouter.delete(
   "/:id",
+  ensureAuthenticated, 
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required()
     }
-  }),ensureAuthenticated, 
+  }),
   new DeleteClassController().hundle
 );
 

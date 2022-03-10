@@ -16,6 +16,7 @@ class ListAllUsersService {
         }
       ],
       select: {
+        academicCenterId: true,
         password: false,
         id: true,
         name: true,

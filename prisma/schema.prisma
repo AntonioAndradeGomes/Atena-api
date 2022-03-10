@@ -29,17 +29,20 @@ model User{
   updatedAt                   DateTime @updatedAt
 
   academicCenterId            String?
-  academicCenter              User? @relation("AcademicCenterUser", fields: [academicCenterId], references: [id])
-  userAcademicCenter          User? @relation("AcademicCenterUser")
-  events                      Event[]
-  classesStudents             StudentOnClasses[]
+  academicCenter              User? @relation("AcademicCenterUser", fields: [academicCenterId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  userAcademicCenter          User[] @relation("AcademicCenterUser")
+  
+  events                      Event[] @relation(name: "ProfessorHavaEvents")
 
-  disciplinesCACreated        Discipline[]
   classesProfessorLecion      Class[] @relation(name: "classesProfessorLecion")
+  classesCACreated            Class[] @relation(name: "classesCreatedByCA")
 
-  classesProfessor            Class[]
+  disciplinesCACreated        Discipline[] @relation(name: "disciplinesCreatedByCA")
+
+  classesStudents             StudentOnClasses[]
   
   userToken                   UserToken?
+  
   @@map("users")
 }
 
@@ -54,7 +57,7 @@ model Event{
   createdAt                   DateTime @default(now())
   updatedAt                   DateTime @updatedAt()
 
-  professor                   User @relation(fields: [professorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  professor                   User @relation(name: "ProfessorHavaEvents", fields: [professorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   professorId                 String
 
   class                       Class @relation(fields: [classId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -72,7 +75,7 @@ model Discipline{
   createdAt                   DateTime  @default(now())
   updatedAt                   DateTime  @updatedAt
 
-  academicCenter              User? @relation(fields: [academicCenterId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  academicCenter              User? @relation(name: "disciplinesCreatedByCA",fields: [academicCenterId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   academicCenterId            String?
 
   classes                     Class[] @relation(name: "classNeedsToHaveADiscipline")
@@ -92,7 +95,7 @@ model Class{
   discipline                  Discipline @relation(name: "classNeedsToHaveADiscipline", fields: [disciplineId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   disciplineId                String
 
-  academicCenter              User? @relation(fields: [academicCenterId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  academicCenter              User? @relation(name: "classesCreatedByCA",fields: [academicCenterId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   academicCenterId            String?
 
   professor                   User @relation(name: "classesProfessorLecion", fields: [professorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -136,7 +139,7 @@ model UserToken{
 
 
 model Request{
-  id                          String @id @default(uuid())
+  id                          String   @id @default(uuid())
   description                 String
   mail                        String
   isCheck                     Boolean  @default(false)

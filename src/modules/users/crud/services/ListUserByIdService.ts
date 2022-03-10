@@ -13,6 +13,7 @@ class ListUserByIdService {
       },
       select: {
         password: false,
+        academicCenterId: true,
         id: true,
         name: true,
         mail: true,

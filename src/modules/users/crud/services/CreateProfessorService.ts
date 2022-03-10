@@ -45,11 +45,11 @@ class CreateProfessorService {
         password: hashedPassword,
         registration,
         roles: [Role.PROFESSOR],
+
         academicCenterId: userRequest.roles.includes(Role.ACADEMIC_CENTER)
           ? userRequest.id
           : null,
       },
-    
     });
     //TODO: enviar email ao professor com sua senha
     delete user.password;
