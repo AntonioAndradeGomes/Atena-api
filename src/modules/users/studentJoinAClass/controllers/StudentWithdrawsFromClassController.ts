@@ -3,7 +3,7 @@ import { StudentWithdrawsFromClassService } from "../services/StudentWithdrawsFr
 
 
 class StudentWithdrawsFromClassController{ 
-  async handle(request : Request, response: Response){
+  async hundle(request : Request, response: Response){
     const studentId = request.user_id;
     const {classId} = request.body;
     const service = new StudentWithdrawsFromClassService();
