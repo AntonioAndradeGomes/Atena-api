@@ -58,11 +58,11 @@ studentJoinAClass.post(
 
 //estudante sai da turma
 studentJoinAClass.delete(
-  "/student",
+  "/student/:id",
   ensureAuthenticated,
   celebrate({
-    [Segments.BODY]: {
-      classId: Joi.string().uuid().required(),
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
     },
   }),
   studentRemoveController.hundle

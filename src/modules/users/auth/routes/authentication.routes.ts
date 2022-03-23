@@ -1,6 +1,8 @@
 import { celebrate, Segments, Joi } from "celebrate";
 import { Router } from "express";
+import { ensureAuthenticated } from "../../../../middlewares/ensureAuthenticated";
 import { AuthenticationController } from "../controllers/AuthenticationController";
+import { RefreshTokenController } from "../controllers/RefrashTokenController";
 
 const authController = new AuthenticationController();
 
@@ -16,5 +18,7 @@ authenticationRoutes.post(
   }),
   authController.hundle
 );
+
+authenticationRoutes.post("/refresh", ensureAuthenticated, new RefreshTokenController().hundle)
 
 export {authenticationRoutes};

@@ -5,7 +5,7 @@ import { StudentWithdrawsFromClassService } from "../services/StudentWithdrawsFr
 class StudentWithdrawsFromClassController{ 
   async hundle(request : Request, response: Response){
     const studentId = request.user_id;
-    const {classId} = request.body;
+    const classId = request.params.id;
     const service = new StudentWithdrawsFromClassService();
     return response.status(204).json(await service.execute({studentId, classId}));
   }

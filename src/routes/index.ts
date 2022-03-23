@@ -11,6 +11,7 @@ import { studentRoutes } from "../modules/users/crud/routes/students.routes";
 import { caRoutes } from "../modules/users/crud/routes/ca.routes";
 import { authenticationRoutes } from "../modules/users/auth/routes/authentication.routes";
 import { passRoutes } from "../modules/users/password/routes/password.routes";
+import { studentJoinAClass } from "../modules/users/studentJoinAClass/routes/studentJoinAClass.routes";
 
 
 const router = Router();
@@ -18,6 +19,7 @@ router.use("/user", userRouter);
 router.use("/professor", professorRoutes);
 router.use("/student", studentRoutes);
 router.use("/academiccenter", caRoutes);
+router.use("/studentClass", studentJoinAClass)
 router.use("/auth", authenticationRoutes);
 router.use("/password", passRoutes);
 router.use("/event", eventRouter);
