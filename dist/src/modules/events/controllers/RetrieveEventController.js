@@ -9,7 +9,5 @@ class RetrieveEventController {
         const result = await serivce.execute(id);
         return response.status(200).json(result);
     }
-    ;
 }
 exports.RetrieveEventController = RetrieveEventController;
-;
