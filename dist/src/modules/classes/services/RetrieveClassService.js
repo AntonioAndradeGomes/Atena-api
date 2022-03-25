@@ -12,7 +12,24 @@ class RetrieveClassService {
             where: {
                 id,
             },
-            include: { academicCenter: true, professor: true, discipline: true },
+            include: {
+                discipline: true,
+                professor: {
+                    select: {
+                        password: false,
+                        id: true,
+                        name: true,
+                        mail: true,
+                        roles: true,
+                        registration: true,
+                        code: true,
+                        caInitDate: true,
+                        caEndDate: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    },
+                },
+            },
         });
         if (!classInstance)
             throw new AppError_1.AppError("Class does not exist");

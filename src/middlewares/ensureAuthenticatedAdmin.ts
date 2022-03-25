@@ -13,6 +13,7 @@ export function ensureAuthenticatedAdmin(request: Request, response: Response, n
     throw new AppError("token not provided", 401);
   }
 
+  
   const [,token] = authToken.split(" ");
 
   try{

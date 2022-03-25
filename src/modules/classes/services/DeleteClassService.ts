@@ -1,24 +1,45 @@
+import { Role } from "@prisma/client";
 import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma";
+interface IRequest {
+  userId: string;
 
-class DeleteClassService{
-  async execute(id: string){
+  idClass: string;
+}
+
+class DeleteClassService {
+  async execute({ userId, idClass }: IRequest) {
+    //verificar usuario
+    const userRequest = await prismaClient.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!userRequest) {
+      throw new AppError("User not found", 401);
+    }
+    //verificar se o user é ca ou admin
+    if (
+      !userRequest.roles.includes(Role.ACADEMIC_CENTER) &&
+      !userRequest.roles.includes(Role.ADMIN)
+    ) {
+      throw new AppError("User does not have this permission.", 401);
+    }
     const classAlreadyExist = await prismaClient.class.findFirst({
       where: {
-        id
-      }
+        id: idClass,
+      },
     });
 
-    if(!classAlreadyExist) throw new AppError("Class does not exist");
+    if (!classAlreadyExist) throw new AppError("Class does not exist");
 
-    const classInstance = await prismaClient.class.delete({
+    await prismaClient.class.delete({
       where: {
-        id
-      }
+        id: idClass,
+      },
     });
-    
-    return {message: "Successfully deleted class"};
-  };
-};
+
+    return {};
+  }
+}
 
 export { DeleteClassService };

@@ -15,7 +15,7 @@ class AllDisciplineService {
           name: "asc"
         }
       ],
-      include: { academicCenter: true },
+      
     });
 
     const countDisciplines = await prismaClient.discipline.count();

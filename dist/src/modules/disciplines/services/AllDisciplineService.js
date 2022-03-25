@@ -16,7 +16,6 @@ class AllDisciplineService {
                     name: "asc"
                 }
             ],
-            include: { academicCenter: true },
         });
         const countDisciplines = await prisma_1.default.discipline.count();
         const lastPage = Math.ceil(countDisciplines / 10);

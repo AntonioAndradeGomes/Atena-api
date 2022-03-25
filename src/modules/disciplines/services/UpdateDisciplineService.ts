@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma";
 
@@ -6,7 +7,7 @@ interface IRequest {
   name: string;
   initials: string;
   courseLoad: number;
-  academicCenterId: string;
+  userId: string;
   id: string;
 }
 
@@ -17,8 +18,19 @@ class UpdateDisciplineService {
     name,
     initials,
     courseLoad,
-    academicCenterId,
+    userId,
   }: IRequest) {
+    //verificar usuario
+    const userRequest = await prismaClient.user.findUnique({where: {id: userId}});
+
+    if(!userRequest){
+      throw new AppError("User not found", 401);
+    }
+    //verificar se o user é ca ou admin
+    if(!userRequest.roles.includes(Role.ACADEMIC_CENTER) && !userRequest.roles.includes(Role.ADMIN)){
+      throw new AppError("User does not have this permission.", 401);
+    }
+
     const disciplineAlreadyExists = await prismaClient.discipline.findUnique({
       where: {
         id,
@@ -38,9 +50,9 @@ class UpdateDisciplineService {
         name,
         initials,
         courseLoad,
-        academicCenterId,
       },
     });
+    
     return discipline;
   }
 }
