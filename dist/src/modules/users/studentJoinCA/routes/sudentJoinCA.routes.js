@@ -9,6 +9,8 @@ const UpdateDatesCAController_1 = require("../controllers/UpdateDatesCAControlle
 const RemoveStudentCAController_1 = require("../controllers/RemoveStudentCAController");
 const studentJoinCa = (0, express_1.Router)();
 exports.studentJoinCa = studentJoinCa;
+//o estudante entra no centro academico
+//um componente do ca ou o admin adiciona
 studentJoinCa.patch('/join', ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.PARAMS]: {
         id: celebrate_1.Joi.string().uuid().required(),
@@ -18,6 +20,7 @@ studentJoinCa.patch('/join', ensureAuthenticated_1.ensureAuthenticated, (0, cele
         caInitDate: celebrate_1.Joi.date().required(),
     },
 }), new StudentJoinCaController_1.StudentJoinCaController().hundle);
+//membro do ca ou admim remove o ajusta as datas de um user centro academico
 studentJoinCa.patch('/update', ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.PARAMS]: {
         id: celebrate_1.Joi.string().uuid().required(),
@@ -27,6 +30,7 @@ studentJoinCa.patch('/update', ensureAuthenticated_1.ensureAuthenticated, (0, ce
         caInitDate: celebrate_1.Joi.date().required(),
     },
 }), new UpdateDatesCAController_1.UpdateDatesCAController().hundle);
+//membro do ca ou admim remove o estudante do centro academico
 studentJoinCa.delete('/', ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.PARAMS]: {
         id: celebrate_1.Joi.string().uuid().required(),

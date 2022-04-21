@@ -18,7 +18,7 @@ const studentJoinAClass = (0, express_1.Router)();
 exports.studentJoinAClass = studentJoinAClass;
 //lista de relações entre estudantes e turma
 studentJoinAClass.get("/", listController.handle);
-//admin adicionar estudante na turma
+//admin adiciona estudante na turma
 studentJoinAClass.post("/admin", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.BODY]: {
         classId: celebrate_1.Joi.string().uuid().required(),

@@ -24,6 +24,11 @@ class CreateProfessorService {
         if (user) {
             throw new AppError_1.AppError("You already have a user with this email.");
         }
+        //verificar se existe um professor com o código de registro 
+        user = await prisma_1.default.user.findFirst({ where: { registration } });
+        if (user) {
+            throw new AppError_1.AppError("A user with this registration number already exists.");
+        }
         if (password.length < 6) {
             throw new AppError_1.AppError("Password too weak.", 400);
         }

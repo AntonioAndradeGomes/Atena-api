@@ -116,6 +116,7 @@ model AccessCode{
   expiredAt                   DateTime
 }
 
+
 model StudentOnClasses{
   studentId                   String
   classId                     String

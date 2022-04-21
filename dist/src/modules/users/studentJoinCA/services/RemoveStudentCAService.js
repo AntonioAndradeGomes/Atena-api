@@ -13,7 +13,7 @@ class RemoveStudentCAService {
         if (!user) {
             throw new AppError_1.AppError("User Request not found", 401);
         }
-        if (!user.roles.includes(client_1.Role.STUDENT) &&
+        if (!user.roles.includes(client_1.Role.ADMIN) &&
             !user.roles.includes(client_1.Role.ACADEMIC_CENTER)) {
             throw new AppError_1.AppError("User does not have the necessary permission.", 401);
         }
