@@ -8,6 +8,8 @@ import { RemoveStudentCAController } from "../controllers/RemoveStudentCAControl
 
 const studentJoinCa = Router();
 
+//o estudante entra no centro academico
+//um componente do ca ou o admin adiciona
 studentJoinCa.patch(
   '/join',
   ensureAuthenticated,
@@ -23,6 +25,7 @@ studentJoinCa.patch(
   new StudentJoinCaController().hundle,
 );
 
+//membro do ca ou admim remove o ajusta as datas de um user centro academico
 studentJoinCa.patch(
   '/update',
   ensureAuthenticated,
@@ -38,6 +41,7 @@ studentJoinCa.patch(
   new UpdateDatesCAController().hundle,
 );
 
+//membro do ca ou admim remove o estudante do centro academico
 studentJoinCa.delete(
   '/',
   ensureAuthenticated,

@@ -19,6 +19,11 @@ class CreateUserStudentService {
         if (userPrisma) {
             throw new AppError_1.AppError('User already exists', 401);
         }
+        //verificar se existe um professor ou aluno com o código de registro 
+        userPrisma = await prisma_1.default.user.findFirst({ where: { registration } });
+        if (userPrisma) {
+            throw new AppError_1.AppError("A user with this registration number already exists.");
+        }
         const accessCode = await prisma_1.default.accessCode.findUnique({ where: { code } });
         if (!accessCode) {
             throw new AppError_1.AppError('Access code does not exist', 401);

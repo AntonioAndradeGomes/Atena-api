@@ -18,7 +18,7 @@ class CreateUserService {
         if (!admin.roles.includes(client_1.Role.ADMIN)) {
             throw new AppError_1.AppError('User does not have this permission', 401);
         }
-        //verificar se o usuario já existe
+        //verificar se o usuario a ser cadastrado já existe
         let user = await prisma_1.default.user.findFirst({
             where: {
                 mail,
@@ -41,6 +41,16 @@ class CreateUserService {
         //se o role passado for de um CA passar a ele permissões de estudante
         if (roleFinal[0] == client_1.Role.ACADEMIC_CENTER) {
             roleFinal.push(client_1.Role.STUDENT);
+        }
+        //se o role passado não for admin, verificar o codigo de registro
+        if (!roleFinal.includes(client_1.Role.ADMIN)) {
+            if (!registration) {
+                throw new AppError_1.AppError("User needs registration");
+            }
+            user = await prisma_1.default.user.findFirst({ where: { registration } });
+            if (user) {
+                throw new AppError_1.AppError("There is already a user with this record");
+            }
         }
         //senha fraca
         if (password.length < 6) {

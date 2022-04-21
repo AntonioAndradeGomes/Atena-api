@@ -23,6 +23,7 @@ studentRoutes.post(
   }),
   createController.hundle,
 );
+
 //listagem de estudantes
 studentRoutes.get('/', listController.hundle,);
 

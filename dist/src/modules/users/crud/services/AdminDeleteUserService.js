@@ -24,6 +24,7 @@ class AdminDeleteUserService {
         if (!admin.roles.includes(client_1.Role.ADMIN)) {
             throw new AppError_1.AppError("User cannot use this feature.", 401);
         }
+        //todo: seria bom enviar um email falando da deleção
         await prisma_1.default.user.delete({ where: { id: userDeletedId } });
         return {};
     }

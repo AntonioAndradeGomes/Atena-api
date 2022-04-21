@@ -13,7 +13,8 @@ class StudentJoinCAService {
         if (!user) {
             throw new AppError_1.AppError("User Request not found", 401);
         }
-        if (!user.roles.includes(client_1.Role.STUDENT) &&
+        //verificar se o usuario é que esta adicionando é membro do ca ou admin
+        if (!user.roles.includes(client_1.Role.ADMIN) &&
             !user.roles.includes(client_1.Role.ACADEMIC_CENTER)) {
             throw new AppError_1.AppError("User does not have the necessary permission.", 401);
         }
@@ -23,9 +24,11 @@ class StudentJoinCAService {
         if (!student) {
             throw new AppError_1.AppError("User Student not found", 400);
         }
+        //verificar se o user é estudante
         if (!student.roles.includes(client_1.Role.STUDENT)) {
             throw new AppError_1.AppError("User to be set as Academic Center is not a Student.", 400);
         }
+        //verificar se o user é do centro academico
         if (student.roles.includes(client_1.Role.ACADEMIC_CENTER)) {
             throw new AppError_1.AppError("User is already Academic Center.");
         }

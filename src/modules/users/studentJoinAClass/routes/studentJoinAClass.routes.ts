@@ -18,7 +18,7 @@ const studentJoinAClass = Router();
 //lista de relações entre estudantes e turma
 studentJoinAClass.get("/", listController.handle);
 
-//admin adicionar estudante na turma
+//admin adiciona estudante na turma
 studentJoinAClass.post(
   "/admin",
   ensureAuthenticated,

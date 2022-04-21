@@ -9,6 +9,7 @@ interface IRequest {
 
 class AdminDeleteUserService {
   async execute({ userDeletedId, adminId }: IRequest) {
+
     const userDeleted = await prismaClient.user.findUnique({
       where: { id: userDeletedId },
     });
@@ -28,7 +29,7 @@ class AdminDeleteUserService {
     if (!admin.roles.includes(Role.ADMIN)) {
       throw new AppError("User cannot use this feature.", 401);
     }
-
+    //todo: seria bom enviar um email falando da deleção
     await prismaClient.user.delete({ where: { id: userDeletedId } });
     
     return {};

@@ -15,7 +15,7 @@ class RemoveStudentCAService{
     }
 
     if (
-      !user.roles.includes(Role.STUDENT) &&
+      !user.roles.includes(Role.ADMIN) &&
       !user.roles.includes(Role.ACADEMIC_CENTER)
     ) {
       throw new AppError("User does not have the necessary permission.", 401);
