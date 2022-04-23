@@ -1,17 +1,17 @@
 import { AppError } from "../../../../errors/AppError";
-import { isAfter, addHours } from "date-fns"
+import { isAfter, addHours } from "date-fns";
 import prismaClient from "../../../../prisma";
 import { hash } from "bcryptjs";
 
 interface IRequest {
-  token: string,
-  newpassword: string
-};
+  token: string;
+  newpassword: string;
+}
 
 class ResetPasswordService {
   async execute({ token, newpassword }: IRequest) {
     const userToken = await prismaClient.userToken.findFirst({
-      where: { token }
+      where: { token },
     });
 
     if (!userToken) {
@@ -20,8 +20,8 @@ class ResetPasswordService {
 
     let user = await prismaClient.user.findUnique({
       where: {
-        id: userToken.userId
-      }
+        id: userToken.userId,
+      },
     });
 
     if (!user) {
@@ -31,23 +31,27 @@ class ResetPasswordService {
     const tokenLastUpdate = userToken.updateAt;
     const compareDate = addHours(tokenLastUpdate, 2);
 
+    //se o token expirou eu já o deleto do sistema
     if (isAfter(Date.now(), compareDate)) {
+      await prismaClient.userToken.delete({ where: { id: userToken.id } });
       throw new AppError("Token expired");
-    };
+    }
 
     const newPass = await hash(newpassword, 8);
-    
+
     user = await prismaClient.user.update({
       where: {
-        id: user.id
+        id: user.id,
       },
       data: {
-        password: newPass
-      }
+        password: newPass,
+      },
     });
+    // se o token já foi utilizado eu já o deleto do sistema
+    await prismaClient.userToken.delete({ where: { id: userToken.id } });
     delete user.password;
     return user;
   }
-};
+}
 
 export { ResetPasswordService };

@@ -4,7 +4,7 @@ import { classRouter } from "../modules/classes/routes/class.routes";
 import { eventRouter } from "../modules/events/routes/event.routes";
 
 import { accessCodeRouter } from "../modules/accessCode/routes/accessCode.routes";
-import { requestRouter } from "../modules/request/routes/request.routes";
+import { requestRouter } from "../modules/tasks/routes/tasks.routes";
 import { userRouter } from "../modules/users/crud/routes/users.routes";
 import { professorRoutes } from "../modules/users/crud/routes/professor.routes";
 import { studentRoutes } from "../modules/users/crud/routes/students.routes";
@@ -28,6 +28,6 @@ router.use("/event", eventRouter);
 router.use("/discipline", disciplineRouter);
 router.use("/class", classRouter);
 router.use("/code", accessCodeRouter);
-router.use("/request", requestRouter);
+router.use("/task", requestRouter);
 
 export {router};

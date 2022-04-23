@@ -11,7 +11,7 @@ class GenereteUserToken{
     var token = uuidv4();
     const tokenInstance = await prismaClient.userToken.upsert({
       where: {
-        id: userId 
+        userId: userId 
       },
       update: {
         token

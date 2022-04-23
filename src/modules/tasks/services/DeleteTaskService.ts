@@ -1,15 +1,15 @@
 import { AppError } from "../../../errors/AppError";
 import prismaClient from "../../../prisma";
 
-class DeleteRequestService {
+class DeleteTaskService {
   async execute(id: string) {
-    const request = await prismaClient.request.findUnique({ where: { id } });
+    const request = await prismaClient.task.findUnique({ where: { id } });
     if (!request) {
       throw new AppError("Request not found");
     }
-    await prismaClient.request.delete({ where: { id } });
+    await prismaClient.task.delete({ where: { id } });
     return {};
   }
 }
 
-export { DeleteRequestService };
+export { DeleteTaskService };

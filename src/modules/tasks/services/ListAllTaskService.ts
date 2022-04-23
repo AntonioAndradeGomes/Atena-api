@@ -3,20 +3,21 @@ import prismaClient from "../../../prisma";
 interface IRequest {
   page: number
 }
-class ListAllRequestService{
+class ListAllTaskService{
   async execute({page}: IRequest) {
     const skip = (page * 10) - 10;
-    const requests = await prismaClient.request.findMany({
+    const requests = await prismaClient.task.findMany({
       skip,
       take: 10,
       orderBy: [
         {
-          mail: "asc"
+          updatedAt: "desc"
         }
-      ]
+      ],
+      where: {},
     });
 
-    const countRequests = await prismaClient.request.count();
+    const countRequests = await prismaClient.task.count();
 
     const lastPage = Math.ceil(countRequests / 10);
     const prev = page === 1 ? null : page - 1;
@@ -32,4 +33,4 @@ class ListAllRequestService{
   }
 }
 
-export {ListAllRequestService}
+export {ListAllTaskService}

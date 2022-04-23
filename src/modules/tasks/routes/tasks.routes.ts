@@ -1,13 +1,14 @@
 import { celebrate, Joi, Segments } from "celebrate";
 import { Router } from "express";
-import { CreateRequestController } from "../controllers/CreateRequestController";
-import { DeleteRequestController } from "../controllers/DeleteRequestController";
-import { ListRequestController } from "../controllers/ListRequestController";
-import { UpdateRequestController } from "../controllers/UpdateRequestController";
+import { CreateTaskController } from "../controllers/CreateTaskController";
+import { DeleteTaskController } from "../controllers/DeleteTaskController";
+import { ListTaskController } from "../controllers/ListRequestController";
+import { UpdateTaskController } from "../controllers/UpdateRequestController";
+
 
 
 const requestRouter = Router();
-const listController = new ListRequestController();
+const listController = new ListTaskController();
 
 
 requestRouter.post(
@@ -19,7 +20,7 @@ requestRouter.post(
       isCheck: Joi.boolean().required(),
     },
   }), 
-  new CreateRequestController().hundle
+  new CreateTaskController().hundle
 );
 
 requestRouter.get("/",listController.listAll);
@@ -47,7 +48,7 @@ requestRouter.put(
     },
   }),
 
-  new UpdateRequestController().hundle,
+  new UpdateTaskController().hundle,
 );
 
 requestRouter.delete(
@@ -59,7 +60,7 @@ requestRouter.delete(
     },
   }),
 
-  new DeleteRequestController().hundle,
+  new DeleteTaskController().hundle,
 );
 
 export {requestRouter}
