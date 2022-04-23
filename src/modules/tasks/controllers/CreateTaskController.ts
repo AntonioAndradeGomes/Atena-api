@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
-import { CreateRequestService } from "../services/CreateRequestService";
+import { CreateTaskService } from "../services/CreateTaskService";
 
-class CreateRequestController{
+class CreateTaskController{
 
   async hundle(request: Request, response: Response){
     const {description, mail, isCheck} = request.body;
-    const service = new CreateRequestService();
+    const service = new CreateTaskService();
     return response.status(201).json(await service.execute({description, mail, isCheck}));
   }
   
 }
 
-export {CreateRequestController}
+export {CreateTaskController}

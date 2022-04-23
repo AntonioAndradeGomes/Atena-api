@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
-import { DeleteRequestService } from "../services/DeleteRequestService";
+import { DeleteTaskService } from "../services/DeleteTaskService";
 
-class DeleteRequestController{
+class DeleteTaskController{
 
   async hundle(request: Request, response: Response){
     const id = request.params.id;
-    const service = new DeleteRequestService();
+    const service = new DeleteTaskService();
     return response.status(204).json(await service.execute(id));
   }
   
 }
 
-export {DeleteRequestController}
+export {DeleteTaskController}

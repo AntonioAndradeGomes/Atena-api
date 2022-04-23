@@ -9,15 +9,15 @@ interface IRquest{
   isCheck: boolean;
 }
 
-class UpdateRequestService{
+class UpdateTaskService{
   async execute({id, description, mail, isCheck}: IRquest){
-    let request = await prismaClient.request.findUnique({ where: { id } });
+    let request = await prismaClient.task.findUnique({ where: { id } });
     if (!request) {
       throw new AppError("Request not found");
     }
-    request = await prismaClient.request.update({where: {id}, data: {description, mail, isCheck}});
+    request = await prismaClient.task.update({where: {id}, data: {description, mail, isCheck}});
     return request;
   }
 }
 
-export {UpdateRequestService}
+export {UpdateTaskService}

@@ -12,6 +12,7 @@ const resetPass = new ResetPasswordController();
 
 const passRoutes = Router();
 
+//atualizar senha do user logado
 passRoutes.patch(
   "/",
   ensureAuthenticated,
@@ -19,11 +20,12 @@ passRoutes.patch(
     [Segments.BODY]: {
       oldpassword: Joi.string().min(6).required(),
       newpassword: Joi.string().min(6).required(),
-      newPasswordConfirmation: Joi.string().required().valid(Joi.ref('newPassword'))
+      newpasswordconfirmation: Joi.string().required().valid(Joi.ref('newpassword'))
     },
   }),
   updatePass.hundle
 );
+
 
 passRoutes.post(
   "/forgot",
@@ -33,7 +35,8 @@ passRoutes.post(
     }
   }),
   forgotPass.hundle
-)
+);
+
 passRoutes.post(
   "/reset",
   celebrate({
@@ -44,7 +47,7 @@ passRoutes.post(
     }
   }),
   resetPass.hundle
-)
+);
 
 
 export {passRoutes};
