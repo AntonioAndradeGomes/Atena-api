@@ -7,12 +7,14 @@ exports.UpdateUserService = void 0;
 const AppError_1 = require("../../../../errors/AppError");
 const prisma_1 = __importDefault(require("../../../../prisma"));
 class UpdateUserService {
-    async execute({ userId, name, mail, registration }) {
+    async execute({ userId, name }) {
         let user = await prisma_1.default.user.findUnique({ where: { id: userId } });
         if (!user) {
-            throw new AppError_1.AppError("User not found");
+            throw new AppError_1.AppError("User not found", 401);
         }
-        user = await prisma_1.default.user.update({ where: { id: userId, }, data: { name, registration, } });
+        user = await prisma_1.default.user.update({ where: { id: userId }, data: { name, } });
+        delete user.password;
+        return user;
     }
 }
 exports.UpdateUserService = UpdateUserService;

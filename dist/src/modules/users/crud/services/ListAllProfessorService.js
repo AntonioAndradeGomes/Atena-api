@@ -37,10 +37,14 @@ class ListAllProfessorService {
                 updatedAt: true,
             },
         });
-        const countUsers = await prisma_1.default.user.count();
+        const countUsers = await prisma_1.default.user.count({ where: {
+                roles: {
+                    has: client_1.Role.PROFESSOR,
+                }
+            }, });
         const lastPage = Math.ceil(countUsers / 10);
         const prev = page === 1 ? null : page - 1;
-        const next = page === lastPage ? null : page + 1;
+        const next = page === lastPage || lastPage === 0 ? null : page + 1;
         return {
             "total": countUsers,
             lastPage,

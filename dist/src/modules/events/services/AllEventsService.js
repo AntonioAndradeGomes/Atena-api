@@ -38,7 +38,7 @@ class AllEventsService {
         const countEvents = await prisma_1.default.event.count();
         const lastPage = Math.ceil(countEvents / 10);
         const prev = page === 1 ? null : page - 1;
-        const next = page === lastPage ? null : page + 1;
+        const next = page === lastPage || lastPage === 0 ? null : page + 1;
         return {
             total: countEvents,
             lastPage,

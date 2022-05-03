@@ -20,7 +20,7 @@ class AllDisciplineService {
         const countDisciplines = await prisma_1.default.discipline.count();
         const lastPage = Math.ceil(countDisciplines / 10);
         const prev = page === 1 ? null : page - 1;
-        const next = page === lastPage ? null : page + 1;
+        const next = page === lastPage || lastPage === 0 ? null : page + 1;
         return {
             "total": countDisciplines,
             lastPage,
