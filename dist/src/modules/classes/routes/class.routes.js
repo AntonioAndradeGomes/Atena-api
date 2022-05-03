@@ -7,11 +7,13 @@ const ensureAuthenticated_1 = require("../../../middlewares/ensureAuthenticated"
 const AllClassesController_1 = require("../controllers/AllClassesController");
 const CreateClassController_1 = require("../controllers/CreateClassController");
 const DeleteClassController_1 = require("../controllers/DeleteClassController");
+const MyClassesController_1 = require("../controllers/MyClassesController");
 const RetrieveClasseController_1 = require("../controllers/RetrieveClasseController");
 const UpdateClassController_1 = require("../controllers/UpdateClassController");
 const classRouter = (0, express_1.Router)();
 exports.classRouter = classRouter;
 classRouter.get("/", new AllClassesController_1.AllClassesController().hundle);
+classRouter.get("/myClass", ensureAuthenticated_1.ensureAuthenticated, new MyClassesController_1.MyClassesController().hundle);
 classRouter.post("/", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.BODY]: {
         name: celebrate_1.Joi.string().required(),

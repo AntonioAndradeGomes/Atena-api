@@ -6,7 +6,7 @@ class ListTaskController{
   async listAll(request: Request, response: Response){
     const page = Number(request.query.page) || 1;
     const q = request.query.q;
-    console.log(q);
+    //console.log(q);
     const service = new ListAllTaskService();
     return response.json(await service.execute({page}));
   }

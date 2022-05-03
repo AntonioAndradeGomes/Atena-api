@@ -6,7 +6,7 @@ const discipline_routes_1 = require("../modules/disciplines/routes/discipline.ro
 const class_routes_1 = require("../modules/classes/routes/class.routes");
 const event_routes_1 = require("../modules/events/routes/event.routes");
 const accessCode_routes_1 = require("../modules/accessCode/routes/accessCode.routes");
-const request_routes_1 = require("../modules/request/routes/request.routes");
+const tasks_routes_1 = require("../modules/tasks/routes/tasks.routes");
 const users_routes_1 = require("../modules/users/crud/routes/users.routes");
 const professor_routes_1 = require("../modules/users/crud/routes/professor.routes");
 const students_routes_1 = require("../modules/users/crud/routes/students.routes");
@@ -29,4 +29,4 @@ router.use("/event", event_routes_1.eventRouter);
 router.use("/discipline", discipline_routes_1.disciplineRouter);
 router.use("/class", class_routes_1.classRouter);
 router.use("/code", accessCode_routes_1.accessCodeRouter);
-router.use("/request", request_routes_1.requestRouter);
+router.use("/task", tasks_routes_1.requestRouter);

@@ -21,7 +21,7 @@ caRoutes.delete("/professor/:id", ensureAuthenticated_1.ensureAuthenticated, (0,
     },
 }), deleteController.hundle);
 //ca cria o professor
-caRoutes.post("/", (0, celebrate_1.celebrate)({
+caRoutes.post("/professor", (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.BODY]: {
         name: celebrate_1.Joi.string().min(3).required(),
         mail: celebrate_1.Joi.string().email().required(),

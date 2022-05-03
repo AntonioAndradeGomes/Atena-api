@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import prismaClient from "../../../prisma";
 
 interface IClass {
@@ -14,6 +15,8 @@ class AllClassesService {
           name: "asc",
         },
       ],
+
+      
       include: {
         discipline: true,
         professor: {
@@ -38,7 +41,7 @@ class AllClassesService {
 
     const lastPage = Math.ceil(countClasses / 10);
     const prev = page === 1 ? null : page - 1;
-    const next = page === lastPage ? null : page + 1;
+    const next = page === lastPage || lastPage === 0 ? null : page + 1;
 
     return {
       total: countClasses,

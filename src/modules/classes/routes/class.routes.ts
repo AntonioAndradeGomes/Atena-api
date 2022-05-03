@@ -4,12 +4,14 @@ import { ensureAuthenticated } from "../../../middlewares/ensureAuthenticated";
 import { AllClassesController } from "../controllers/AllClassesController";
 import { CreateClassController } from "../controllers/CreateClassController";
 import { DeleteClassController } from "../controllers/DeleteClassController";
+import { MyClassesController } from "../controllers/MyClassesController";
 import { RetrieveClassController } from "../controllers/RetrieveClasseController";
 import { UpdateClassController } from "../controllers/UpdateClassController";
 
 const classRouter = Router();
 
 classRouter.get("/", new AllClassesController().hundle);
+classRouter.get("/myClass",ensureAuthenticated, new MyClassesController().hundle);
 classRouter.post(
   "/",ensureAuthenticated,
   celebrate({

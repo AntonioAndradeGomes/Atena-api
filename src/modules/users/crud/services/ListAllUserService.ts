@@ -35,7 +35,7 @@ class ListAllUsersService {
 
     const lastPage = Math.ceil(countUsers / 10);
     const prev = page === 1 ? null : page - 1;
-    const next = page === lastPage ? null : page + 1;
+    const next = page === lastPage || lastPage === 0 ? null : page + 1;
 
     return {
       "total": countUsers,

@@ -1,21 +1,21 @@
-
 import { AppError } from "../../../../errors/AppError";
 import prismaClient from "../../../../prisma";
 
-interface IRequest {
+interface IRequest{
   userId: string;
   name: string;
-  mail: string;
-  registration: string;
 }
 
 class UpdateUserService{
-  async execute({userId, name, mail, registration} : IRequest){
-    let user = await prismaClient.user.findUnique({where:{id: userId}});
+  async execute({userId, name}: IRequest) {
+    let user = await prismaClient.user.findUnique({where: {id: userId}});
     if(!user){
-      throw new AppError("User not found");
+      throw new AppError("User not found", 401);
     }
-    user = await prismaClient.user.update({where: {id: userId,}, data: {name, registration,}})
+
+    user = await prismaClient.user.update({where: {id: userId}, data: {name,}});
+    delete user.password;
+    return user;
   }
 }
 

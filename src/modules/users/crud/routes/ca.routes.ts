@@ -28,7 +28,7 @@ caRoutes.delete(
 
 //ca cria o professor
 caRoutes.post(
-  "/",
+  "/professor",
   
   celebrate({
     [Segments.BODY]: {

@@ -12,11 +12,12 @@ const forgotPass = new ForgotPasswordController_1.ForgotPasswordController();
 const resetPass = new ResetPasswordController_1.ResetPasswordController();
 const passRoutes = (0, express_1.Router)();
 exports.passRoutes = passRoutes;
+//atualizar senha do user logado
 passRoutes.patch("/", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.BODY]: {
         oldpassword: celebrate_1.Joi.string().min(6).required(),
         newpassword: celebrate_1.Joi.string().min(6).required(),
-        newPasswordConfirmation: celebrate_1.Joi.string().required().valid(celebrate_1.Joi.ref('newPassword'))
+        newpasswordconfirmation: celebrate_1.Joi.string().required().valid(celebrate_1.Joi.ref('newpassword'))
     },
 }), updatePass.hundle);
 passRoutes.post("/forgot", (0, celebrate_1.celebrate)({

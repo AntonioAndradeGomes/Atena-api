@@ -3,31 +3,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ListAllAccessCodeService = void 0;
+exports.ListAllTaskService = void 0;
 const prisma_1 = __importDefault(require("../../../prisma"));
-class ListAllAccessCodeService {
+class ListAllTaskService {
     async execute({ page }) {
         const skip = (page * 10) - 10;
-        const accessCodes = await prisma_1.default.accessCode.findMany({
+        const requests = await prisma_1.default.task.findMany({
             skip,
             take: 10,
             orderBy: [
                 {
-                    createdAt: "desc"
+                    updatedAt: "desc"
                 }
-            ]
+            ],
+            where: {},
         });
-        const countAccessCodes = await prisma_1.default.accessCode.count();
-        const lastPage = Math.ceil(countAccessCodes / 10);
+        const countRequests = await prisma_1.default.task.count();
+        const lastPage = Math.ceil(countRequests / 10);
         const prev = page === 1 ? null : page - 1;
         const next = page === lastPage || lastPage === 0 ? null : page + 1;
         return {
-            "total": countAccessCodes,
+            "actualPage": page,
+            "actualLength": requests.length,
+            "total": countRequests,
             lastPage,
             prev,
             next,
-            "data": accessCodes,
+            "data": requests,
         };
     }
 }
-exports.ListAllAccessCodeService = ListAllAccessCodeService;
+exports.ListAllTaskService = ListAllTaskService;

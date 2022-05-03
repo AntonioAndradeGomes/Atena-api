@@ -38,6 +38,9 @@ class CreateClassService {
         if (!professorAlreadyExists) {
             throw new AppError_1.AppError("Professor doesn't exist");
         }
+        if (!professorAlreadyExists.roles.includes(client_1.Role.PROFESSOR)) {
+            throw new AppError_1.AppError("Professor doesn't exist");
+        }
         const disciplineAlreadyExists = await prisma_1.default.discipline.findUnique({
             where: { id: disciplineId },
         });
