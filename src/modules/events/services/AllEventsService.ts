@@ -11,7 +11,7 @@ class AllEventsService {
       take: 10,
       orderBy: [
         {
-          title: "asc",
+          endDate: "desc",
         },
       ],
       include: {

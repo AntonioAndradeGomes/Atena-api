@@ -105,6 +105,9 @@ model Class{
 
   students                    StudentOnClasses[]
 
+  dateInitClass               DateTime
+  dateEndClass                DateTime
+
   @@map("class")
 }
 

@@ -12,7 +12,38 @@ import { AdminDeleteEventController } from "../controllers/AdminDeleteEventContr
 
 const eventRouter = Router();
 
-eventRouter.get("/", new AllEventsController().handle);
+const controllerList = new AllEventsController();
+
+eventRouter.get("/", controllerList.handle);
+
+eventRouter.get(
+  "/professor",
+  ensureAuthenticated,
+  celebrate({
+    
+    [Segments.QUERY]:{
+      page: Joi.number(),
+      allEvents: Joi.boolean().required(),
+      activeEvents: Joi.boolean().required(),
+    }
+  }),
+  controllerList.hundleProfessor
+);
+
+eventRouter.get(
+  '/workload/list/:timePeriodInit/:timePeriodEnd',
+  celebrate({
+    [Segments.PARAMS]: {
+      timePeriodInit: Joi.date().required(),
+     
+    },
+    [Segments.QUERY]:{
+      classId: Joi.string().uuid(),
+      professorId: Joi.string().uuid(),
+    }
+  }),
+  controllerList.hundleWorkLoad,
+)
 
 eventRouter.get(
   "/:id",

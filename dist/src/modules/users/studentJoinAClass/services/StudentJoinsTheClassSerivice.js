@@ -9,7 +9,9 @@ const AppError_1 = require("../../../../errors/AppError");
 const prisma_1 = __importDefault(require("../../../../prisma"));
 class StudentJoinsTheClassSerivice {
     async execute({ classId, studentId }) {
-        const user = await prisma_1.default.user.findUnique({ where: { id: studentId } });
+        const user = await prisma_1.default.user.findUnique({
+            where: { id: studentId },
+        });
         if (!user) {
             throw new AppError_1.AppError("Student not found.", 400);
         }
@@ -30,7 +32,24 @@ class StudentJoinsTheClassSerivice {
         }
         relation = await prisma_1.default.studentOnClasses.create({
             data: { studentId, classId },
-            include: { class: true, student: true },
+            include: {
+                class: true,
+                student: {
+                    select: {
+                        academicCenterId: true,
+                        caEndDate: true,
+                        caInitDate: true,
+                        code: true,
+                        createdAt: true,
+                        id: true,
+                        mail: true,
+                        name: true,
+                        registration: true,
+                        roles: true,
+                        updatedAt: true,
+                    },
+                },
+            },
         });
         return relation;
     }

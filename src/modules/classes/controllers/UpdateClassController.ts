@@ -11,6 +11,8 @@ class UpdateClassController {
       isRegularClass,
       professorId,
       disciplineId,
+      dateEndClass,
+      dateInitClass,
     } = request.body;
     const userId = request.user_id;
     const service = new UpdateClassService();
@@ -23,6 +25,8 @@ class UpdateClassController {
       professorId,
       userId,
       disciplineId,
+      dateInitClass,
+      dateEndClass
     });
 
     return response.status(200).json(result);

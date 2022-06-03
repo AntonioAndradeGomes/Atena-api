@@ -10,6 +10,8 @@ interface IRequest {
   professorId: string;
   userId: string;
   disciplineId: string;
+  dateInitClass: string | Date;
+  dateEndClass: string | Date;
 }
 
 class CreateClassService {
@@ -21,6 +23,8 @@ class CreateClassService {
     professorId,
     userId,
     disciplineId,
+    dateInitClass,
+    dateEndClass
   }: IRequest) {
     //verificar usuario
     const userRequest = await prismaClient.user.findUnique({
@@ -82,6 +86,8 @@ class CreateClassService {
         academicCenterId: userRequest.roles.includes(Role.ACADEMIC_CENTER)
           ? userRequest.id
           : null,
+        dateEndClass,
+        dateInitClass,
       },
       include: {
         discipline: true,

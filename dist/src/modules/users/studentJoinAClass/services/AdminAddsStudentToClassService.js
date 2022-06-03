@@ -9,14 +9,18 @@ const AppError_1 = require("../../../../errors/AppError");
 const prisma_1 = __importDefault(require("../../../../prisma"));
 class AdminAddsStudentToClassService {
     async execute({ classId, studentId, adminId }) {
-        const admin = await prisma_1.default.user.findUnique({ where: { id: adminId } });
+        const admin = await prisma_1.default.user.findUnique({
+            where: { id: adminId },
+        });
         if (!admin) {
             throw new AppError_1.AppError("Admin not found.", 400);
         }
         if (!admin.roles.includes(client_1.Role.ADMIN)) {
             throw new AppError_1.AppError("User does not have the necessary permission.", 401);
         }
-        const student = await prisma_1.default.user.findUnique({ where: { id: studentId } });
+        const student = await prisma_1.default.user.findUnique({
+            where: { id: studentId },
+        });
         if (!student.roles.includes(client_1.Role.STUDENT)) {
             throw new AppError_1.AppError("User is not a student.", 400);
         }
@@ -34,7 +38,24 @@ class AdminAddsStudentToClassService {
         }
         relation = await prisma_1.default.studentOnClasses.create({
             data: { studentId, classId },
-            include: { class: true, student: true },
+            include: {
+                class: true,
+                student: {
+                    select: {
+                        academicCenterId: true,
+                        caEndDate: true,
+                        caInitDate: true,
+                        code: true,
+                        createdAt: true,
+                        id: true,
+                        mail: true,
+                        name: true,
+                        registration: true,
+                        roles: true,
+                        updatedAt: true,
+                    },
+                },
+            },
         });
         return relation;
     }

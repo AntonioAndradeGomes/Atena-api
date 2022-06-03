@@ -8,7 +8,7 @@ const client_1 = require("@prisma/client");
 const AppError_1 = require("../../../errors/AppError");
 const prisma_1 = __importDefault(require("../../../prisma"));
 class UpdateClassService {
-    async execute({ id, name, academicYear, period, isRegularClass, professorId, userId, disciplineId, }) {
+    async execute({ id, name, academicYear, period, isRegularClass, professorId, userId, disciplineId, dateEndClass, dateInitClass, }) {
         //verificar usuario
         const userRequest = await prisma_1.default.user.findUnique({
             where: { id: userId },
@@ -50,6 +50,8 @@ class UpdateClassService {
                 period,
                 isRegularClass,
                 disciplineId,
+                dateEndClass,
+                dateInitClass,
             },
             include: {
                 discipline: true,

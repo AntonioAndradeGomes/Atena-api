@@ -22,6 +22,8 @@ classRouter.post(
       isRegularClass: Joi.boolean().required(),
       professorId: Joi.string().uuid().required(),
       disciplineId: Joi.string().uuid().required(),
+      dateInitClass: Joi.date().required(),
+      dateEndClass: Joi.date().required(),
     }
   }),
   new CreateClassController().hundle
@@ -50,6 +52,8 @@ classRouter.put(
       isRegularClass: Joi.boolean().required(),
       professorId: Joi.string().uuid().required(),
       disciplineId: Joi.string().uuid().required(),
+      dateInitClass: Joi.date().required(),
+      dateEndClass: Joi.date().required(),
     }
   }),
   
