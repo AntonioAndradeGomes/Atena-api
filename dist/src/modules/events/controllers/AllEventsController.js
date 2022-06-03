@@ -4,6 +4,7 @@ exports.AllEventsController = void 0;
 const AllEventsService_1 = require("../services/AllEventsService");
 const ListEventsProfessorService_1 = require("../services/ListEventsProfessorService");
 const ListEventsWorkLoadService_1 = require("../services/ListEventsWorkLoadService");
+const ListEventsWorkLoadStudentService_1 = require("../services/ListEventsWorkLoadStudentService");
 class AllEventsController {
     async handle(request, response) {
         const page = Number(request.query.page) || 1;
@@ -26,6 +27,12 @@ class AllEventsController {
         ;
         const service = new ListEventsWorkLoadService_1.ListEventsWorkLoadService();
         return response.json(await service.execute({ classId, professorId, timePeriodInit }));
+    }
+    async hundleWorkLoadStudent(request, response) {
+        const id = request.user_id;
+        const { timePeriodInit } = request.params;
+        const service = new ListEventsWorkLoadStudentService_1.ListEventsWorkLoadStudentService();
+        return response.json(await service.execute({ id, timePeriodInit }));
     }
 }
 exports.AllEventsController = AllEventsController;

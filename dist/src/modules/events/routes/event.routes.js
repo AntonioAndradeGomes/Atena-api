@@ -21,17 +21,26 @@ eventRouter.get("/professor", ensureAuthenticated_1.ensureAuthenticated, (0, cel
         page: celebrate_1.Joi.number(),
         allEvents: celebrate_1.Joi.boolean().required(),
         activeEvents: celebrate_1.Joi.boolean().required(),
-    }
+    },
 }), controllerList.hundleProfessor);
-eventRouter.get('/workload/list/:timePeriodInit/:timePeriodEnd', (0, celebrate_1.celebrate)({
+eventRouter.get("/workload/general/:timePeriodInit/", (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.PARAMS]: {
         timePeriodInit: celebrate_1.Joi.date().required(),
     },
     [celebrate_1.Segments.QUERY]: {
         classId: celebrate_1.Joi.string().uuid(),
         professorId: celebrate_1.Joi.string().uuid(),
-    }
+    },
 }), controllerList.hundleWorkLoad);
+eventRouter.get("/workload/student/:timePeriodInit/", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({
+    [celebrate_1.Segments.PARAMS]: {
+        timePeriodInit: celebrate_1.Joi.date().required(),
+    },
+    [celebrate_1.Segments.QUERY]: {
+        classId: celebrate_1.Joi.string().uuid(),
+        professorId: celebrate_1.Joi.string().uuid(),
+    },
+}));
 eventRouter.get("/:id", (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.PARAMS]: {
         id: celebrate_1.Joi.string().uuid().required(),

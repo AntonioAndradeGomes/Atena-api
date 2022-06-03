@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AllEventsService } from "../services/AllEventsService";
 import { ListEventsProfessorService } from "../services/ListEventsProfessorService";
 import { ListEventsWorkLoadService } from "../services/ListEventsWorkLoadService";
+import { ListEventsWorkLoadStudentService } from "../services/ListEventsWorkLoadStudentService";
 
 class AllEventsController {
   async handle(request: Request, response: Response) {
@@ -27,7 +28,13 @@ class AllEventsController {
     const professorId = request.query.professorId == undefined ? '' : request.query.professorId.toString();;
     const service = new ListEventsWorkLoadService();
     return response.json(await service.execute({classId,professorId,timePeriodInit}));
+  }
 
+  async hundleWorkLoadStudent(request: Request, response: Response){
+    const id = request.user_id;
+    const {timePeriodInit} = request.params;
+    const service = new ListEventsWorkLoadStudentService();
+    return response.json(await service.execute({id, timePeriodInit}));
   }
 }
 
