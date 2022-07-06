@@ -4,22 +4,23 @@ import prismaClient from "../../../../prisma";
 
 interface IRequest {
   studentId: string;
-  classId:   string;
+  classId: string;
 }
 
 class StudentJoinsTheClassSerivice {
   async execute({ classId, studentId }: IRequest) {
+    const user = await prismaClient.user.findUnique({
+      where: { id: studentId },
+    });
 
-    const user = await prismaClient.user.findUnique({where: {id: studentId}});
-
-    if(!user){
+    if (!user) {
       throw new AppError("Student not found.", 400);
     }
 
-    if(!user.roles.includes(Role.STUDENT) ){
+    if (!user.roles.includes(Role.STUDENT)) {
       throw new AppError("User does not have the necessary permission.", 401);
     }
-    
+
     let relation = await prismaClient.studentOnClasses.findUnique({
       where: { studentId_classId: { studentId, classId } },
     });
@@ -36,8 +37,26 @@ class StudentJoinsTheClassSerivice {
 
     relation = await prismaClient.studentOnClasses.create({
       data: { studentId, classId },
-      include: { class: true, student: true },
+      include: {
+        class: true,
+        student: {
+          select: {
+            academicCenterId: true,
+            caEndDate: true,
+            caInitDate: true,
+            code: true,
+            createdAt: true,
+            id: true,
+            mail: true,
+            name: true,
+            registration: true,
+            roles: true,
+            updatedAt: true,
+          },
+        },
+      },
     });
+
     return relation;
   }
 }

@@ -22,6 +22,8 @@ classRouter.post("/", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1
         isRegularClass: celebrate_1.Joi.boolean().required(),
         professorId: celebrate_1.Joi.string().uuid().required(),
         disciplineId: celebrate_1.Joi.string().uuid().required(),
+        dateInitClass: celebrate_1.Joi.date().required(),
+        dateEndClass: celebrate_1.Joi.date().required(),
     }
 }), new CreateClassController_1.CreateClassController().hundle);
 classRouter.get("/:id", (0, celebrate_1.celebrate)({
@@ -40,6 +42,8 @@ classRouter.put("/:id", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate
         isRegularClass: celebrate_1.Joi.boolean().required(),
         professorId: celebrate_1.Joi.string().uuid().required(),
         disciplineId: celebrate_1.Joi.string().uuid().required(),
+        dateInitClass: celebrate_1.Joi.date().required(),
+        dateEndClass: celebrate_1.Joi.date().required(),
     }
 }), new UpdateClassController_1.UpdateClassController().hundle);
 classRouter.delete("/:id", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({

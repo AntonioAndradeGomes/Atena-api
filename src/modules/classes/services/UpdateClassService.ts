@@ -11,6 +11,8 @@ interface IRequest {
   professorId: string;
   userId: string;
   disciplineId: string;
+  dateInitClass: string | Date;
+  dateEndClass: string | Date;
 }
 
 class UpdateClassService {
@@ -23,6 +25,8 @@ class UpdateClassService {
     professorId,
     userId,
     disciplineId,
+    dateEndClass,
+    dateInitClass,
   }: IRequest) {
     //verificar usuario
     const userRequest = await prismaClient.user.findUnique({
@@ -74,6 +78,8 @@ class UpdateClassService {
         period,
         isRegularClass,
         disciplineId,
+        dateEndClass,
+        dateInitClass,
       },
       include: {
         discipline: true,

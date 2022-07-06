@@ -10,6 +10,8 @@ class CreateClassController {
       isRegularClass,
       professorId,
       disciplineId,
+      dateInitClass,
+      dateEndClass,
     } = request.body;
     const userId = request.user_id;
     const service = new CreateClassService();
@@ -21,6 +23,8 @@ class CreateClassController {
       professorId,
       userId,
       disciplineId,
+      dateEndClass,
+      dateInitClass,
     });
 
     return response.status(201).json(result);

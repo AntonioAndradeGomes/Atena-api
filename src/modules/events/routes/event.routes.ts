@@ -12,7 +12,65 @@ import { AdminDeleteEventController } from "../controllers/AdminDeleteEventContr
 
 const eventRouter = Router();
 
-eventRouter.get("/", new AllEventsController().handle);
+const controllerList = new AllEventsController();
+
+eventRouter.get("/", controllerList.handle);
+
+eventRouter.get(
+  "/professor",
+  ensureAuthenticated,
+  celebrate({
+    [Segments.QUERY]: {
+      page: Joi.number(),
+      allEvents: Joi.boolean().required(),
+      activeEvents: Joi.boolean().required(),
+    },
+  }),
+  controllerList.hundleProfessor
+);
+
+eventRouter.get(
+  "/workload/general/:timePeriodInit/",
+  celebrate({
+    [Segments.PARAMS]: {
+      timePeriodInit: Joi.date().required(),
+    },
+    [Segments.QUERY]: {
+      classId: Joi.string().uuid(),
+      professorId: Joi.string().uuid(),
+    },
+  }),
+  controllerList.hundleWorkLoad
+);
+
+eventRouter.get(
+  "/workload/student/:timePeriodInit/",
+  ensureAuthenticated,
+  celebrate({
+    [Segments.PARAMS]: {
+      timePeriodInit: Joi.date().required(),
+    },
+    [Segments.QUERY]: {
+      classId: Joi.string().uuid(),
+      professorId: Joi.string().uuid(),
+    },
+  }),
+  controllerList.hundleWorkLoadStudent
+);
+
+eventRouter.get(
+  "/next/:classId",
+  celebrate({
+    [Segments.PARAMS]: {
+      classId: Joi.string().uuid().required(),
+    },
+    [Segments.QUERY]: {
+      page: Joi.number(),
+      nextEvents: Joi.boolean(),
+    },
+  }),
+  controllerList.hundleNextsEvents,
+);
 
 eventRouter.get(
   "/:id",

@@ -80,7 +80,7 @@ model Discipline{
 
   classes                     Class[] @relation(name: "classNeedsToHaveADiscipline")
 
-  @@map("discipline")
+  @@map("disciplines")
 }
 
 model Class{
@@ -105,7 +105,10 @@ model Class{
 
   students                    StudentOnClasses[]
 
-  @@map("class")
+  dateInitClass               DateTime
+  dateEndClass                DateTime
+
+  @@map("classes")
 }
 
 model AccessCode{
@@ -125,17 +128,19 @@ model StudentOnClasses{
   createdAt                   DateTime @default(now())
   updatedAt                   DateTime @updatedAt
   @@id([studentId, classId])
+
+  @@map("students_on_classes")
 }
 
 model UserToken{
   id                          String @id @default(uuid())
   token                       String
+  userId                      String @unique
   user                        User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId                      String
   createdAt                   DateTime @default(now())
   updateAt                    DateTime @updatedAt
 
-  @@map("user_token")
+  @@map("user_tokens")
 }
 
 
