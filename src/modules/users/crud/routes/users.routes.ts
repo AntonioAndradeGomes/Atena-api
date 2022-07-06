@@ -7,6 +7,7 @@ import { DeleteUserController } from "../controllers/DeleteUserController";
 import { AdminDeleteUserController } from "../controllers/AdminDeleteUserController";
 import { AdminUpdateUserController } from "../controllers/AdminUpdateUserController";
 import { UpdateUserController } from "../controllers/UpdateUserController";
+import { AdminInitCreateController } from "../controllers/AdminInitCreateController";
 
 const listController = new ListUserController();
 const createController = new CreateUserController();
@@ -59,6 +60,17 @@ userRouter.post(
   }),
   createController.hundle
 );
+
+//criar admin inicial no sistema
+userRouter.post(
+  '/admin/create/init/',
+  celebrate({
+    [Segments.BODY]:{
+      "jwtsecret" : Joi.string().required(),
+    }
+  }),
+  new AdminInitCreateController().hundle,
+)
 
 //usaurio se deleta no sistema
 userRouter.delete("/", ensureAuthenticated, deleteController.hundle);
