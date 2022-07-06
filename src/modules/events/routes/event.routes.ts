@@ -14,7 +14,7 @@ const eventRouter = Router();
 
 const controllerList = new AllEventsController();
 
-eventRouter.get("/", controllerList.handle);
+eventRouter.get("/", controllerList.hundle);
 
 eventRouter.get(
   "/professor",
@@ -79,7 +79,7 @@ eventRouter.get(
       id: Joi.string().uuid().required(),
     },
   }),
-  new RetrieveEventController().handle
+  new RetrieveEventController().hundle
 );
 
 eventRouter.post(
@@ -96,7 +96,7 @@ eventRouter.post(
       classId: Joi.string().uuid().required(),
     },
   }),
-  new ProfessorCreateEventController().handle
+  new ProfessorCreateEventController().hundle
 );
 
 eventRouter.post(
@@ -113,7 +113,7 @@ eventRouter.post(
       classId: Joi.string().uuid().required(),
     },
   }),
-  new AdminCreateEventController().handle
+  new AdminCreateEventController().hundle
 );
 
 //o professor so pode alterar o evento dele
@@ -135,7 +135,7 @@ eventRouter.put(
     },
   }),
 
-  new ProfessorUpdateEventController().handle
+  new ProfessorUpdateEventController().hundle
 );
 
 eventRouter.put(
@@ -156,7 +156,7 @@ eventRouter.put(
     },
   }),
 
-  new AdminUpdateEventController().handle
+  new AdminUpdateEventController().hundle
 );
 
 //o professor só pode deletar o evento associado a ele
@@ -169,7 +169,7 @@ eventRouter.delete(
     },
   }),
 
-  new ProfessorDeleteEventController().handle
+  new ProfessorDeleteEventController().hundle
 );
 
 eventRouter.delete(

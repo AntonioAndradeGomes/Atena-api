@@ -6,7 +6,7 @@ import { ListEventsWorkLoadStudentService } from "../services/ListEventsWorkLoad
 import { ListNextEventsClassService } from "../services/ListNextEventsClassService";
 
 class AllEventsController {
-  async handle(request: Request, response: Response) {
+  async hundle(request: Request, response: Response) {
     const page = Number(request.query.page) || 1;
     const service = new AllEventsService();
     const result = await service.execute({ page });
