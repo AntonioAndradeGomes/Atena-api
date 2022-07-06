@@ -3,7 +3,7 @@ import { ProfessorUpdateEventService } from "../services/ProfessorUpdateEventSer
 
 
 class ProfessorUpdateEventController {
-  async handle(request: Request, response: Response) {
+  async hundle(request: Request, response: Response) {
     const id = request.params.id;
     const userId = request.user_id;
     const {

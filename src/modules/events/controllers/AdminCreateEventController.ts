@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { AdminCreateEventService } from "../services/AdminCreateEventService";
 
 class AdminCreateEventController {
-  async handle(request: Request, response: Response) {
+  async hundle(request: Request, response: Response) {
     const {
       title,
       description,
