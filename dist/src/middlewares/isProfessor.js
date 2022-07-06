@@ -8,14 +8,12 @@ const AppError_1 = require("../errors/AppError");
 const prisma_1 = __importDefault(require("../prisma"));
 async function isProfessor(request, response, next) {
     const idUser = request.user_id;
-    const { isProfessor } = await prisma_1.default.user.findUnique({
+    const { id } = await prisma_1.default.user.findUnique({
         where: {
             id: idUser,
-        }, select: {
-            isProfessor: true,
         }
     });
-    if (!isProfessor) {
+    if (!id) {
         throw new AppError_1.AppError('User is not a professor, therefore cannot use this feature.', 401);
     }
     return next();

@@ -6,7 +6,7 @@ import { UpdateDisciplineController } from "../controllers/UpdateDisciplineContr
 import { DeleteDisciplineController } from "../controllers/DeleteDisciplineController";
 import { celebrate, Joi, Segments } from "celebrate";
 import { ensureAuthenticated } from "../../../middlewares/ensureAuthenticated";
-import { isAcademicCenter } from "../../../middlewares/isAcademicCenter";
+
 
 const disciplineRouter = Router();
 
@@ -22,7 +22,7 @@ disciplineRouter.post(
       courseLoad: Joi.number().required()
     }
   }),
-  ensureAuthenticated, isAcademicCenter,
+  ensureAuthenticated,
   new CreateDisciplineController().handle
 );
 
@@ -32,12 +32,6 @@ disciplineRouter.get(
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required()
     },
-    [Segments.BODY]: {
-      code: Joi.string().required(),
-      name: Joi.string().required(),
-      initials: Joi.string().required(),
-      courseLoad: Joi.number().required()
-    }
   }),
   new RetrieveDisciplineController().handle
 );
@@ -55,7 +49,7 @@ disciplineRouter.put(
       courseLoad: Joi.number().required()
     }
   }),
-  ensureAuthenticated, isAcademicCenter,
+  ensureAuthenticated,
   new UpdateDisciplineController().handle
 );
 
@@ -66,7 +60,7 @@ disciplineRouter.delete(
       id: Joi.string().uuid().required()
     }
   }),
-  ensureAuthenticated, isAcademicCenter,
+  ensureAuthenticated,
   new DeleteDisciplineController().handle
 );
 

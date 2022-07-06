@@ -1,0 +1,77 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ProfessorCreateEventService = void 0;
+const client_1 = require("@prisma/client");
+const AppError_1 = require("../../../errors/AppError");
+const prisma_1 = __importDefault(require("../../../prisma"));
+class ProfessorCreateEventService {
+    async execute({ title, description, isActive, difficultyLevel, initDate, endDate, professorId, classId, }) {
+        const professor = await prisma_1.default.user.findUnique({
+            where: { id: professorId },
+        });
+        if (!professor) {
+            throw new AppError_1.AppError("Professor not found.", 401);
+        }
+        if (!professor.roles.includes(client_1.Role.PROFESSOR)) {
+            throw new AppError_1.AppError("User does not have this permission.", 401);
+        }
+        const eventAlreadyExists = await prisma_1.default.event.findFirst({
+            where: {
+                title,
+                description,
+                isActive,
+                difficultyLevel,
+                initDate,
+                endDate,
+                classId,
+            },
+        });
+        if (eventAlreadyExists) {
+            throw new AppError_1.AppError("Event already exists");
+        }
+        const classExists = await prisma_1.default.class.findUnique({
+            where: { id: classId },
+        });
+        if (!classExists) {
+            throw new AppError_1.AppError("Class assigned to the event does not exist.");
+        }
+        if (professor.id != classExists.professorId) {
+            throw new AppError_1.AppError("Events cannot be registered for classes that do not belong to the teacher who is logged in.");
+        }
+        const event = await prisma_1.default.event.create({
+            data: {
+                title,
+                description,
+                isActive,
+                difficultyLevel,
+                initDate,
+                endDate,
+                professorId: professor.id,
+                classId,
+            },
+            include: {
+                class: true,
+                professor: {
+                    select: {
+                        password: false,
+                        id: true,
+                        name: true,
+                        mail: true,
+                        roles: true,
+                        registration: true,
+                        code: true,
+                        caInitDate: true,
+                        caEndDate: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    },
+                },
+            },
+        });
+        return event;
+    }
+}
+exports.ProfessorCreateEventService = ProfessorCreateEventService;

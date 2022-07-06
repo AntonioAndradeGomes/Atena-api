@@ -7,33 +7,45 @@ exports.AllClassesService = void 0;
 const prisma_1 = __importDefault(require("../../../prisma"));
 class AllClassesService {
     async execute({ page }) {
-        const skip = (page * 10) - 10;
+        const skip = page * 10 - 10;
         const classes = await prisma_1.default.class.findMany({
             skip,
             take: 10,
             orderBy: [
                 {
-                    name: "asc"
-                }
+                    name: "asc",
+                },
             ],
             include: {
-                professor: true,
-                academicCenter: true,
-                discipline: true
+                discipline: true,
+                professor: {
+                    select: {
+                        password: false,
+                        id: true,
+                        name: true,
+                        mail: true,
+                        roles: true,
+                        registration: true,
+                        code: true,
+                        caInitDate: true,
+                        caEndDate: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    },
+                },
             },
         });
         const countClasses = await prisma_1.default.class.count();
         const lastPage = Math.ceil(countClasses / 10);
         const prev = page === 1 ? null : page - 1;
-        const next = page === lastPage ? null : page + 1;
+        const next = page === lastPage || lastPage === 0 ? null : page + 1;
         return {
-            "total": countClasses,
+            total: countClasses,
             lastPage,
             prev,
             next,
-            "data": classes,
+            data: classes,
         };
     }
 }
 exports.AllClassesService = AllClassesService;
-;

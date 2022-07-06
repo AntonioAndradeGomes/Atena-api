@@ -20,7 +20,7 @@ class ListAllAccessCodeService {
         const countAccessCodes = await prisma_1.default.accessCode.count();
         const lastPage = Math.ceil(countAccessCodes / 10);
         const prev = page === 1 ? null : page - 1;
-        const next = page === lastPage ? null : page + 1;
+        const next = page === lastPage || lastPage === 0 ? null : page + 1;
         return {
             "total": countAccessCodes,
             lastPage,

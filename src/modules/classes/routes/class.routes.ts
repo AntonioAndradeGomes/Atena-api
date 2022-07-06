@@ -1,18 +1,19 @@
 import { celebrate, Joi, Segments } from "celebrate";
 import { Router } from "express";
 import { ensureAuthenticated } from "../../../middlewares/ensureAuthenticated";
-import { isAcademicCenter } from "../../../middlewares/isAcademicCenter";
 import { AllClassesController } from "../controllers/AllClassesController";
 import { CreateClassController } from "../controllers/CreateClassController";
 import { DeleteClassController } from "../controllers/DeleteClassController";
+import { MyClassesController } from "../controllers/MyClassesController";
 import { RetrieveClassController } from "../controllers/RetrieveClasseController";
 import { UpdateClassController } from "../controllers/UpdateClassController";
 
 const classRouter = Router();
 
 classRouter.get("/", new AllClassesController().hundle);
+classRouter.get("/myClass",ensureAuthenticated, new MyClassesController().hundle);
 classRouter.post(
-  "/",
+  "/",ensureAuthenticated,
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
@@ -21,8 +22,10 @@ classRouter.post(
       isRegularClass: Joi.boolean().required(),
       professorId: Joi.string().uuid().required(),
       disciplineId: Joi.string().uuid().required(),
+      dateInitClass: Joi.date().required(),
+      dateEndClass: Joi.date().required(),
     }
-  }),ensureAuthenticated, isAcademicCenter,
+  }),
   new CreateClassController().hundle
 );
 
@@ -37,7 +40,7 @@ classRouter.get(
 );
 
 classRouter.put(
-  "/:id",
+  "/:id",ensureAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required()
@@ -49,35 +52,22 @@ classRouter.put(
       isRegularClass: Joi.boolean().required(),
       professorId: Joi.string().uuid().required(),
       disciplineId: Joi.string().uuid().required(),
+      dateInitClass: Joi.date().required(),
+      dateEndClass: Joi.date().required(),
     }
   }),
-  ensureAuthenticated, isAcademicCenter,
+  
   new UpdateClassController().hundle
 );
-/*
-classRouter.patch(
-  "/:id",
-  celebrate({
-    [Segments.PARAMS]: {
-      id: Joi.string().required()
-    },
-    [Segments.BODY]: {
-      name: Joi.string(),
-      academicYear: Joi.string(),
-      period: Joi.string(),
-      isRegularClass: Joi.boolean()
-    }
-  }),
-  new UpdateClassController().hundle
-);
-*/
+
 classRouter.delete(
   "/:id",
+  ensureAuthenticated, 
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required()
     }
-  }),ensureAuthenticated, isAcademicCenter,
+  }),
   new DeleteClassController().hundle
 );
 
