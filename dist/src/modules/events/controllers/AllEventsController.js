@@ -5,6 +5,7 @@ const AllEventsService_1 = require("../services/AllEventsService");
 const ListEventsProfessorService_1 = require("../services/ListEventsProfessorService");
 const ListEventsWorkLoadService_1 = require("../services/ListEventsWorkLoadService");
 const ListEventsWorkLoadStudentService_1 = require("../services/ListEventsWorkLoadStudentService");
+const ListNextEventsClassService_1 = require("../services/ListNextEventsClassService");
 class AllEventsController {
     async handle(request, response) {
         const page = Number(request.query.page) || 1;
@@ -33,6 +34,14 @@ class AllEventsController {
         const { timePeriodInit } = request.params;
         const service = new ListEventsWorkLoadStudentService_1.ListEventsWorkLoadStudentService();
         return response.json(await service.execute({ id, timePeriodInit }));
+    }
+    async hundleNextsEvents(request, response) {
+        const { classId } = request.params;
+        console.log(classId);
+        const page = Number(request.query.page) || 1;
+        const nextEvents = request.query.nextEvents == undefined ? true : !(request.query.nextEvents.toString().toLowerCase() == 'false');
+        const serivce = new ListNextEventsClassService_1.ListNextEventsClassService();
+        return response.json(await serivce.execute({ classId, nextEvents, page }));
     }
 }
 exports.AllEventsController = AllEventsController;

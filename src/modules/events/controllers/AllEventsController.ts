@@ -3,6 +3,7 @@ import { AllEventsService } from "../services/AllEventsService";
 import { ListEventsProfessorService } from "../services/ListEventsProfessorService";
 import { ListEventsWorkLoadService } from "../services/ListEventsWorkLoadService";
 import { ListEventsWorkLoadStudentService } from "../services/ListEventsWorkLoadStudentService";
+import { ListNextEventsClassService } from "../services/ListNextEventsClassService";
 
 class AllEventsController {
   async handle(request: Request, response: Response) {
@@ -35,6 +36,17 @@ class AllEventsController {
     const {timePeriodInit} = request.params;
     const service = new ListEventsWorkLoadStudentService();
     return response.json(await service.execute({id, timePeriodInit}));
+  }
+
+  async hundleNextsEvents(request: Request, response: Response){
+    const {classId} = request.params;
+    console.log(classId);
+    const page = Number(request.query.page) || 1;
+   
+    const nextEvents = request.query.nextEvents == undefined ? true : !(request.query.nextEvents.toString().toLowerCase() == 'false');
+    
+    const serivce = new ListNextEventsClassService();
+    return response.json(await serivce.execute({classId, nextEvents, page}));
   }
 }
 

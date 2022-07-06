@@ -54,7 +54,22 @@ eventRouter.get(
       classId: Joi.string().uuid(),
       professorId: Joi.string().uuid(),
     },
-  })
+  }),
+  controllerList.hundleWorkLoadStudent
+);
+
+eventRouter.get(
+  "/next/:classId",
+  celebrate({
+    [Segments.PARAMS]: {
+      classId: Joi.string().uuid().required(),
+    },
+    [Segments.QUERY]: {
+      page: Joi.number(),
+      nextEvents: Joi.boolean(),
+    },
+  }),
+  controllerList.hundleNextsEvents,
 );
 
 eventRouter.get(

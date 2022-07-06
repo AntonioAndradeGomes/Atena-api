@@ -40,7 +40,16 @@ eventRouter.get("/workload/student/:timePeriodInit/", ensureAuthenticated_1.ensu
         classId: celebrate_1.Joi.string().uuid(),
         professorId: celebrate_1.Joi.string().uuid(),
     },
-}));
+}), controllerList.hundleWorkLoadStudent);
+eventRouter.get("/next/:classId", (0, celebrate_1.celebrate)({
+    [celebrate_1.Segments.PARAMS]: {
+        classId: celebrate_1.Joi.string().uuid().required(),
+    },
+    [celebrate_1.Segments.QUERY]: {
+        page: celebrate_1.Joi.number(),
+        nextEvents: celebrate_1.Joi.boolean(),
+    },
+}), controllerList.hundleNextsEvents);
 eventRouter.get("/:id", (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.PARAMS]: {
         id: celebrate_1.Joi.string().uuid().required(),

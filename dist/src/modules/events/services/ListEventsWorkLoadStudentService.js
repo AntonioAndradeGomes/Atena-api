@@ -21,13 +21,13 @@ class ListEventsWorkLoadStudentService {
     e."endDate", e."initDate", e."classId", e."professorId", c.id as "id_class",c."name" as "name_class",
     c."academicYear" as "academic_year_class", c."period" as "period_class", c."disciplineId"
     from users u
-    INNER JOIN "StudentOnClasses" soc on soc."studentId" = u.id
-    inner join "class" c 
+    INNER JOIN "students_on_classes" soc on soc."studentId" = u.id
+    inner join "classes" c 
     on c.id = soc."classId" 
     inner join events e 
     on e."classId" = c.id
     where u.id = ${id}
-    and  e."endDate" >= '2022-05-01' 
+    and  e."endDate" >= ${timePeriodInit}
     and e."endDate" <= c."dateEndClass"
     `;
         return {
@@ -39,13 +39,13 @@ class ListEventsWorkLoadStudentService {
       e."endDate", e."initDate", e."classId", e."professorId", c.id as "id_class",c."name" as "name_class",
       c."academicYear" as "academic_year_class", c."period" as "period_class", c."disciplineId"
       from users u
-      INNER JOIN "StudentOnClasses" soc on soc."studentId" = u.id
-      inner join "class" c 
+      INNER JOIN "students_on_classes" soc on soc."studentId" = u.id
+      inner join "classes" c 
       on c.id = soc."classId" 
       inner join events e 
       on e."classId" = c.id
       where u.id = ${id}
-      and  e."endDate" >= '2022-05-01' 
+      and  e."endDate" >= ${timePeriodInit}
       and e."endDate" <= c."dateEndClass"
       `
         };
