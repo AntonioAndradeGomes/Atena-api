@@ -15,7 +15,7 @@ const AdminDeleteEventController_1 = require("../controllers/AdminDeleteEventCon
 const eventRouter = (0, express_1.Router)();
 exports.eventRouter = eventRouter;
 const controllerList = new AllEventsController_1.AllEventsController();
-eventRouter.get("/", controllerList.handle);
+eventRouter.get("/", controllerList.hundle);
 eventRouter.get("/professor", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.QUERY]: {
         page: celebrate_1.Joi.number(),
@@ -54,7 +54,7 @@ eventRouter.get("/:id", (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.PARAMS]: {
         id: celebrate_1.Joi.string().uuid().required(),
     },
-}), new RetrieveEventController_1.RetrieveEventController().handle);
+}), new RetrieveEventController_1.RetrieveEventController().hundle);
 eventRouter.post("/professor", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.BODY]: {
         title: celebrate_1.Joi.string().required(),
@@ -65,7 +65,7 @@ eventRouter.post("/professor", ensureAuthenticated_1.ensureAuthenticated, (0, ce
         endDate: celebrate_1.Joi.date().required(),
         classId: celebrate_1.Joi.string().uuid().required(),
     },
-}), new ProfessorCreateEventController_1.ProfessorCreateEventController().handle);
+}), new ProfessorCreateEventController_1.ProfessorCreateEventController().hundle);
 eventRouter.post("/admin", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.BODY]: {
         title: celebrate_1.Joi.string().required(),
@@ -76,7 +76,7 @@ eventRouter.post("/admin", ensureAuthenticated_1.ensureAuthenticated, (0, celebr
         endDate: celebrate_1.Joi.date().required(),
         classId: celebrate_1.Joi.string().uuid().required(),
     },
-}), new AdminCreateEventController_1.AdminCreateEventController().handle);
+}), new AdminCreateEventController_1.AdminCreateEventController().hundle);
 //o professor so pode alterar o evento dele
 eventRouter.put("/professor/:id", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.PARAMS]: {
@@ -91,7 +91,7 @@ eventRouter.put("/professor/:id", ensureAuthenticated_1.ensureAuthenticated, (0,
         endDate: celebrate_1.Joi.date().required(),
         classId: celebrate_1.Joi.string().uuid().required(),
     },
-}), new ProfessorUpdateEventController_1.ProfessorUpdateEventController().handle);
+}), new ProfessorUpdateEventController_1.ProfessorUpdateEventController().hundle);
 eventRouter.put("/admin/:id", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.PARAMS]: {
         id: celebrate_1.Joi.string().uuid().required(),
@@ -105,13 +105,13 @@ eventRouter.put("/admin/:id", ensureAuthenticated_1.ensureAuthenticated, (0, cel
         endDate: celebrate_1.Joi.date().required(),
         classId: celebrate_1.Joi.string().uuid().required(),
     },
-}), new AdminUpdateEventController_1.AdminUpdateEventController().handle);
+}), new AdminUpdateEventController_1.AdminUpdateEventController().hundle);
 //o professor só pode deletar o evento associado a ele
 eventRouter.delete("/professor/:id", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.PARAMS]: {
         id: celebrate_1.Joi.string().required(),
     },
-}), new ProfessorDeleteEventController_1.ProfessorDeleteEventController().handle);
+}), new ProfessorDeleteEventController_1.ProfessorDeleteEventController().hundle);
 eventRouter.delete("/admin/:id", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.celebrate)({
     [celebrate_1.Segments.PARAMS]: {
         id: celebrate_1.Joi.string().required(),
