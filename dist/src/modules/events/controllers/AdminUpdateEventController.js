@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminUpdateEventController = void 0;
 const AdminUpdateEventService_1 = require("../services/AdminUpdateEventService");
 class AdminUpdateEventController {
-    async handle(request, response) {
+    async hundle(request, response) {
         const { title, description, isActive, difficultyLevel, initDate, endDate, classId, } = request.body;
         const id = request.params.id;
         const userId = request.user_id;

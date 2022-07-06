@@ -10,6 +10,7 @@ const DeleteUserController_1 = require("../controllers/DeleteUserController");
 const AdminDeleteUserController_1 = require("../controllers/AdminDeleteUserController");
 const AdminUpdateUserController_1 = require("../controllers/AdminUpdateUserController");
 const UpdateUserController_1 = require("../controllers/UpdateUserController");
+const AdminInitCreateController_1 = require("../controllers/AdminInitCreateController");
 const listController = new ListUserController_1.ListUserController();
 const createController = new CreateUserController_1.CreateUserController();
 const deleteController = new DeleteUserController_1.DeleteUserController();
@@ -40,6 +41,12 @@ userRouter.post("/", ensureAuthenticated_1.ensureAuthenticated, (0, celebrate_1.
             .required(),
     },
 }), createController.hundle);
+//criar admin inicial no sistema
+userRouter.post('/admin/create/init/', (0, celebrate_1.celebrate)({
+    [celebrate_1.Segments.BODY]: {
+        "jwtsecret": celebrate_1.Joi.string().required(),
+    }
+}), new AdminInitCreateController_1.AdminInitCreateController().hundle);
 //usaurio se deleta no sistema
 userRouter.delete("/", ensureAuthenticated_1.ensureAuthenticated, deleteController.hundle);
 //admim deleta o usuario

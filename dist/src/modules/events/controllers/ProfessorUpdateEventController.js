@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfessorUpdateEventController = void 0;
 const ProfessorUpdateEventService_1 = require("../services/ProfessorUpdateEventService");
 class ProfessorUpdateEventController {
-    async handle(request, response) {
+    async hundle(request, response) {
         const id = request.params.id;
         const userId = request.user_id;
         const { title, description, isActive, difficultyLevel, initDate, endDate, classId, } = request.body;
