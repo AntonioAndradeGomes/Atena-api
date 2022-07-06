@@ -7,7 +7,7 @@ const ListEventsWorkLoadService_1 = require("../services/ListEventsWorkLoadServi
 const ListEventsWorkLoadStudentService_1 = require("../services/ListEventsWorkLoadStudentService");
 const ListNextEventsClassService_1 = require("../services/ListNextEventsClassService");
 class AllEventsController {
-    async handle(request, response) {
+    async hundle(request, response) {
         const page = Number(request.query.page) || 1;
         const service = new AllEventsService_1.AllEventsService();
         const result = await service.execute({ page });
