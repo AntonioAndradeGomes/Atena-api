@@ -6,7 +6,6 @@ class RetrieveClassController{
     const id = request.params.id;
     const service = new RetrieveClassService();
     const result = await service.execute(id);
-
     return response.status(200).json(result);
   };
 };

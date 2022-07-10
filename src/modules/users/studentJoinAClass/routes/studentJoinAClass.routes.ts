@@ -6,17 +6,39 @@ import { AdminRemoveStudentFromClassController } from "../controllers/AdminRemov
 import { ensureAuthenticated } from "../../../../middlewares/ensureAuthenticated";
 import { StudentJoinsTheClassController } from "../controllers/StudentJoinsTheClassController";
 import { StudentWithdrawsFromClassController } from "../controllers/StudentWithdrawsFromClassController";
+import { ListStudentClassesController } from "../controllers/ListStudentClassesController";
 
 const listController = new ListStudentOnClassController();
 const adminAddController = new AdminAddsStudentToClassController();
 const adminRemoveController = new AdminRemoveStudentFromClassController();
 const studentAddController = new StudentJoinsTheClassController();
 const studentRemoveController = new StudentWithdrawsFromClassController();
-
+const studentClasses = new ListStudentClassesController();
 const studentJoinAClass = Router();
 
 //lista de relações entre estudantes e turma
-studentJoinAClass.get("/", listController.handle);
+studentJoinAClass.get(
+  "/",
+  celebrate({
+    [Segments.BODY]: {
+      page: Joi.number(),
+    },
+  }),
+  listController.handle
+);
+
+//estudante lista suas turmas
+studentJoinAClass.get(
+  "/student/",
+  ensureAuthenticated,
+  celebrate({
+    [Segments.BODY]: {
+      active: Joi.boolean(),
+      page: Joi.number(),
+    },
+  }),
+  studentClasses.hundle
+);
 
 //admin adiciona estudante na turma
 studentJoinAClass.post(
@@ -28,7 +50,7 @@ studentJoinAClass.post(
       studentId: Joi.string().uuid().required(),
     },
   }),
-  adminAddController.hundle,
+  adminAddController.hundle
 );
 
 //admin remove estudante de uma turma
@@ -41,7 +63,7 @@ studentJoinAClass.delete(
       studentId: Joi.string().uuid().required(),
     },
   }),
-  adminRemoveController.hundle,
+  adminRemoveController.hundle
 );
 
 //estudante entra na turma
@@ -53,7 +75,7 @@ studentJoinAClass.post(
       classId: Joi.string().uuid().required(),
     },
   }),
-  studentAddController.hundle,
+  studentAddController.hundle
 );
 
 //estudante sai da turma
@@ -67,6 +89,5 @@ studentJoinAClass.delete(
   }),
   studentRemoveController.hundle
 );
-
 
 export { studentJoinAClass };

@@ -18,7 +18,7 @@ class AdminInitCreateService{
     if(jwtsecret != process.env.JWT_SECRET){
       throw new AppError("No token needed to create first admin");
     }
-    const hashedPassword = await hash('admin', 8);
+    const hashedPassword = await hash('adminadmin', 8);
     const admim = await prismaClient.user.create({
       data: {
         name: 'ADMIN',

@@ -65,11 +65,11 @@ class CreateUserService{
     //se o role passado não for admin, verificar o codigo de registro
     if(!roleFinal.includes(Role.ADMIN)){
       if(!registration){
-        throw new AppError("User needs registration");
+        throw new AppError("User needs registration.");
       }
       user = await prismaClient.user.findFirst({where: {registration}});
       if(user){
-        throw new AppError("There is already a user with this record");
+        throw new AppError("A user with this registration number already exists.");
       }
     }
 

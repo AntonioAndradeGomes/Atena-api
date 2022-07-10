@@ -9,6 +9,7 @@ interface IRequest {
 
 class ListNextEventsClassService {
   async execute({ classId, nextEvents, page }: IRequest) {
+  
     const classExists = await prismaClient.class.findUnique({
       where: { id: classId },
     });
@@ -17,6 +18,7 @@ class ListNextEventsClassService {
     }
     const skip = page * 10 - 10;
     const like = `${classId}%`;
+    
     if (!nextEvents) {
       const events = await prismaClient.$queryRaw<[]>`
         select * from events e 
@@ -30,7 +32,8 @@ class ListNextEventsClassService {
         where e."classId" like ${like}
         and e."endDate"  < current_date 
       `;
-      const lastPage = Math.ceil(countEvents[0]["total"] / 10);
+      const countValue = parseInt(countEvents[0]["total"] + "");
+      const lastPage = Math.ceil(countValue/ 10);
       const prev = page === 1 ? null : page - 1;
       const next = page === lastPage || lastPage === 0 ? null : page + 1;
 
@@ -38,7 +41,7 @@ class ListNextEventsClassService {
         message: `listing the past events of the class with the id ${classId} and the name ${classExists.name}`,
         actualPage: page,
         actualLength: events.length,
-        total: countEvents[0]["total"],
+        total: countValue,
         lastPage,
         prev,
         next,
@@ -60,7 +63,9 @@ class ListNextEventsClassService {
         where e."classId" like ${like}
         and e."endDate"  >= current_date 
       `;
-    const lastPage = Math.ceil(countEvents[0]["total"] / 10);
+    const countValue = parseInt(countEvents[0]["total"] + "");
+    const lastPage = Math.ceil(countValue / 10);
+
     const prev = page === 1 ? null : page - 1;
     const next = page === lastPage || lastPage === 0 ? null : page + 1;
 
@@ -68,7 +73,7 @@ class ListNextEventsClassService {
       message: `listing upcoming class events with id ${classId} and name ${classExists.name}`,
       actualPage: page,
       actualLength: events.length,
-      total: countEvents[0]["total"],
+      total: countValue,
       lastPage,
       prev,
       next,

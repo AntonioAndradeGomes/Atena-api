@@ -28,7 +28,6 @@ class UpdateClassController {
       dateInitClass,
       dateEndClass
     });
-
     return response.status(200).json(result);
   }
 }
