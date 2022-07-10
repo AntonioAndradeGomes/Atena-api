@@ -40,9 +40,9 @@ class AdminUpdateUserService {
             if (!registration) {
                 throw new AppError_1.AppError("User needs registration");
             }
-            user = await prisma_1.default.user.findFirst({ where: { registration } });
-            if (user) {
-                throw new AppError_1.AppError("There is already a user with this record");
+            const userVerificar = await prisma_1.default.user.findFirst({ where: { registration, id: { not: user.id, } } });
+            if (userVerificar) {
+                throw new AppError_1.AppError("A user with this registration number already exists.");
             }
         }
         user = await prisma_1.default.user.update({ where: { id: userId }, data: { name, roles: roleFinal, registration, caInitDate, caEndDate, } });

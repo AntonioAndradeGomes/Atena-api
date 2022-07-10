@@ -16,30 +16,43 @@ class AllEventsController {
     async hundleProfessor(request, response) {
         const page = Number(request.query.page) || 1;
         const professorId = request.user_id;
-        const allEvents = request.query.allEvents == undefined ? false : request.query.allEvents.toString().toLowerCase() == 'true';
-        const activeEvents = request.query.activeEvents == undefined ? true : request.query.activeEvents.toString().toLowerCase() == 'true';
+        const allEvents = request.query.allEvents == undefined
+            ? false
+            : request.query.allEvents.toString().toLowerCase() == "true";
+        const activeEvents = request.query.activeEvents == undefined
+            ? true
+            : request.query.activeEvents.toString().toLowerCase() == "true";
         const service = new ListEventsProfessorService_1.ListEventsProfessorService();
-        return response.json(await service.execute({ activeEvents, allEvents, page, professorId, }));
+        return response.json(await service.execute({ activeEvents, allEvents, page, professorId }));
     }
     async hundleWorkLoad(request, response) {
-        const { timePeriodInit } = request.params;
-        const classId = request.query.classId == undefined ? '' : request.query.classId.toString();
-        const professorId = request.query.professorId == undefined ? '' : request.query.professorId.toString();
-        ;
+        const { timePeriodInit, timePeriodEnd } = request.params;
+        const classId = request.query.classId == undefined
+            ? ""
+            : request.query.classId.toString();
+        const professorId = request.query.professorId == undefined
+            ? ""
+            : request.query.professorId.toString();
         const service = new ListEventsWorkLoadService_1.ListEventsWorkLoadService();
-        return response.json(await service.execute({ classId, professorId, timePeriodInit }));
+        return response.json(await service.execute({
+            classId,
+            professorId,
+            timePeriodInit,
+            timePeriodEnd,
+        }));
     }
     async hundleWorkLoadStudent(request, response) {
         const id = request.user_id;
-        const { timePeriodInit } = request.params;
+        const { timePeriodInit, timePeriodEnd } = request.params;
         const service = new ListEventsWorkLoadStudentService_1.ListEventsWorkLoadStudentService();
-        return response.json(await service.execute({ id, timePeriodInit }));
+        return response.json(await service.execute({ id, timePeriodInit, timePeriodEnd }));
     }
     async hundleNextsEvents(request, response) {
         const { classId } = request.params;
-        console.log(classId);
         const page = Number(request.query.page) || 1;
-        const nextEvents = request.query.nextEvents == undefined ? true : !(request.query.nextEvents.toString().toLowerCase() == 'false');
+        const nextEvents = request.query.nextEvents == undefined
+            ? true
+            : !(request.query.nextEvents.toString().toLowerCase() == "false");
         const serivce = new ListNextEventsClassService_1.ListNextEventsClassService();
         return response.json(await serivce.execute({ classId, nextEvents, page }));
     }
