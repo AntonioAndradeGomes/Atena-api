@@ -329,6 +329,7 @@ class SutentClassesService {
         },
       },
     });
+    
     const lastPage = Math.ceil(countStudentsOnClasses / 10);
     const prev = page === 1 ? null : page - 1;
     const next = page === lastPage || lastPage === 0 ? null : page + 1;
