@@ -7,7 +7,6 @@ class DeleteClassController{
     const userId = request.user_id;
     const service = new DeleteClassService();
     const result = await service.execute({idClass, userId});
-
     return response.status(204).json(result);
   };
 };

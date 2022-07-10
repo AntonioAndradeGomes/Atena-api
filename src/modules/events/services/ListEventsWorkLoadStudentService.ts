@@ -4,12 +4,13 @@ import prismaClient from "../../../prisma";
 
 interface IRequest{
   timePeriodInit: string | Date;
+  timePeriodEnd: string | Date;
   id: string;
 }
 
 
 class ListEventsWorkLoadStudentService{
-  async execute({timePeriodInit,id}: IRequest){
+  async execute({timePeriodInit,id, timePeriodEnd}: IRequest){
     const student = await prismaClient.user.findUnique({where: {id}});
     if(!student){
       throw new AppError("User not found", 401);
@@ -31,27 +32,14 @@ class ListEventsWorkLoadStudentService{
     on e."classId" = c.id
     where u.id = ${id}
     and  e."endDate" >= ${timePeriodInit}
-    and e."endDate" <= c."dateEndClass"
+    and e."endDate" <= ${timePeriodEnd}
     `;
 
     return {
       timePeriodInit,
+      timePeriodEnd,
       total: events.length,
       events,
-      query: `
-      select e.id, e.title, e.description, e."isActive", e."createdAt", e."updatedAt", e."difficultyLevel",
-      e."endDate", e."initDate", e."classId", e."professorId", c.id as "id_class",c."name" as "name_class",
-      c."academicYear" as "academic_year_class", c."period" as "period_class", c."disciplineId"
-      from users u
-      INNER JOIN "students_on_classes" soc on soc."studentId" = u.id
-      inner join "classes" c 
-      on c.id = soc."classId" 
-      inner join events e 
-      on e."classId" = c.id
-      where u.id = ${id}
-      and  e."endDate" >= ${timePeriodInit}
-      and e."endDate" <= c."dateEndClass"
-      `
     }
   }
 

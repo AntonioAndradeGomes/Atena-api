@@ -10,10 +10,31 @@ import { UpdateClassController } from "../controllers/UpdateClassController";
 
 const classRouter = Router();
 
-classRouter.get("/", new AllClassesController().hundle);
-classRouter.get("/myClass",ensureAuthenticated, new MyClassesController().hundle);
+classRouter.get(
+  "/",
+  celebrate({
+    [Segments.QUERY]: {
+      active: Joi.boolean(),
+      page: Joi.number(),
+    },
+  }),
+  new AllClassesController().hundle
+);
+
+classRouter.get(
+  "/myClass",
+  ensureAuthenticated,
+  celebrate({
+    [Segments.QUERY]: {
+      active: Joi.boolean(),
+    },
+  }),
+  new MyClassesController().hundle
+);
+
 classRouter.post(
-  "/",ensureAuthenticated,
+  "/",
+  ensureAuthenticated,
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
@@ -24,7 +45,7 @@ classRouter.post(
       disciplineId: Joi.string().uuid().required(),
       dateInitClass: Joi.date().required(),
       dateEndClass: Joi.date().required(),
-    }
+    },
   }),
   new CreateClassController().hundle
 );
@@ -33,17 +54,18 @@ classRouter.get(
   "/:id",
   celebrate({
     [Segments.PARAMS]: {
-      id: Joi.string().uuid().required()
-    }
+      id: Joi.string().uuid().required(),
+    },
   }),
   new RetrieveClassController().hundle
 );
 
 classRouter.put(
-  "/:id",ensureAuthenticated,
+  "/:id",
+  ensureAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
-      id: Joi.string().uuid().required()
+      id: Joi.string().uuid().required(),
     },
     [Segments.BODY]: {
       name: Joi.string().required(),
@@ -54,19 +76,19 @@ classRouter.put(
       disciplineId: Joi.string().uuid().required(),
       dateInitClass: Joi.date().required(),
       dateEndClass: Joi.date().required(),
-    }
+    },
   }),
-  
+
   new UpdateClassController().hundle
 );
 
 classRouter.delete(
   "/:id",
-  ensureAuthenticated, 
+  ensureAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
-      id: Joi.string().uuid().required()
-    }
+      id: Joi.string().uuid().required(),
+    },
   }),
   new DeleteClassController().hundle
 );

@@ -47,6 +47,7 @@ class StudentJoinsTheClassSerivice {
                         registration: true,
                         roles: true,
                         updatedAt: true,
+                        password: false,
                     },
                 },
             },

@@ -25,6 +25,9 @@ studentJoinCa.patch(
   new StudentJoinCaController().hundle,
 );
 
+
+
+
 //membro do ca ou admim remove o ajusta as datas de um user centro academico
 studentJoinCa.patch(
   '/update',

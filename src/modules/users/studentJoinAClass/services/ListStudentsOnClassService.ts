@@ -15,9 +15,60 @@ class ListStudentsOnClassService{
           studentId: "asc"
         }
       ],
-      include: {
-        class: true,
-        student: true,
+      select: {
+        class: {
+          select: {
+            id: true,
+            name: true,
+            academicCenterId: true,
+            academicYear: true,
+            createdAt: true,
+            dateEndClass: true,
+            dateInitClass: true,
+            discipline: true,
+            disciplineId: true,
+            isRegularClass: true,
+            period: true,
+            professorId: true,
+            professor: {
+              select: {
+                academicCenterId: true,
+                password: false,
+                id: true,
+                name: true,
+                mail: true,
+                roles: true,
+                registration: true,
+                code: true,
+                caInitDate: true,
+                caEndDate: true,
+                createdAt: true,
+                updatedAt: true,
+              },
+            },
+            updatedAt: true,
+          },
+        },
+        classId: true,
+        createdAt: true,
+        student: {
+          select: {
+            academicCenterId: true,
+            password: false,
+            id: true,
+            name: true,
+            mail: true,
+            roles: true,
+            registration: true,
+            code: true,
+            caInitDate: true,
+            caEndDate: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+        studentId: true,
+        updatedAt: true,
       },
     });
 
@@ -29,6 +80,7 @@ class ListStudentsOnClassService{
 
     return {
       "total": countStudentsOnClasses,
+      actualLength: studentsOnClasses.length,
       lastPage,
       prev,
       next,
