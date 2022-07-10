@@ -29,14 +29,15 @@ class ListNextEventsClassService {
         where e."classId" like ${like}
         and e."endDate"  < current_date 
       `;
-            const lastPage = Math.ceil(countEvents[0]["total"] / 10);
+            const countValue = parseInt(countEvents[0]["total"] + "");
+            const lastPage = Math.ceil(countValue / 10);
             const prev = page === 1 ? null : page - 1;
             const next = page === lastPage || lastPage === 0 ? null : page + 1;
             return {
                 message: `listing the past events of the class with the id ${classId} and the name ${classExists.name}`,
                 actualPage: page,
                 actualLength: events.length,
-                total: countEvents[0]["total"],
+                total: countValue,
                 lastPage,
                 prev,
                 next,
@@ -57,14 +58,15 @@ class ListNextEventsClassService {
         where e."classId" like ${like}
         and e."endDate"  >= current_date 
       `;
-        const lastPage = Math.ceil(countEvents[0]["total"] / 10);
+        const countValue = parseInt(countEvents[0]["total"] + "");
+        const lastPage = Math.ceil(countValue / 10);
         const prev = page === 1 ? null : page - 1;
         const next = page === lastPage || lastPage === 0 ? null : page + 1;
         return {
             message: `listing upcoming class events with id ${classId} and name ${classExists.name}`,
             actualPage: page,
             actualLength: events.length,
-            total: countEvents[0]["total"],
+            total: countValue,
             lastPage,
             prev,
             next,

@@ -15,7 +15,7 @@ class ListEventsProfessorService {
       where: { id: professorId },
     });
     if (!professor.roles.includes(Role.PROFESSOR)) {
-      throw new AppError("User is not a professor", 401);
+      throw new AppError("User is not a professor.", 401);
     }
     const skip = page * 10 - 10;
     if (allEvents) {

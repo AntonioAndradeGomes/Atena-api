@@ -30,30 +30,30 @@ eventRouter.get(
 );
 
 eventRouter.get(
-  "/workload/general/:timePeriodInit/",
+  "/workload/general/:timePeriodInit/:timePeriodEnd?",
   celebrate({
     [Segments.PARAMS]: {
       timePeriodInit: Joi.date().required(),
+      timePeriodEnd: Joi.date(),
     },
     [Segments.QUERY]: {
       classId: Joi.string().uuid(),
       professorId: Joi.string().uuid(),
+      
     },
   }),
   controllerList.hundleWorkLoad
 );
 
 eventRouter.get(
-  "/workload/student/:timePeriodInit/",
+  "/workload/student/:timePeriodInit/:timePeriodEnd",
   ensureAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
       timePeriodInit: Joi.date().required(),
+      timePeriodEnd: Joi.date().required(),
     },
-    [Segments.QUERY]: {
-      classId: Joi.string().uuid(),
-      professorId: Joi.string().uuid(),
-    },
+   
   }),
   controllerList.hundleWorkLoadStudent
 );
