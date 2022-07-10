@@ -46,12 +46,12 @@ eventRouter.get(
 );
 
 eventRouter.get(
-  "/workload/student/:timePeriodInit/:timePeriodEnd",
-  ensureAuthenticated,
+  "/workload/student/:timePeriodInit/:timePeriodEnd/:studentId",
   celebrate({
     [Segments.PARAMS]: {
       timePeriodInit: Joi.date().required(),
       timePeriodEnd: Joi.date().required(),
+      studentId: Joi.string().uuid().required(),
     },
    
   }),
@@ -78,8 +78,7 @@ eventRouter.get(
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
-  }),
-  new RetrieveEventController().hundle
+  }),  new RetrieveEventController().hundle
 );
 
 eventRouter.post(

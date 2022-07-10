@@ -27,6 +27,7 @@ classRouter.get(
   celebrate({
     [Segments.QUERY]: {
       active: Joi.boolean(),
+      page: Joi.number(),
     },
   }),
   new MyClassesController().hundle

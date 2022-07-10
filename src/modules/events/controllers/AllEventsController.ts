@@ -53,11 +53,10 @@ class AllEventsController {
   }
 
   async hundleWorkLoadStudent(request: Request, response: Response) {
-    const id = request.user_id;
-    const { timePeriodInit, timePeriodEnd } = request.params;
+    const { timePeriodInit, timePeriodEnd, studentId} = request.params;
     const service = new ListEventsWorkLoadStudentService();
     return response.json(
-      await service.execute({ id, timePeriodInit, timePeriodEnd })
+      await service.execute({ id: studentId, timePeriodInit, timePeriodEnd })
     );
   }
 
