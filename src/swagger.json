@@ -13,10 +13,17 @@
     },
     "version": "1.0.0"
   },
+  "servers": [
+    {
+      "url": "http://localhost:3333",
+      "description": "API localhost"
+    }
+  ],
   "paths": {
-    "/auth/login": {
+    "/auth": {
       "post": {
-        "description": "Login",
+        "summary": "Login",
+        "description": "Essa rota será responsável por realizar o login. Diponibiliza o JWT token e os dados do usuário",
         "tags": ["Autenticação"],
         "requestBody": {
           "content": {
@@ -24,24 +31,167 @@
               "schema": {
                 "type": "object",
                 "$ref": "#/components/schemas/Authentication"
+              },
+              "examples": {
+                "login": {
+                  "value": {
+                    "mail": "gomesmax1997@gmail.com",
+                    "password": "123456"
+                  }
+                }
               }
             }
+          
           }
         },
         "responses": {
-          "201": {
-            "description": "OK",
+          "401": {
+            "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/json":{
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Authentication"
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "summary": "User",
+        "description": "Essa rota lista todos os usuários",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema":{
+              "type": "integer"
+            },
+            "description": "Página correspondente"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json":{
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "lastPage": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "prev": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "next": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "data" : {
+                      "type": "array",
+                      "items":{
+                        "type": "object"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
         }
+      },
+      "post": {
+        "summary": "User",
+        "description": "Essa rota o admin cadastra um usuário",
+        "tags": ["User"],
+        "security": [{"barrerAuth":[]}],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name":{
+                    "type": "string",
+                    "nullable": false
+                  },
+                  "mail": {
+                    "type": "string",
+                    "format": "mail"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string",
+                    "required": ["PROFESSOR","STUDENT", "ACADEMIC_CENTER", "ADMIN"]
+                  },
+                  "registration": {
+                    "title": "string",
+                    "minLength": 6
+                  }
+                }
+              } 
+            }
+          }
+        },
+        "responses": {
+          
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "content": {
+                "application/json":{
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "201": {
+              "description": "Created"
+            }
+          
+        }
       }
+      
     },
     "/code/all": {
       "get": {
@@ -56,6 +206,7 @@
                   "type": "object",
                   "$ref": "#/components/schemas/AccessCode"
                 }
+                
               }
             }
           },
@@ -78,6 +229,7 @@
                   "type": "object",
                   "$ref": "#/components/schemas/AccessCode"
                 }
+                
               }
             }
           },
@@ -819,6 +971,18 @@
   },
   "components": {
     "schemas": {
+      "Authentication": {
+        "type": "object",
+        "properties": {
+          "mail": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      
       "AccessCode": {
         "type": "object",
         "properties": {
@@ -844,19 +1008,7 @@
           }
         }
       },
-      "Authentication": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "required": true
-          },
-          "password": {
-            "type": "string",
-            "required": true
-          }
-        }
-      },
+      
       "Class": {
         "type": "object",
         "properties": {
@@ -1024,6 +1176,14 @@
           }
         }
       }
+    },
+    "securitySchemes": {
+      "barrerAuth":{
+         "type": "http",
+         "scheme": "bearer",
+         "bearerFormat": "JWT"
+      }
     }
   }
+  
 }

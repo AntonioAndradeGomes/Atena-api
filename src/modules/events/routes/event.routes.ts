@@ -22,8 +22,7 @@ eventRouter.get(
   celebrate({
     [Segments.QUERY]: {
       page: Joi.number(),
-      allEvents: Joi.boolean().required(),
-      activeEvents: Joi.boolean().required(),
+      active: Joi.boolean(),
     },
   }),
   controllerList.hundleProfessor

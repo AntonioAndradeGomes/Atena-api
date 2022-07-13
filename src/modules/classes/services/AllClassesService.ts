@@ -49,7 +49,7 @@ class AllClassesService {
       const next = page === lastPage || lastPage === 0 ? null : page + 1;
 
       return {
-        message: 'Listing all classes in the course.',
+        message: "Listing all classes in the course.",
         total: countClasses,
         lastPage,
         prev,
@@ -63,7 +63,7 @@ class AllClassesService {
         take: 10,
         where: {
           dateEndClass: {
-            lte: new Date(),
+            lt: new Date(),
           },
         },
         orderBy: [
@@ -97,14 +97,20 @@ class AllClassesService {
         },
       });
 
-      const countClasses = await prismaClient.class.count();
+      const countClasses = await prismaClient.class.count({
+        where: {
+          dateEndClass: {
+            lt: new Date(),
+          },
+        },
+      });
 
       const lastPage = Math.ceil(countClasses / 10);
       const prev = page === 1 ? null : page - 1;
       const next = page === lastPage || lastPage === 0 ? null : page + 1;
 
       return {
-        message: 'Listing the inactive classes of the course.',
+        message: "Listing the inactive classes of the course.",
         total: countClasses,
         lastPage,
         prev,
@@ -152,14 +158,20 @@ class AllClassesService {
       },
     });
 
-    const countClasses = await prismaClient.class.count();
+    const countClasses = await prismaClient.class.count({
+      where: {
+        dateEndClass: {
+          gte: new Date(),
+        },
+      },
+    });
 
     const lastPage = Math.ceil(countClasses / 10);
     const prev = page === 1 ? null : page - 1;
     const next = page === lastPage || lastPage === 0 ? null : page + 1;
 
     return {
-      message: 'Listing the active classes of the course.',
+      message: "Listing the active classes of the course.",
       total: countClasses,
       lastPage,
       prev,

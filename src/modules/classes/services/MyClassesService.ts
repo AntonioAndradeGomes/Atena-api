@@ -74,7 +74,7 @@ class MyClassesService {
         where: {
           professorId,
           dateEndClass: {
-            lte: new Date(),
+            lt: new Date(),
           },
         },
 
@@ -87,7 +87,7 @@ class MyClassesService {
         where: {
           professorId,
           dateEndClass: {
-            lte: new Date(),
+            lt: new Date(),
           },
         },
       });
