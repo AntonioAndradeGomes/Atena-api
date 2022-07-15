@@ -54,6 +54,7 @@ class AllClassesService {
         lastPage,
         prev,
         next,
+        active,
         data: classes,
       };
     }
@@ -115,6 +116,7 @@ class AllClassesService {
         lastPage,
         prev,
         next,
+        active,
         data: classes,
       };
     }
@@ -176,6 +178,7 @@ class AllClassesService {
       lastPage,
       prev,
       next,
+      active,
       data: classes,
     };
   }
