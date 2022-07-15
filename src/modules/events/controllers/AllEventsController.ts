@@ -16,18 +16,14 @@ class AllEventsController {
   async hundleProfessor(request: Request, response: Response) {
     const page = Number(request.query.page) || 1;
     const professorId = request.user_id;
-    const allEvents =
-      request.query.allEvents == undefined
-        ? false
-        : request.query.allEvents.toString().toLowerCase() == "true";
-    const activeEvents =
-      request.query.activeEvents == undefined
-        ? true
-        : request.query.activeEvents.toString().toLowerCase() == "true";
+    const active =
+      request.query.active == undefined 
+        ? null
+        : !(request.query.active.toString().toLowerCase() == "false");
     const service = new ListEventsProfessorService();
 
     return response.json(
-      await service.execute({ activeEvents, allEvents, page, professorId })
+      await service.execute({ activeEvents : active, page, professorId })
     );
   }
 

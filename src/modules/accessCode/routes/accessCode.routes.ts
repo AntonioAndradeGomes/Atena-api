@@ -34,7 +34,7 @@ accessCodeRouter.patch(
   "/:id",
   celebrate({
     [Segments.PARAMS]: {
-      code: Joi.string().required(),
+      id: Joi.string().required(),
     },
     [Segments.BODY]: {
       expiredAt: Joi.string().isoDate().required(),

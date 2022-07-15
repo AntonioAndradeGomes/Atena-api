@@ -13,10 +13,17 @@
     },
     "version": "1.0.0"
   },
+  "servers": [
+    {
+      "url": "http://localhost:3333",
+      "description": "API localhost"
+    }
+  ],
   "paths": {
-    "/auth/login": {
+    "/auth": {
       "post": {
-        "description": "Login",
+        "summary": "Login",
+        "description": "Essa rota será responsável por realizar o login. Diponibiliza o JWT token e os dados do usuário",
         "tags": ["Autenticação"],
         "requestBody": {
           "content": {
@@ -24,23 +31,2841 @@
               "schema": {
                 "type": "object",
                 "$ref": "#/components/schemas/Authentication"
+              },
+              "examples": {
+                "login": {
+                  "value": {
+                    "mail": "gomesmax1997@gmail.com",
+                    "password": "123456"
+                  }
+                }
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": "OK",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Authentication"
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/AuthResponse"
                 }
               }
             }
           }
         }
+      }
+    },
+    "/auth/refrash": {
+      "post": {
+        "summary": "Refrash Token",
+        "description": "Essa rota será responsável atualizar o token de acesso do usuário",
+        "tags": ["Autenticação"],
+        "security": [{ "barrerAuth": [] }],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "summary": "User",
+        "description": "Essa rota lista todos os usuários",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página correspondente"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "lastPage": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "prev": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "next": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "User",
+        "description": "Essa rota o admin cadastra um usuário",
+        "tags": ["User"],
+        "security": [{ "barrerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "nullable": false
+                  },
+                  "mail": {
+                    "type": "string",
+                    "format": "mail"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string",
+                    "required": [
+                      "PROFESSOR",
+                      "STUDENT",
+                      "ACADEMIC_CENTER",
+                      "ADMIN"
+                    ]
+                  },
+                  "registration": {
+                    "title": "string",
+                    "minLength": 6
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "User",
+        "description": "Essa rota o usuário se deleta no sistema",
+        "tags": ["User"],
+        "security": [{ "barrerAuth": [] }],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "summary": "User",
+        "description": "Essa rota busca o usuário com o id correspondente",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Id do usuário"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/admin/{id}": {
+      "delete": {
+        "summary": "User",
+        "description": "Essa rota o admin deleta um usuário",
+        "tags": ["User"],
+        "security": [{ "barrerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Id do usuário"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "User",
+        "description": "Essa rota o admin atualiza um usuário",
+        "tags": ["User"],
+        "security": [{ "barrerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Id do usuário"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "role ": {
+                    "type": "string",
+                    "required": [
+                      "PROFESSOR",
+                      "STUDENT",
+                      "ACADEMIC_CENTER",
+                      "ADMIN"
+                    ]
+                  },
+                  "registration": {
+                    "type": "string"
+                  },
+                  "caEndDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/academiccenter": {
+      "get": {
+        "summary": "AcademicCenter",
+        "description": "Essa rota lista todos os usuários do centro acadêmico",
+        "tags": ["AcademicCenter"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página correspondente"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "lastPage": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "prev": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "next": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/academiccenter/professor": {
+      "post": {
+        "summary": "AcademicCenter",
+        "description": "Essa rota o usuário do centro academico cadastra um Professor",
+        "tags": ["AcademicCenter"],
+        "security": [{ "barrerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "nullable": false
+                  },
+                  "mail": {
+                    "type": "string",
+                    "format": "mail"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "registration": {
+                    "title": "string",
+                    "minLength": 6
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/professor": {
+      "get": {
+        "summary": "Professor",
+        "description": "Essa rota lista todos os Professores",
+        "tags": ["Professor"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página correspondente"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "lastPage": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "prev": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "next": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/student": {
+      "get": {
+        "summary": "Student",
+        "description": "Essa rota lista todos os Estudantes",
+        "tags": ["Student"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página correspondente"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "lastPage": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "prev": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "next": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Student",
+        "description": "Essa rota um estudante consegue se criar no sistema usando um código",
+        "tags": ["Student"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string",
+                    "nullable": false
+                  },
+                  "mail": {
+                    "type": "string",
+                    "format": "mail"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "registration": {
+                    "title": "string",
+                    "minLength": 6
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/discipline": {
+      "get": {
+        "summary": "Disciplina",
+        "description": "Essa rota lista todos as discipinas",
+        "tags": ["Discipline"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página correspondente"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "lastPage": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "prev": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "next": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Discipline"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Disciplina",
+        "description": "Essa rota serve para cadstrar as discipinas",
+        "tags": ["Discipline"],
+        "security": [{ "barrerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "initials": {
+                    "type": "string"
+                  },
+                  "courseLoad": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Discipline"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/discipline/{id}": {
+      "get": {
+        "summary": "Disciplina",
+        "description": "Essa rota busca uma discipina pelo id",
+        "tags": ["Discipline"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Id da discipina"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Discipline"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Disciplina",
+        "description": "Essa rota atualiza uma discipina pelo id",
+        "tags": ["Discipline"],
+        "security": [{ "barrerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Id da discipina"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "initials": {
+                    "type": "string"
+                  },
+                  "courseLoad": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Discipline"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Disciplina",
+        "description": "Essa rota deleta uma discipina pelo id",
+        "tags": ["Discipline"],
+        "security": [{ "barrerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Id da discipina"
+          }
+        ],
+
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/class": {
+      "get": {
+        "summary": "Class",
+        "description": "Essa rota lista todos as Turmas",
+        "tags": ["Class"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página correspondente"
+          },
+          {
+            "in": "query",
+            "name": "active",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "null = Listar tdas as turmas, true = Somente as turmas ativas, false = Somente turmas inativas"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "total": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "lastPage": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "prev": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "next": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "active": {
+                      "type": "boolean",
+                      "nullable": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Class"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Class",
+        "description": "Essa rota cadastra uma Turma",
+        "tags": ["Class"],
+        "security": [{ "barrerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "nullable": false
+                  },
+                  "academicYear": {
+                    "type": "string"
+                  },
+                  "period": {
+                    "type": "string"
+                  },
+                  "isRegularClass": {
+                    "type": "boolean"
+                  },
+                  "professorId": {
+                    "title": "string",
+                    "format": "uuid"
+                  },
+                  "disciplineId": {
+                    "title": "string",
+                    "format": "uuid"
+                  },
+                  "dateInitClass": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "dateEndClass": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Class"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/class/{id}": {
+      "get": {
+        "summary": "Class",
+        "description": "Essa rota lista uma Turma pelo id",
+        "tags": ["Class"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Id da turma"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Class"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Class",
+        "description": "Essa atualiza uma Turma",
+        "tags": ["Class"],
+        "security": [{ "barrerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Id da turma"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "academicYear": {
+                    "type": "string"
+                  },
+                  "period": {
+                    "type": "string"
+                  },
+                  "isRegularClass": {
+                    "type": "boolean"
+                  },
+                  "professorId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "disciplineId": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Class"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Class",
+        "description": "Essa deleta uma Turma",
+        "tags": ["Class"],
+        "security": [{ "barrerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Id da turma"
+          }
+        ],
+
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/class/myclass": {
+      "get": {
+        "summary": "Class",
+        "description": "Essa rota lista todos as Turmas de um professor específico",
+        "tags": ["Class"],
+        "security": [{ "barrerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página correspondente"
+          },
+          {
+            "in": "query",
+            "name": "active",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "null = Listar tdas as turmas, true = Somente as turmas ativas, false = Somente turmas inativas"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "actualPage": {
+                      "type": "number"
+                    },
+                    "actualLength": {
+                      "type": "number"
+                    },
+                    "total": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "lastPage": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "prev": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "next": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "active": {
+                      "type": "boolean",
+                      "nullable": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/ClassNotProfessor"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event": {
+      "get": {
+        "summary": "Event",
+        "description": "Essa rota fornece a listagem de todos os eventos existentes no banco de dados.",
+        "tags": ["Event"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página correspondente"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "number"
+                    },
+                    "lastPage": {
+                      "type": "number"
+                    },
+                    "prev": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "next": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Event"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event/{id}": {
+      "get": {
+        "summary": "Event",
+        "description": "Essa rota fornece um evento buscando pelo id",
+        "tags": ["Event"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Id do evento"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event/professor": {
+      "get": {
+        "summary": "Event",
+        "description": "Essa rota fornece eventos do professor",
+        "tags": ["Event"],
+        "security": [{ "barrerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página correspondente"
+          },
+          {
+            "in": "query",
+            "name": "active",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "null = Listar tdas os eventos; true = Somente os eventos ativos; false = Somente eventos inativos"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "professorId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "activeEvents": {
+                      "type": "boolean",
+                      "nullable": true
+                    },
+                    "actualLength": {
+                      "type": "number"
+                    },
+                    "total": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "lastPage": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "prev": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "next": {
+                      "type": "number",
+                      "nullable": true
+                    },
+
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Event"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/event/next/{classId}": {
+      "get": {
+        "summary": "Event",
+        "description": "Essa rota lista os próximos eventos de uma turma passando o id da turma",
+        "tags": ["Event"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página correspondente"
+          },
+          {
+            "in": "path",
+            "name": "classId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "id da turma"
+          },
+          {
+            "in": "query",
+            "name": "nextEvents",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "true = padrão, caso queira lista os proximos eventos; false = listar eventos passados"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "actualPage": {
+                      "type": "number"
+                    },
+                    "actualLength": {
+                      "type": "number"
+                    },
+                    "total": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "lastPage": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "prev": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "next": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "classId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "nextEvents": {
+                      "type": "boolean"
+                    },
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Event"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event/workload/general/{timePeriodInit}/{timePeriodEnd}": {
+      "get": {
+        "summary": "Workload",
+        "description": "Tendo duas datas, uma inicial e outra final; o id de um professor ou de uma classe. Essa rota retorna todos os eventos entre as duas datas de um professor ou de uma classe",
+        "tags": ["Workload"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "professorId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Id do professor"
+          },
+          {
+            "in": "query",
+            "name": "classId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Id do turma"
+          },
+          {
+            "in": "path",
+            "name": "timePeriodInit",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": true,
+            "description": "Data inicial do intervalo"
+          },
+          {
+            "in": "path",
+            "name": "timePeriodEnd",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": true,
+            "description": "Data final do intervalo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timePeriodInit": {
+                      "type": "string"
+                    },
+                    "timePeriodEnd": {
+                      "type": "string"
+                    },
+                    "classId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "nullable": true
+                    },
+                    "professorId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "nullable": true
+                    },
+                    "total": {
+                      "type": "number"
+                    },
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Event"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/event/workload/student/{timePeriodInit}/{timePeriodEnd}/{idStudent}": {
+      "get": {
+        "summary": "Workload",
+        "description": "Tendo duas datas, uma inicial e outra final; e id de um estudante. Essa rota retorna todos os eventos entre as duas datas das turmas de um estudante",
+        "tags": ["Workload"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "idStudent",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Id do estudante"
+          },
+          
+          {
+            "in": "path",
+            "name": "timePeriodInit",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": true,
+            "description": "Data inicial do intervalo"
+          },
+          {
+            "in": "path",
+            "name": "timePeriodEnd",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": true,
+            "description": "Data final do intervalo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timePeriodInit": {
+                      "type": "string"
+                    },
+                    "timePeriodEnd": {
+                      "type": "string"
+                    },
+                    "total": {
+                      "type": "number"
+                    },
+                    "student": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/User"
+                    },
+                    
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/Event"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+
+    "/event/professor/":{
+      "post" : {
+        "security": [{ "barrerAuth": [] }],
+        "summary": "Event",
+        "description": "Professor cadastra um evento",
+        "tags": ["Event"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "isActive": {
+                    "type": "boolean"
+                  },
+                  "difficultyLevel": {
+                    "type": "number"
+                  },
+                  "initDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "classId": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+      
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event/professor/${idEvent}":{
+      "delete" : {
+        "security": [{ "barrerAuth": [] }],
+        "summary": "Event",
+        "description": "Professor deleta um evento",
+        "tags": ["Event"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Id do evento"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
+      },
+      "put": {
+        "security": [{ "barrerAuth": [] }],
+        "summary": "Event",
+        "description": "Professor atualiza um evento",
+        "tags": ["Event"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Id do evento"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "isActive": {
+                    "type": "boolean"
+                  },
+                  "difficultyLevel": {
+                    "type": "number"
+                  },
+                  "initDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "classId": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event/admin/${idEvent}":{
+      "delete" : {
+        "security": [{ "barrerAuth": [] }],
+        "summary": "Event",
+        "description": "Admin deleta um evento",
+        "tags": ["Event"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Id do evento"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
+      },
+      "put": {
+        "security": [{ "barrerAuth": [] }],
+        "summary": "Event",
+        "description": "Admin atualiza um evento",
+        "tags": ["Event"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Id do evento"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "isActive": {
+                    "type": "boolean"
+                  },
+                  "difficultyLevel": {
+                    "type": "number"
+                  },
+                  "initDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "classId": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event/admin/":{
+      "post" : {
+        "security": [{ "barrerAuth": [] }],
+        "summary": "Event",
+        "description": "Professor cadastra um evento",
+        "tags": ["Event"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "isActive": {
+                    "type": "boolean"
+                  },
+                  "difficultyLevel": {
+                    "type": "number"
+                  },
+                  "initDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "classId": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+      
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/studentClass/student":{
+      
+    },
+    "/user/admin/create/init": {
+      "post" : {
+        "summary": "Admin",
+        "description": "Essa rota será responsável por iniciar o primeiro Admin no sistema - O adminadmin - Após o deploy",
+        "tags": ["Admin"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "jwtsecret" : {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          
+          
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      
       }
     },
     "/code/all": {
@@ -54,610 +2879,58 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/AccessCode"
+                  "properties": {
+                    "total": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "lastPage": {
+                      "type": "number",
+                      "nullable": false
+                    },
+                    "prev": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "next": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/AccessCode"
+                      }
+                    }
+                  }
                 }
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Bad Request"
           }
+          
         }
       }
     },
-    "/code/bycode/{code}": {
-      "get": {
-        "summary": "Pegue um código de acesso pelo seu código",
+    "/code":{
+      "post": {
+        "summary": "Lista todos os códigos de acesso",
         "tags": ["Código de acesso"],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/AccessCode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/code/{id}": {
-      "patch": {
-        "tags": ["Código de acesso"],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/AccessCode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "delete": {
-        "description": "Deleta um código pelo ID",
-        "tags": ["Código de acesso"],
-        "responses": {
-          "204": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/AccessCode"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/discipline": {
-      "get": {
-        "summary": "Lista todo mundo",
-        "description": "Rota responsável pela listagem de todas as disciplinas cadastradas",
-        "tags": ["Disciplina"],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Discipline"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "post": {
-        "summary": "Cadastro de disciplinas",
-        "description": "Essa rota é responsável por cadastrar uma disciplina no sistema",
-        "tags": ["Disciplina"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Discipline"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Discipline"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/discipline/{id}": {
-      "get": {
-        "summary": "Busca uma disciplina",
-        "description": "Essa rota é responsável por buscar uma disciplina pelo seu id",
-        "tags": ["Disciplina"],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Discipline"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "put": {
-        "summary": "Editar uma disciplina",
-        "description": "Essa rota é responsável por editar uma determinada disciplina",
-        "tags": ["Disciplina"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Discipline"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Discipline"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "patch": {
-        "summary": "Editar parcialmente uma disciplina",
-        "description": "essa rota é responsável por editar uma disciplina de forma parcial",
-        "tags": ["Disciplina"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Discipline"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Discipline"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Deletar uma disciplina",
-        "description": "Essa rota é responsável por deletar uma disciplina",
-        "tags": ["Disciplina"],
-        "responses": {
-          "204": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Discipline"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/class": {
-      "get": {
-        "summary": "Listar todas as turmas",
-        "description": "Essa rota fornece a listagem de todas as turmas existentes no banco de dados.",
-        "tags": ["Turma"],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Class"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "post": {
-        "summary": "Criar uma turma",
-        "description": "Essa rota fornece o recurso de criar uma turma.",
-        "tags": ["Turma"],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "$ref": "#/components/schemas/Class"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Event"
+                "properties": {
+                  "expiredAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                  
                 }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/class/{id}": {
-      "get": {
-        "summary": "Busca uma turma",
-        "description": "Essa rota fornece o recurso de buscar uma turma peo seu id.",
-        "tags": ["Turma"],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Class"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "put": {
-        "summary": "Editar uma turma",
-        "description": "Essa rota é responsável por editar uma determinada turma",
-        "tags": ["Turma"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Class"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Class"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "patch": {
-        "summary": "Editar parcialmente uma turma",
-        "description": "essa rota é responsável por editar uma turma de forma parcial",
-        "tags": ["Turma"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Class"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Class"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Deletar uma turma",
-        "description": "Essa rota é responsável por deletar uma turma",
-        "tags": ["Turma"],
-        "responses": {
-          "204": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Class"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/event": {
-      "get": {
-        "summary": "Listar todos os eventos",
-        "description": "Essa rota fornece a listagem de todos os eventos existentes no banco de dados.",
-        "tags": ["Evento"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "$ref": "#/components/schemas/Class"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Event"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "post": {
-        "summary": "Criar um evento",
-        "description": "Essa rota fornece o recurso de criar um evento.",
-        "tags": ["Evento"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "$ref": "#/components/schemas/Event"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Event"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/event/{id}": {
-      "get": {
-        "summary": "Busca um evento",
-        "description": "Essa rota fornece o recurso de buscar um evento peo seu id.",
-        "tags": ["Evento"],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Event"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "put": {
-        "summary": "Editar um evento",
-        "description": "Essa rota é responsável por editar um determinado evento",
-        "tags": ["Evento"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Event"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Event"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "patch": {
-        "summary": "Editar parcialmente um evento",
-        "description": "essa rota é responsável por editar um evento de forma parcial",
-        "tags": ["Evento"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Event"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Event"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Deletar um evento",
-        "description": "Essa rota é responsável por deletar um evento",
-        "tags": ["Evento"],
-        "responses": {
-          "204": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Event"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/refreshtoken": {
-      "post": {
-        "summary": "Atualizar token de autenticação",
-        "responses": {
-          "201": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/RefreshToken"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/request": {
-      "get": {
-        "summary": "Listar todas as solicitações de criação de conta",
-        "tags": ["Solcitação"],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Request"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "post": {
-        "summary": "Fazer uma solicitação de criação de conta",
-        "tags": ["Solcitação"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "$ref": "#/components/schemas/Request"
               }
             }
           }
@@ -669,46 +2942,78 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Request"
+                  "$ref": "#/components/schemas/AccessCode"
                 }
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Bad Request"
           }
+          
         }
       }
     },
-    "/request/{id}": {
+    "/code/bycode/{code}": {
       "get": {
-        "description": "Busca uma solicitação pelo seu ID",
-        "tags": ["Solcitação"],
+        "summary": "Pegue um código de acesso pelo seu código",
+        "tags": ["Código de acesso"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Código do código"
+          }
+        ],
         "responses": {
           "200": {
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Request"
+                  "$ref": "#/components/schemas/AccessCode"
                 }
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Bad Request"
           }
         }
-      },
-      "put": {
-        "description": "Atualiza uma solicitação",
-        "tags": ["Solcitação"],
+      }
+    },
+    "/code/{id}": {
+      "patch": {
+        "tags": ["Código de acesso"],
+        "description": "Ajustar a data de expiração do Código de Acesso",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Código do código"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "$ref": "#/components/schemas/Request"
+                "properties": {
+                  "expiredAt" : {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
               }
             }
           }
@@ -720,171 +3025,260 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Request"
+                  "$ref": "#/components/schemas/AccessCode"
                 }
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Bad Request"
           }
         }
       },
       "delete": {
-        "description": "Deleta uma solicitação",
-        "tags": ["Solcitação"],
+        "description": "Deleta um código pelo ID",
+        "tags": ["Código de acesso"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "Código do código"
+          }
+        ],
         "responses": {
           "204": {
-            "description": "OK"
+            "description": "No Content"
+            
           },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/studentclass": {
-      "get": {
-        "summary": "Lista tudo",
-        "tags": ["Estudantes em turmas"],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/StudentClass"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "post": {
-        "summary": "Adiciona estudante em uma turma",
-        "tags": ["Estudantes em turmas"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "$ref": "#/components/schemas/StudentClass"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/StudentClass"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Remove estudante em uma turma",
-        "tags": ["Estudantes em turmas"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "$ref": "#/components/schemas/StudentClass"
-              }
-            }
-          }
-        },
-        "responses": {
-          "204": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
     }
   },
+
   "components": {
     "schemas": {
+      "Authentication": {
+        "type": "object",
+        "properties": {
+          "mail": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
+        }
+      },
+      "AuthResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "$ref": "#/components/schemas/User"
+          },
+          "token": {
+            "type": "string",
+            "format": "JWT"
+          }
+        }
+      },
+
       "AccessCode": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "required": false
+            "format": "uuid"
           },
           "code": {
-            "type": "string",
-            "required": false
+            "type": "string"
           },
           "createdAt": {
-            "type": "string",
-            "required": false
+            "type": "string"
           },
           "updatedAt": {
-            "type": "string",
-            "required": false
+            "type": "string"
           },
           "expiredAt": {
             "type": "string",
-            "required": false
+            "format": "date-time"
           }
         }
       },
-      "Authentication": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "required": true
-          },
-          "password": {
-            "type": "string",
-            "required": true
-          }
-        }
-      },
+
       "Class": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "required": false
+            "format": "uuid"
           },
           "name": {
-            "type": "string",
-            "required": true
+            "type": "string"
           },
           "academicYear": {
-            "type": "string",
-            "required": true
+            "type": "string"
           },
           "period": {
-            "type": "boolean",
-            "required": true
+            "type": "string"
+          },
+          "isRegularClass": {
+            "type": "boolean"
           },
           "createdAt": {
-            "type": "date",
-            "required": false,
+            "type": "string",
+            "format": "date-time",
             "writeOnly": true
           },
           "updateAt": {
-            "type": "date",
-            "required": false,
+            "type": "string",
+            "format": "date-time",
             "writeOnly": true
+          },
+          "disciplineId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "professorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "academicCenterId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "dateInitClass": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEndClass": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "discipline": {
+            "type": "object",
+            "$ref": "#/components/schemas/Discipline"
+          },
+          "professor": {
+            "type": "object",
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "ClassClass": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "academicYear": {
+            "type": "string"
+          },
+          "period": {
+            "type": "string"
+          },
+          "isRegularClass": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "writeOnly": true
+          },
+          "updateAt": {
+            "type": "string",
+            "format": "date-time",
+            "writeOnly": true
+          },
+          "disciplineId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "professorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "academicCenterId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "dateInitClass": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEndClass": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ClassNotProfessor": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "academicYear": {
+            "type": "string"
+          },
+          "period": {
+            "type": "string"
+          },
+          "isRegularClass": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "writeOnly": true
+          },
+          "updateAt": {
+            "type": "string",
+            "format": "date-time",
+            "writeOnly": true
+          },
+          "disciplineId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "professorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "academicCenterId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "dateInitClass": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateEndClass": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "discipline": {
+            "type": "object",
+            "$ref": "#/components/schemas/Discipline"
           }
         }
       },
@@ -893,33 +3287,34 @@
         "properties": {
           "id": {
             "type": "string",
-            "required": false
+            "format": "uuid"
           },
           "code": {
-            "type": "string",
-            "required": true
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "required": true
+            "type": "string"
           },
           "initials": {
-            "type": "string",
-            "required": true
+            "type": "string"
           },
           "courseLoad": {
-            "type": "number",
-            "required": true
+            "type": "number"
           },
           "createdAt": {
-            "type": "date",
-            "required": false,
+            "type": "string",
+            "format": "date-time",
             "writeOnly": true
           },
           "updateAt": {
-            "type": "date",
-            "required": false,
+            "type": "string",
+            "format": "date-time",
             "writeOnly": true
+          },
+          "academicCenterId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
           }
         }
       },
@@ -928,53 +3323,57 @@
         "properties": {
           "id": {
             "type": "string",
-            "required": false
+            "format": "uuid"
           },
           "title": {
-            "type": "string",
-            "required": true
+            "type": "string"
           },
           "description": {
-            "type": "string",
-            "required": true
+            "type": "string"
           },
           "isActive": {
-            "type": "boolean",
-            "required": true
+            "type": "boolean"
           },
-          "difficulty": {
-            "type": "number",
-            "required": true
+          "difficultyLevel": {
+            "type": "number"
           },
           "initDate": {
-            "type": "date",
-            "required": true
+            "type": "string",
+            "format": "date-time"
           },
           "endDate": {
-            "type": "date",
-            "required": false
+            "type": "string",
+            "format": "date-time"
           },
           "createdAt": {
-            "type": "date",
-            "required": false,
+            "type": "string",
+            "format": "date-time",
             "writeOnly": true
           },
           "updateAt": {
-            "type": "date",
-            "required": false,
-            "writeOnly": true
-          }
-        }
-      },
-      "RefreshToken": {
-        "type": "object",
-        "properties": {
-          "userId": {
             "type": "string",
-            "required": true
+            "format": "date-time",
+            "writeOnly": true
+          },
+          "professorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "classId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "class": {
+            "type": "object",
+            "$ref": "#/components/schemas/ClassClass"
+          },
+          "professor": {
+            "type": "object",
+            "$ref": "#/components/schemas/User"
           }
         }
       },
+
       "Request": {
         "type": "object",
         "properties": {
@@ -1020,9 +3419,59 @@
         "properties": {
           "id": {
             "type": "string",
-            "required": true
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string",
+            "format": "mail"
+          },
+          "roles": {
+            "type": "array",
+            "required": ["PROFESSOR", "STUDENT", "ACADEMIC_CENTER", "ADMIN"]
+          },
+          "registration": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "caInitDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "caEndDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updateAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "academicCenterId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "barrerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
