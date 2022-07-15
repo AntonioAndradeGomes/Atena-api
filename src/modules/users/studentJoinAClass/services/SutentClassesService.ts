@@ -127,7 +127,7 @@ class SutentClassesService {
           studentId: studentId,
           class: {
             dateEndClass: {
-              lte: new Date(),
+              lt: new Date(),
             },
           },
         },
@@ -212,7 +212,7 @@ class SutentClassesService {
           studentId: studentId,
           class: {
             dateEndClass: {
-              lte: new Date(),
+              lt: new Date(),
             },
           },
         },

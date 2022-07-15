@@ -27,7 +27,7 @@ class ListUserByIdService {
       },
     });
 
-    return user;
+    return user ?? {};
    
   }
 }
